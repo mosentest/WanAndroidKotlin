@@ -1,0 +1,4 @@
+rootProject.name='WanAndroidKotlin'
+include ':app'
+include ':baselibrary'
+include ':timer'

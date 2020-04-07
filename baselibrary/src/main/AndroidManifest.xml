@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ziqi.baselibrary">
+
+    <application>
+
+        <service
+            android:name=".service.ServerTimerService"
+            android:exported="true" />
+    </application>
+</manifest>
