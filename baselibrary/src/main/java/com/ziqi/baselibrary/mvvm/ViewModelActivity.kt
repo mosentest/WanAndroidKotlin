@@ -2,7 +2,6 @@ package com.ziqi.baselibrary.mvvm
 
 import android.os.Parcelable
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import com.ziqi.baselibrary.base.BaseActivity
 
 /**

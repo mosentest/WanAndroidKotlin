@@ -1,4 +1,4 @@
-package com.ziqi.baselibrary.base.`interface`
+package com.ziqi.baselibrary.base.interfaces
 
 /**
  * Copyright (C), 2018-2020

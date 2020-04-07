@@ -14,22 +14,22 @@ interface IUserView {
     /**
      * 去登录
      */
-    fun zLogin(flag: Int)
+    fun zLogin()
 
     /**
      * 去注册
      */
-    fun zRegister(flag: Int)
+    fun zRegister()
 
     /**
      * 获取用户信息
      */
-    fun zGetUserInfo(flag: Int)
+    fun zGetUserInfo()
 
     /**
      * 去支付
      */
-    fun zPay(flag: Int)
+    fun zPay()
 
     /**
      * 拨打电话
@@ -44,12 +44,12 @@ interface IUserView {
     /**
      * 打开相机/或者第三方的库
      */
-    fun zOpenCamera(flag: Int)
+    fun zOpenCamera(type: Int)
 
     /**
      * 分享
      */
-    fun zShare(flag: Int, rId: Int, title: String, content: String)
+    fun zShare(rId: Int, title: String, content: String)
 
     /**
      * 打开定位并获取定位信息
