@@ -1,8 +1,7 @@
 package com.ziqi.baselibrary.mvvm
 
-import android.os.Parcelable
 import androidx.databinding.ViewDataBinding
-import com.ziqi.baselibrary.base.BaseActivity
+import com.ziqi.baselibrary.base.ZBaseActivity
 
 /**
  * Copyright (C), 2018-2020
@@ -13,6 +12,6 @@ import com.ziqi.baselibrary.base.BaseActivity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class ViewModelActivity : BaseActivity<Parcelable, ViewDataBinding>() {
+abstract class ViewModelActivity : ZBaseActivity<ViewDataBinding>() {
 
 }

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
     <!--
-    参考下这里的
-    https://www.jianshu.com/p/90487b60c733
-    -->
+       参考下这里的
+       https://www.jianshu.com/p/90487b60c733
+       -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/abLBaseLayout"
         android:layout_width="match_parent"
@@ -26,11 +23,4 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </com.google.android.material.appbar.AppBarLayout>
-
-
-    <FrameLayout
-        android:id="@+id/contentView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</merge>

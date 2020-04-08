@@ -1,5 +1,7 @@
 package com.ziqi.baselibrary.base.interfaces
 
+import android.os.Bundle
+
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo
@@ -10,4 +12,7 @@ package com.ziqi.baselibrary.base.interfaces
  * 作者姓名 修改时间 版本号 描述
  */
 interface IBaseFragment {
+    fun onInterceptBackPressed(): Boolean = false
+
+    fun onNewIntent(bundle: Bundle?)
 }
