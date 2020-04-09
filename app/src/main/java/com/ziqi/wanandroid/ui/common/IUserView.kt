@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid
+package com.ziqi.wanandroid.ui.common
 
 /**
  * Copyright (C), 2018-2020

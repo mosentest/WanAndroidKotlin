@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--
@@ -8,19 +9,76 @@
        https://www.jianshu.com/p/90487b60c733
        -->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/abLBaseLayout"
+        android:id="@id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
 
+        <!--
+            android:layout_height="?attr/actionBarSize"
+        -->
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tbBaseLayout"
+            android:id="@id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:contentInsetEnd="0dp"
+            android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:elevation="0dp"
+            app:navigationIcon="@drawable/icon_return_registered"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+
+            <TextView
+                android:id="@id/left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                tools:text="左一" />
+
+            <TextView
+                android:id="@id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                tools:text="我是标题" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical">
+
+                <TextView
+                    android:id="@id/one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="12dp"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    tools:text="右二" />
+
+                <TextView
+                    android:id="@id/two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="12dp"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    tools:text="右二" />
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 </merge>

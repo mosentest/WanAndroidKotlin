@@ -21,10 +21,10 @@ class InitContentProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        val eventBus = EventBus
-            .builder()
+//        val eventBus = EventBus
+//            .builder()
 //            .addIndex(MyEventBusIndex())
-            .build()
+//            .build()
         return true
     }
 

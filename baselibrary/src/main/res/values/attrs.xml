@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ZStatusView">
+        <attr name="zsv_loading_view" format="reference" />
+        <attr name="zsv_empty_view" format="reference" />
+        <attr name="zsv_error_view" format="reference" />
+    </declare-styleable>
+</resources>

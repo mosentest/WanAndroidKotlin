@@ -31,6 +31,10 @@ object StartActivityCompat {
      * 控制下个页面是否显示标题
      */
     const val NEXT_SHOW_BACK = "next_show_back"
+    /**
+     * 下一个页面的 Fragment
+     */
+    const val NEXT_FRAGMENT = "next_fragment"
 
     /**
      * 基本跳转，带标题和返回处理
@@ -45,10 +49,11 @@ object StartActivityCompat {
     fun startActivity(
         context: Context,
         fragment: Fragment?,
+        fragmentClass: String,
         requestCode: Int = -1,
         intent: Intent,
         title: String?,
-        showBack: Boolean,
+        showBack: Boolean = false,
         parcelable: Parcelable? = null
     ) {
         val bundle = Bundle()
@@ -60,6 +65,7 @@ object StartActivityCompat {
         if (!TextUtils.isEmpty(title)) {
             bundle.putString(NEXT_TITLE, title)
         }
+        bundle.putString(NEXT_FRAGMENT, fragmentClass)
         //设置相关参数
         bundle.putBoolean(NEXT_SHOW_BACK, showBack)
         intent.putExtras(bundle)

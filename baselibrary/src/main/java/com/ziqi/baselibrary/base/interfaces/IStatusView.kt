@@ -17,9 +17,9 @@ interface IStatusView {
     fun zStatusLoadingView()
 
     /**
-     * 没网络view
+     * 没数据view
      */
-    fun zStatusNetWorkView()
+    fun zStatusEmptyView()
 
     /**
      * 错误信息view

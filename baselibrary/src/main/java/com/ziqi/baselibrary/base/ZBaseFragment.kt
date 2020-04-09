@@ -7,7 +7,11 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -18,6 +22,9 @@ import com.ziqi.baselibrary.base.interfaces.IBaseView
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.util.ToastUtil
+import com.ziqi.baselibrary.view.status.ZStatusView
+import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
+import kotlinx.android.synthetic.main.fragment_base.*
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -35,17 +42,48 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     IBaseView,
     IBaseFragment {
 
-    var mRootView: View? = null
-
     protected val TAG: String = ZBaseFragment::class.java.getSimpleName()
 
+    /**
+     * 根view
+     */
+    protected var mRootView: View? = null
+
+    /**
+     * 上个页面带过来的数据
+     */
     protected var mBundleData: StartParams? = null
 
+    /**
+     * DataBinding
+     */
     protected var mViewDataBinding: Binding? = null
 
+    /**
+     * 标题
+     */
     protected var mTitle: String? = null
 
+    /**
+     * 是否展示返回键
+     */
     protected var mShowBack: Boolean = false
+
+    /**
+     * 状态view
+     */
+    private var mZStatusView: ZStatusView? = null
+
+
+    /**
+     * toobar控件
+     */
+    protected var mToolBar: Toolbar? = null
+
+    /**
+     * 标题内容
+     */
+    protected var mTvTitle: TextView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,10 +126,11 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    /**
+     * 默认设置这个LayoutId
+     */
+    override fun zSetLayoutId(): Int = R.layout.fragment_base
 
-    override fun zSetLayoutId(): Int {
-        return R.layout.fragment_base
-    }
     /**
      * 实现一个findViewById的方法
      *
@@ -105,18 +144,63 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         } else mRootView?.findViewById(idRes)
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (zContentViewId() != -1) {
+            mZStatusView = ZStatusView.init(this, zContentViewId(), zLoadingDialogId())
+        }
+    }
+
+    /**
+     * 悬浮在内容上面的加载布局
+     */
+    open fun zLoadingDialogId(): Int = R.layout.zsv_load_dialog_layout
+
+    /**
+     * 控制展示内容的根布局
+     */
+    open fun zContentViewId(): Int = -1
+
+
+    /**
+     * 处理数据问题
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initBaseView()
         zVisibleToUser(false)
     }
 
+    /**
+     * 处理数据问题
+     */
     override fun onNewIntent(bundle: Bundle?) {
         bundle?.apply {
             mTitle = getString(StartActivityCompat.NEXT_TITLE)
             mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
             mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
         }
+        initBaseView()
         zVisibleToUser(true)
+    }
+
+    /**
+     * 处理头部的逻辑
+     */
+    fun initBaseView() {
+        mToolBar = findViewById(R.id.toolbar);
+        mTvTitle = findViewById(R.id.title);
+        activity?.apply {
+            (activity as AppCompatActivity).apply {
+                setSupportActionBar(mToolBar)
+                // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP
+                supportActionBar?.setDisplayHomeAsUpEnabled(mShowBack)
+                //设置actionBar的标题是否显示，对应ActionBar.DISPLAY_SHOW_TITLE。
+                supportActionBar?.setDisplayShowTitleEnabled(false)
+            }
+        }
+        mTvTitle?.text = mTitle
     }
 
     override fun onDestroy() {
@@ -149,27 +233,27 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     }
 
     override fun zHideLoadingDialog(flag: Int) {
-
+        mZStatusView?.hideLoadDialog()
     }
 
     override fun zShowLoadingDialog(flag: Int, msg: String?) {
-
+        mZStatusView?.showLoadDialog()
     }
 
     override fun zStatusContentView() {
-
+        mZStatusView?.showContentView()
     }
 
     override fun zStatusErrorView(type: Int, msg: String?) {
-
+        mZStatusView?.showErrorView()
     }
 
     override fun zStatusLoadingView() {
-
+        mZStatusView?.showLoadingView()
     }
 
-    override fun zStatusNetWorkView() {
-
+    override fun zStatusEmptyView() {
+        mZStatusView?.showEmptyView()
     }
 
     override fun zGetClassName(): String {
