@@ -13,12 +13,12 @@ interface IToastView {
     /**
      * 加载进度的dialog
      */
-    fun zShowLoadingDialog(flag: Int, msg: String?)
+    fun zShowLoadDialog(flag: Int, msg: String?)
 
     /**
      * 隐藏进度的dialog
      */
-    fun zHideLoadingDialog(flag: Int)
+    fun zHideLoadDialog(flag: Int)
 
     /**
      * 展示toast Long

@@ -15,4 +15,9 @@ object LogUtil {
     public fun i(tag: String, msg: String) {
         Log.i(tag, msg)
     }
+
+    @JvmStatic
+    public fun e(tag: String, msg: String, throwable: Throwable) {
+        Log.e(tag, msg, throwable)
+    }
 }

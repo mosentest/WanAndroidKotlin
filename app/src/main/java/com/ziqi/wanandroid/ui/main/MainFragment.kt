@@ -53,9 +53,9 @@ class MainFragment : ZBaseFragment<Parcelable, ActivityMainBinding>() {
         when (p0!!.id) {
             btn.id -> {
                 timerManagerService?.setTime("设置时间")
-                zShowLoadingDialog(-1, "")
+                zShowLoadDialog(-1, "")
                 mToolBar?.postDelayed({
-                    zHideLoadingDialog(-1)
+                    zHideLoadDialog(-1)
                 }, 1000)
             }
         }

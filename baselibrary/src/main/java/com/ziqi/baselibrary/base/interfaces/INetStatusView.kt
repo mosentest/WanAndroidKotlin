@@ -1,18 +1,15 @@
 package com.ziqi.baselibrary.base.interfaces
 
-import android.os.Bundle
-
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo
- * Date: 2020/4/6 11:37 AM
+ * Date: 2020/4/10 10:16 AM
  * Description:
  * History:
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
- */
-interface IBaseFragment : INetStatusView {
-    fun onInterceptBackPressed(): Boolean = false
-
-    fun onNewIntent(bundle: Bundle?)
+</desc></version></time></author> */
+interface INetStatusView {
+    fun onNetAvailable()
+    fun onNetUnavailable()
 }

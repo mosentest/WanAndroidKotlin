@@ -12,34 +12,58 @@ import androidx.lifecycle.LifecycleObserver
  * 作者姓名 修改时间 版本号 描述
  */
 class UserView : IUserView, LifecycleObserver {
-    override fun zLogin() {
+
+    var loginList: MutableList<IUserView.CallBack<*>> = mutableListOf()
+
+
+    override fun <T> zLogin(allBack: IUserView.CallBack<T>) {
+    }
+
+    override fun zRegister(allBack: IUserView.CallBack<Any>) {
 
     }
 
-    override fun zRegister() {
+    override fun zGetUserInfo(allBack: IUserView.CallBack<Any>) {
+
     }
 
-    override fun zGetUserInfo() {
+    override fun zPay(allBack: IUserView.CallBack<Any>) {
+
     }
 
-    override fun zPay() {
+    override fun zOpenCall(contact: String, allBack: IUserView.CallBack<Any>) {
+
     }
 
-    override fun zOpenCall(contact: String) {
+    override fun zOpenWebView(url: String, allBack: IUserView.CallBack<Any>) {
+
     }
 
-    override fun zOpenWebView(url: String) {
+    override fun zOpenCamera(type: Int, allBack: IUserView.CallBack<Any>) {
+
     }
 
-    override fun zOpenCamera(type: Int) {
+    override fun zShare(
+        rId: Int,
+        title: String,
+        content: String,
+        allBack: IUserView.CallBack<Any>
+    ) {
+
     }
 
-    override fun zShare(rId: Int, title: String, content: String) {
+    override fun zGetLocation(allBack: IUserView.CallBack<Any>) {
+
     }
 
-    override fun zGetLocation() {
+    override fun zOpenNavigation(
+        lat: Long,
+        lon: Long,
+        address: String,
+        allBack: IUserView.CallBack<Any>
+    ) {
+
     }
 
-    override fun zOpenNavigation(lat: Long, lon: Long, address: String) {
-    }
+
 }

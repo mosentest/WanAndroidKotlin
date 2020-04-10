@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sv_loading_progressbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_16"
         android:text="加载中"
-        android:textColor="#2c2c2c"
-        android:textSize="18sp" />
+        android:textColor="@color/color_2c2c2c"
+        android:textSize="@dimen/sp_18" />
 
 </RelativeLayout>

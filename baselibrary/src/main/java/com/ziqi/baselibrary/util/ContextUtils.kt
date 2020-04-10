@@ -12,5 +12,6 @@ import android.content.Context
  * 作者姓名 修改时间 版本号 描述
 </desc></version></time></author> */
 object ContextUtils {
+    @JvmField
     var context: Context? = null
 }

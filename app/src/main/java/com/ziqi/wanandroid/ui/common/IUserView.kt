@@ -11,53 +11,58 @@ package com.ziqi.wanandroid.ui.common
  */
 interface IUserView {
 
+    interface CallBack<T> {
+        fun onSuccess(data: T)
+        fun onFail(msg: String, code: Int)
+    }
+
     /**
      * 去登录
      */
-    fun zLogin()
+    fun <T> zLogin(allBack: CallBack<T>)
 
     /**
      * 去注册
      */
-    fun zRegister()
+    fun zRegister(allBack: CallBack<Any>)
 
     /**
      * 获取用户信息
      */
-    fun zGetUserInfo()
+    fun zGetUserInfo(allBack: CallBack<Any>)
 
     /**
      * 去支付
      */
-    fun zPay()
+    fun zPay(allBack: CallBack<Any>)
 
     /**
      * 拨打电话
      */
-    fun zOpenCall(contact: String)
+    fun zOpenCall(contact: String, allBack: CallBack<Any>)
 
     /**
      * 打开内置浏览器
      */
-    fun zOpenWebView(url: String)
+    fun zOpenWebView(url: String, allBack: CallBack<Any>)
 
     /**
      * 打开相机/或者第三方的库
      */
-    fun zOpenCamera(type: Int)
+    fun zOpenCamera(type: Int, allBack: CallBack<Any>)
 
     /**
      * 分享
      */
-    fun zShare(rId: Int, title: String, content: String)
+    fun zShare(rId: Int, title: String, content: String, allBack: CallBack<Any>)
 
     /**
      * 打开定位并获取定位信息
      */
-    fun zGetLocation()
+    fun zGetLocation(allBack: CallBack<Any>)
 
     /**
      * 打开定位导航
      */
-    fun zOpenNavigation(lat: Long, lon: Long, address: String)
+    fun zOpenNavigation(lat: Long, lon: Long, address: String, allBack: CallBack<Any>)
 }
