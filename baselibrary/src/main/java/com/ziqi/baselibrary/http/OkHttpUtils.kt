@@ -22,7 +22,9 @@ import java.util.concurrent.TimeUnit
  */
 class OkHttpUtils {
 
-    constructor(context: Context?) {
+    var okHttpClient: OkHttpClient
+
+    private constructor(context: Context?) {
         /**
          * https://www.jianshu.com/p/dbda0bb8d541
          * 有网时候的缓存
@@ -56,8 +58,7 @@ class OkHttpUtils {
             chain.proceed(request)
         }
         val httpCacheDirectory = File(context!!.getCacheDir(), "okhttpCache")
-        var okHttpClientBuilder = OkHttpClient().newBuilder()
-        okHttpClientBuilder.addNetworkInterceptor(HttpLoggingInterceptor())
+        okHttpClient = OkHttpClient().newBuilder().addNetworkInterceptor(HttpLoggingInterceptor())
             .addNetworkInterceptor(netCacheInterceptor)
             .addInterceptor(offlineCacheInterceptor)
             .readTimeout(30, TimeUnit.SECONDS)

@@ -12,8 +12,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.ziqi.baselibrary.ITimerManagerService
 import com.ziqi.baselibrary.base.ZBaseFragment
+import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.ActivityMainBinding
+import com.ziqi.wanandroid.util.StartUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -28,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainFragment : ZBaseFragment<Parcelable, ActivityMainBinding>() {
 
     companion object {
+        @JvmStatic
         fun newInstance(bundle: Bundle?): MainFragment {
             var mWBaseFragment = MainFragment()
             mWBaseFragment.arguments = bundle
@@ -58,11 +61,18 @@ class MainFragment : ZBaseFragment<Parcelable, ActivityMainBinding>() {
                     zHideLoadDialog(-1)
                 }, 1000)
             }
+            R.id.openWeb -> {
+                if (context != null) {
+                    val webInfo = WebInfo()
+                    webInfo.url = "https://www.wanandroid.com"
+                    StartUtil.startWebFragment(context!!, this, -1, webInfo)
+                }
+            }
         }
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-        zStatusLoadingView()
+        mViewDataBinding?.listener = this
         mTvTitle?.setText("玩安卓")
         mToolBar?.postDelayed({
             zStatusContentView()

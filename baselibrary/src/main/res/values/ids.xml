@@ -3,8 +3,8 @@
 
     <item name="appBarLayout" type="id" />
     <item name="toolbar" type="id" />
-    <item name="left" type="id" />
+    <item name="leftMenu" type="id" />
     <item name="title" type="id" />
-    <item name="one" type="id" />
-    <item name="two" type="id" />
+    <item name="rightOneMenu" type="id" />
+    <item name="rightTwoMenu" type="id" />
 </resources>

@@ -17,6 +17,9 @@
 
         <!--
             android:layout_height="?attr/actionBarSize"
+
+            app:navigationIcon="@drawable/icon_return_registered"
+
         -->
         <androidx.appcompat.widget.Toolbar
             android:id="@id/toolbar"
@@ -26,16 +29,17 @@
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
             app:elevation="0dp"
-            app:navigationIcon="@drawable/icon_return_registered"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
             <TextView
-                android:id="@id/left"
+                android:id="@id/leftMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:background="?android:selectableItemBackgroundBorderless"
                 android:gravity="center"
+                android:padding="@dimen/dp_10"
                 android:singleLine="true"
                 android:textColor="@color/color_FFFFFF"
                 android:textSize="@dimen/sp_15"
@@ -59,20 +63,24 @@
                 android:layout_gravity="right|center_vertical">
 
                 <TextView
-                    android:id="@id/one"
+                    android:id="@id/rightOneMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:background="?android:selectableItemBackground"
+                    android:padding="@dimen/dp_10"
                     android:singleLine="true"
                     android:textColor="@color/color_FFFFFF"
                     android:textSize="@dimen/sp_15"
                     tools:text="右二" />
 
                 <TextView
-                    android:id="@id/two"
+                    android:id="@id/rightTwoMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:background="?android:selectableItemBackground"
+                    android:padding="@dimen/dp_10"
                     android:singleLine="true"
                     android:textColor="@color/color_FFFFFF"
                     android:textSize="@dimen/sp_15"

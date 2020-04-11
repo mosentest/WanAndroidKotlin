@@ -7,6 +7,10 @@
 
     <data>
 
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -52,20 +56,16 @@
             android:orientation="vertical"
             android:paddingTop="?attr/actionBarSize">
 
-            <TextView
+            <Button
+                android:id="@+id/openWeb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="列表项1" />
+                android:onClick="@{listener::onClick}"
+                android:text="打开浏览器"
+                android:textSize="@dimen/sp_18" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="列表项2" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="列表项3" />
+            <!--android:background="?android:selectableItemBackground"
+                -->
         </LinearLayout>
 
     </androidx.drawerlayout.widget.DrawerLayout>

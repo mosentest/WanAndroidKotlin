@@ -12,6 +12,13 @@ import android.util.Log
  * 作者姓名 修改时间 版本号 描述
  */
 object LogUtil {
+
+    @JvmStatic
+    public fun i(msg: String) {
+        Log.i("LogUtil", msg)
+    }
+
+    @JvmStatic
     public fun i(tag: String, msg: String) {
         Log.i(tag, msg)
     }

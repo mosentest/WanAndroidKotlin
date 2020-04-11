@@ -14,9 +14,7 @@ import android.os.Parcelable
 import android.os.SystemClock
 import android.provider.Settings
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.RequiresPermission
@@ -96,6 +94,14 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 标题内容
      */
     protected var mTvTitle: TextView? = null
+    /**
+     * 左边菜单
+     */
+    protected var mLeftMenu: TextView? = null
+
+    protected var mRightOneMenu: TextView? = null
+
+    protected var mRightTwoMenu: TextView? = null
 
 
     private var mSnackbar: Snackbar? = null
@@ -133,6 +139,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         if (zIsEventBus()) {
             //增加eventbus
             EventBus.getDefault().register(this)
@@ -147,6 +154,15 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
             mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -194,6 +210,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         super.onViewCreated(view, savedInstanceState)
         if (zContentViewId() != -1) {
             mZStatusView = ZStatusView.init(this, zContentViewId(), zLoadingDialogId())
+            zStatusLoadingView()
         }
     }
 
@@ -239,6 +256,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     fun initBaseView() {
         mToolBar = findViewById(R.id.toolbar);
+        mLeftMenu = findViewById(R.id.leftMenu);
+        mRightOneMenu = findViewById(R.id.rightOneMenu);
+        mRightTwoMenu = findViewById(R.id.rightTwoMenu);
         mTvTitle = findViewById(R.id.title);
         activity?.apply {
             (activity as AppCompatActivity).apply {
@@ -343,11 +363,12 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
                             if (wifiConnected) {
                                 // wifi已连接
                                 //tv.text = "wifi已连接—NetworkCallback"
+                                onNetAvailable()
                             } else if (mobileConnected) {
                                 // 移动网络已连接
                                 //tv.text = "移动网络已连接—NetworkCallback"
+                                onNetAvailable()
                             }
-                            onNetAvailable()
                         }
                     }
                 }

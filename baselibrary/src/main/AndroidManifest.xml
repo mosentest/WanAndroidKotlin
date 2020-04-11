@@ -3,19 +3,27 @@
     package="com.ziqi.baselibrary">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <provider
             android:name=".contentprovider.InitContentProvider"
-            android:authorities="myAuthorities"
+            android:authorities=":init"
             android:enabled="true"
             android:exported="true" />
 
         <service
             android:name=".service.ServerTimerService"
             android:exported="true" />
+
+        <activity
+            android:name=".common.WebActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:launchMode="singleTop"
+            android:process=":web" />
+        <activity
+            android:name=".common.CommonActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation" />
     </application>
 
 </manifest>

@@ -52,6 +52,10 @@ android {
     kapt {
         generateStubs = true
     }
+
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
@@ -69,6 +73,15 @@ dependencies {
 
     //开启kotlin的dataBinding
     kapt "com.android.databinding:compiler:$rootProject.ext.gradle_version"
+
+
+    //https://github.com/square/retrofit
+    def retrofit_version = '2.8.1'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    //https://github.com/square/okhttp
+    //okhttp提供的请求日志拦截器
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.7'
 
     implementation project(':baselibrary')
 }

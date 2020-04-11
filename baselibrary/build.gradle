@@ -41,7 +41,6 @@ android {
     dexOptions {
         jumboMode true
     }
-
     dataBinding {
         enabled true
     }
@@ -51,9 +50,14 @@ android {
     }
 
     kapt {
+        generateStubs = true
         arguments {
             arg('eventBusIndex', 'com.ziqi.baselibrary.MyEventBusIndex')
         }
+    }
+
+    androidExtensions {
+        experimental = true
     }
 }
 
@@ -75,6 +79,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$ktx"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$ktx"
     implementation "androidx.lifecycle:lifecycle-extensions:$ktx"
+
+    //开启kotlin的dataBinding
+    kapt "com.android.databinding:compiler:$rootProject.ext.gradle_version"
 
     //第三方库
     def eventbus_version = '3.2.0'

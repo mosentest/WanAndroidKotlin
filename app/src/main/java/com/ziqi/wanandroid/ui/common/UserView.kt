@@ -13,10 +13,13 @@ import androidx.lifecycle.LifecycleObserver
  */
 class UserView : IUserView, LifecycleObserver {
 
-    var loginList: MutableList<IUserView.CallBack<*>> = mutableListOf()
+    var loginLists: MutableList<IUserView.CallBack<*>> = mutableListOf()
 
 
     override fun <T> zLogin(allBack: IUserView.CallBack<T>) {
+        if (loginLists.indexOf(allBack) != -1) {
+            loginLists.add(allBack)
+        }
     }
 
     override fun zRegister(allBack: IUserView.CallBack<Any>) {
