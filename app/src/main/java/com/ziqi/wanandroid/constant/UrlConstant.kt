@@ -1,5 +1,7 @@
 package com.ziqi.wanandroid.constant
 
+import com.ziqi.wanandroid.net.RetrofitUtils
+
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo

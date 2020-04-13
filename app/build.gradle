@@ -83,6 +83,20 @@ dependencies {
     //okhttp提供的请求日志拦截器
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.7'
 
+    //https://github.com/JakeWharton/retrofit2-kotlin-coroutines-adapter
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
+    //https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0")
+
+    //申请权限
+    //https://github.com/sagar-viradiya/eazypermissions
+
+
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
+
+
     implementation project(':baselibrary')
 }
 

@@ -232,8 +232,6 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         super.onActivityCreated(savedInstanceState)
         mConnectivityManager =
             activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        // 监听网络
-        listeningNetwork()
         initBaseView()
         zVisibleToUser(false)
     }
@@ -272,22 +270,33 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         mTvTitle?.text = mTitle
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (zIsEventBus()) {
-            //移除evenbus
-            EventBus.getDefault().unregister(this)
-        }
+    override fun onStart() {
+        super.onStart()
+        // 监听网络
+        listeningNetwork()
+    }
+
+    override fun onStop() {
+        super.onStop()
         if (needUnregisterReceiver) {
             if (mNetWorkReceiver != null) {
                 // 注销网络状态广播接收器
                 activity?.apply {
                     unregisterReceiver(mNetWorkReceiver)
+                    mNetWorkReceiver = null
                 }
             }
         } else {
             // 注销 NetworkCallback
             unregisterNetworkCallback()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (zIsEventBus()) {
+            //移除evenbus
+            EventBus.getDefault().unregister(this)
         }
     }
 
@@ -410,6 +419,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             if (mNetworkCallback != null) {
                 LogUtil.i(TAG, "Unregistering network callback")
                 mConnectivityManager?.unregisterNetworkCallback(mNetworkCallback)
+                mNetworkCallback = null
             }
         }
     }
