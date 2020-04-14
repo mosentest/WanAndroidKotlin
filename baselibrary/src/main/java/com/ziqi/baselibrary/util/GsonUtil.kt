@@ -1,6 +1,10 @@
 package com.ziqi.baselibrary.util
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+
+
+
 
 /**
  * Copyright (C), 2018-2020
@@ -12,5 +16,7 @@ import com.google.gson.Gson
  * 作者姓名 修改时间 版本号 描述
  */
 object GsonUtil {
-    var gson: Gson = Gson()
+    var gson: Gson = GsonBuilder() //配置你的Gson
+        .setDateFormat("yyyy-MM-dd hh:mm:ss")
+        .create()
 }

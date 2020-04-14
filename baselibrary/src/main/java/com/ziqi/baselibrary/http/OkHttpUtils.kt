@@ -64,6 +64,7 @@ class OkHttpUtils {
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .cookieJar(MyCookieJarImpl(context))
+            .retryOnConnectionFailure(true)
             .cache(Cache(httpCacheDirectory, 5 * 1024 * 1024))
             .build()
     }

@@ -180,7 +180,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         if (zSetLayoutId() != -1) {
             mRootView = inflater.inflate(zSetLayoutId(), container, false)
             if (zIsDataBinding()) {
-                mViewDataBinding = DataBindingUtil.bind(mRootView!!)
+                mRootView?.apply {
+                    mViewDataBinding = DataBindingUtil.bind(this)
+                }
             }
             return mRootView;
         }
@@ -445,17 +447,19 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         LogUtil.i(TAG, "onNetUnavailable")
         if (mSnackbar == null) {
             val currentView = mRootView?.findViewById<ViewGroup>(zContentViewId())
-            if (currentView != null) {
+            currentView?.apply {
                 mSnackbar = Snackbar.make(currentView, "当前网络不可用", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("前往设置", View.OnClickListener {
+                    .setAction("前往设置") {
                         startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         })
-                    })
+                    }
             }
         }
-        if (mSnackbar != null && !mSnackbar!!.isShown) {
-            mSnackbar?.show()
+        mSnackbar?.apply {
+            if (!isShown) {
+                show()
+            }
         }
     }
 
@@ -464,8 +468,10 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     override fun onNetAvailable() {
         LogUtil.i(TAG, "onNetAvailable")
-        if (mSnackbar != null && mSnackbar!!.isShown) {
-            mSnackbar?.dismiss()
+        mSnackbar?.apply {
+            if (isShown) {
+                dismiss()
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import android.webkit.*
 import androidx.annotation.RequiresApi
 import com.ziqi.baselibrary.util.FileUtil
 import com.ziqi.baselibrary.util.LogUtil
+import com.ziqi.baselibrary.util.SystemTool
 import com.ziqi.baselibrary.view.webview.OpenWeb.openUrl
 import java.io.File
 import java.util.*
@@ -144,9 +145,7 @@ class TouchWebView : WebView {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
                 LogUtil.i(tAG, "onPageFinished>>>$url")
-                if (simulationListener != null) {
-                    simulationListener!!.onPageFinished(url)
-                }
+                simulationListener?.onPageFinished(url)
                 inFinish()
             }
 
@@ -192,12 +191,12 @@ class TouchWebView : WebView {
                 val url = request.url.toString()
                 LogUtil.i(tAG, "onReceivedError5.0:$url")
                 if (request.isForMainFrame || url === getUrl()) {
-                    if (simulationListener != null) {
-                        simulationListener!!.onError(url)
-                        reloadURL = url
-                        isFinish = true
+                    simulationListener?.onError(url)
+                    reloadURL = url
+                    isFinish = true
+                    if (SystemTool.checkNet(context) != SystemTool.NETWORK_NONE) {
+                        openUrl(context, url)
                     }
-                    openUrl(context, url)
                 }
             }
 
@@ -215,12 +214,12 @@ class TouchWebView : WebView {
                     tAG,
                     "onReceivedError.failingUrl$failingUrl"
                 )
-                if (simulationListener != null) {
-                    simulationListener!!.onError(failingUrl)
-                    reloadURL = failingUrl
-                    isFinish = true
+                simulationListener?.onError(failingUrl)
+                reloadURL = failingUrl
+                isFinish = true
+                if (SystemTool.checkNet(context) != SystemTool.NETWORK_NONE) {
+                    openUrl(context, failingUrl)
                 }
-                openUrl(context, failingUrl)
             }
         }
         webChromeClient = object : WebChromeClient() {
@@ -245,9 +244,7 @@ class TouchWebView : WebView {
                 tAG,
                 "inFinish.thread_name:" + Thread.currentThread().name
             )
-            if (simulationListener != null) {
-                simulationListener!!.doSimulation()
-            }
+            simulationListener?.doSimulation()
         }
     }
 

@@ -1,5 +1,10 @@
 package com.ziqi.wanandroid.net
 
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo
@@ -12,6 +17,15 @@ package com.ziqi.wanandroid.net
 object NetRepository {
 
     fun a() {
-        RetrofitUtils.get().api.login()
+        RetrofitUtils.get().api.getByCall("").enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+            }
+
+        })
     }
 }

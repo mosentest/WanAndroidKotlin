@@ -49,9 +49,9 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
                     mViewDataBinding?.progress?.visibility = View.VISIBLE
                 }
                 mViewDataBinding?.progress?.progress = newProgress
-                if (mViewDataBinding?.touchView?.canGoBack()!!) {
-                    mLeftMenu?.visibility = View.VISIBLE
-                }
+
+                mLeftMenu?.visibility =
+                    if (mViewDataBinding?.touchView?.canGoBack()!!) View.VISIBLE else View.GONE
             }
 
             override fun onError(url: String?) {

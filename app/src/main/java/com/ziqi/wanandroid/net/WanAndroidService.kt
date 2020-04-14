@@ -1,6 +1,6 @@
 package com.ziqi.wanandroid.net
 
-import com.ziqi.baselibrary.http.BaseRetrofitApi
+import com.ziqi.baselibrary.http.retrofit.BaseRetrofitApi
 import kotlinx.coroutines.Deferred
 
 /**
@@ -12,6 +12,7 @@ import kotlinx.coroutines.Deferred
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-interface WanAndroidService : BaseRetrofitApi {
+interface WanAndroidService :
+    BaseRetrofitApi {
     fun login(): Deferred<Any>
 }
