@@ -13,12 +13,12 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/myToolbar"
+            android:id="@id/myToolbar"
             layout="@layout/layout_toolbar" />
 
 
         <LinearLayout
-            android:id="@+id/contentFragment"
+            android:id="@id/myRootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">

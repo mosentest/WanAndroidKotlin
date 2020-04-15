@@ -14,7 +14,6 @@
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
-
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +30,7 @@
             https://www.ctolib.com/ismaeldivita-chip-navigation-bar.html
             -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/contentFragment"
+                android:id="@id/myRootView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

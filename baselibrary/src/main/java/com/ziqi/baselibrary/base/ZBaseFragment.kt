@@ -224,7 +224,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     /**
      * 控制展示内容的根布局
      */
-    open fun zContentViewId(): Int = -1
+    open fun zContentViewId(): Int = R.id.myRootView
 
 
     /**
@@ -391,10 +391,12 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
                     network: Network,
                     networkCapabilities: NetworkCapabilities
                 ) {
-                    LogUtil.i(
-                        TAG,
-                        "onCapabilitiesChanged,NetworkCapabilities -> $networkCapabilities"
-                    )
+                    if (BuildConfig.DEBUG) {
+                        LogUtil.i(
+                            TAG,
+                            """${zGetClassName()}>>>onCapabilitiesChanged,NetworkCapabilities -> $networkCapabilities"""
+                        )
+                    }
                 }
 
                 /**
@@ -419,7 +421,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     private fun unregisterNetworkCallback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (mNetworkCallback != null) {
-                LogUtil.i(TAG, "Unregistering network callback")
+                if (BuildConfig.DEBUG) {
+                    LogUtil.i(TAG, """${zGetClassName()}>>>Unregistering network callback""")
+                }
                 mConnectivityManager?.unregisterNetworkCallback(mNetworkCallback)
                 mNetworkCallback = null
             }
@@ -444,9 +448,11 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 网络不可用
      */
     override fun onNetUnavailable() {
-        LogUtil.i(TAG, "onNetUnavailable")
+        if (BuildConfig.DEBUG) {
+            LogUtil.i(TAG, """${zGetClassName()}>>>onNetUnavailable""")
+        }
         if (mSnackbar == null) {
-            val currentView = mRootView?.findViewById<ViewGroup>(zContentViewId())
+            val currentView = findViewById<ViewGroup>(zContentViewId())
             currentView?.apply {
                 mSnackbar = Snackbar.make(currentView, "当前网络不可用", Snackbar.LENGTH_INDEFINITE)
                     .setAction("前往设置") {
@@ -467,7 +473,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 网络可用
      */
     override fun onNetAvailable() {
-        LogUtil.i(TAG, "onNetAvailable")
+        if (BuildConfig.DEBUG) {
+            LogUtil.i(TAG, """${zGetClassName()}>>>onNetAvailable""")
+        }
         mSnackbar?.apply {
             if (isShown) {
                 dismiss()

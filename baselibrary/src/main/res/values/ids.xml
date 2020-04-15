@@ -7,4 +7,6 @@
     <item name="title" type="id" />
     <item name="rightOneMenu" type="id" />
     <item name="rightTwoMenu" type="id" />
+    <item name="myRootView" type="id" />
+    <item name="myToolbar" type="id" />
 </resources>

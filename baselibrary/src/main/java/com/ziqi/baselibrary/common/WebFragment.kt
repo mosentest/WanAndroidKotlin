@@ -35,6 +35,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
             activity?.finish()
             return
         }
+        zStatusContentView()
         mViewDataBinding?.touchView?.setSimulationListener(object : SimulationListener {
             override fun doSimulation() {
             }
@@ -59,7 +60,6 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
             }
 
         })
-        zStatusContentView()
         mBundleData?.url?.apply {
             mViewDataBinding?.touchView?.loadURL(this)
             mViewDataBinding?.progress?.visibility = View.VISIBLE
@@ -72,10 +72,6 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
 
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_web
-    }
-
-    override fun zContentViewId(): Int {
-        return R.id.contentFragment
     }
 
     override fun zIsDataBinding(): Boolean {

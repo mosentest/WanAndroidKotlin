@@ -119,10 +119,6 @@ class MainFragment : ZBaseFragment<Parcelable, ActivityMainBinding>() {
         })
     }
 
-    override fun zContentViewId(): Int {
-        return R.id.contentFragment
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         serverConnection.also {
