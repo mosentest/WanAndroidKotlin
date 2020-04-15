@@ -126,8 +126,9 @@ public class ZStatusView extends FrameLayout {
         View contentView = null;
         if (rootView != null) {
             contentView = rootView.findViewById(viewId);
+            return init(contentView);
         }
-        return init(contentView);
+        return null;
     }
 
     /**

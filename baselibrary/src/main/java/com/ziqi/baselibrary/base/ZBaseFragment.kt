@@ -13,10 +13,11 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.os.SystemClock
 import android.provider.Settings
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,8 +34,6 @@ import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.util.ToastUtil
 import com.ziqi.baselibrary.view.status.ZStatusView
-import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
-import kotlinx.android.synthetic.main.fragment_base.*
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -136,6 +135,10 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     private var mobileConnected = false
 
+    /**
+     * 懒加载
+     */
+    private var lazyLoad = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -211,6 +214,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (zContentViewId() != -1) {
+            LogUtil.i(TAG, zGetClassName() + ">>>zContentViewId:" + zContentViewId())
             mZStatusView = ZStatusView.init(this, zContentViewId(), zLoadingDialogId())
             zStatusLoadingView()
         }
@@ -223,8 +227,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
 
     /**
      * 控制展示内容的根布局
+     * @see R.id.myRootView
      */
-    open fun zContentViewId(): Int = R.id.myRootView
+    open fun zContentViewId(): Int = -1
 
 
     /**
@@ -254,7 +259,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     /**
      * 处理头部的逻辑
      */
-    fun initBaseView() {
+    private fun initBaseView() {
         mToolBar = findViewById(R.id.toolbar);
         mLeftMenu = findViewById(R.id.leftMenu);
         mRightOneMenu = findViewById(R.id.rightOneMenu);
@@ -275,7 +280,24 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     override fun onStart() {
         super.onStart()
         // 监听网络
-        listeningNetwork()
+        listenerNetwork()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tryLoad()
+    }
+
+    private fun tryLoad() {
+        if (!lazyLoad) {
+            LogUtil.i(TAG, """${zGetClassName()}>>>tryLoad""")
+            zLazyVisible()
+            lazyLoad = true
+        }
+    }
+
+    open fun zLazyVisible() {
+
     }
 
     override fun onStop() {
@@ -338,7 +360,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    private fun listeningNetwork() {
+    private fun listenerNetwork() {
         // Android 5.0 及以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // 经过测试，使用 networkCallback 来监测网络状态，

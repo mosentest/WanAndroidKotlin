@@ -84,6 +84,9 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
         return R.layout.fragment_web
     }
 
+    override fun zContentViewId(): Int {
+        return R.id.myRootView
+    }
     override fun zIsDataBinding(): Boolean {
         return true
     }

@@ -1,4 +1,4 @@
-package com.ziqi.baselibrary.view
+package com.ziqi.baselibrary.view.viewpager
 
 import android.content.Context
 import android.util.AttributeSet

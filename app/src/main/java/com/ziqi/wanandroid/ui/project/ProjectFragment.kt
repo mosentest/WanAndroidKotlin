@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid.ui.home
+package com.ziqi.wanandroid.ui.project
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -16,16 +16,17 @@ import com.ziqi.wanandroid.R
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
+class ProjectFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle?): HomeFragment {
-            var mWBaseFragment = HomeFragment()
+        fun newInstance(bundle: Bundle?): ProjectFragment {
+            var mWBaseFragment = ProjectFragment()
             mWBaseFragment.arguments = bundle
             return mWBaseFragment
         }
     }
+
 
     override fun onClick(v: View?) {
 
@@ -35,17 +36,20 @@ class HomeFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
         return true
     }
 
+
     override fun zSetLayoutId(): Int {
-        return R.layout.fragment_home
+        return R.layout.fragment_navigation
     }
 
     override fun zContentViewId(): Int {
         return R.id.myRootView
     }
 
+
     override fun zVisibleToUser(isNewIntent: Boolean) {
 
     }
+
 
     override fun zLazyVisible() {
         super.zLazyVisible()

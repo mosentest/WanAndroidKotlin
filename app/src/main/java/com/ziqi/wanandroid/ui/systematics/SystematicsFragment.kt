@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid.ui.home
+package com.ziqi.wanandroid.ui.systematics
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -16,12 +16,12 @@ import com.ziqi.wanandroid.R
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
+class SystematicsFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle?): HomeFragment {
-            var mWBaseFragment = HomeFragment()
+        fun newInstance(bundle: Bundle?): SystematicsFragment {
+            var mWBaseFragment = SystematicsFragment()
             mWBaseFragment.arguments = bundle
             return mWBaseFragment
         }
@@ -35,13 +35,15 @@ class HomeFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
         return true
     }
 
+
     override fun zSetLayoutId(): Int {
-        return R.layout.fragment_home
+        return R.layout.fragment_systematics
     }
 
     override fun zContentViewId(): Int {
         return R.id.myRootView
     }
+
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
 
