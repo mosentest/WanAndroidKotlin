@@ -1,5 +1,9 @@
 package com.ziqi.wanandroid.net
 
+import com.ziqi.wanandroid.bean.Banner
+import com.ziqi.wanandroid.bean.WanResponse
+import kotlinx.coroutines.Deferred
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,18 +18,13 @@ import retrofit2.Response
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object NetRepository {
+object NetRepository : WanAndroidApi {
 
-    fun a() {
-        RetrofitUtils.get().api.getByCall("").enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+    override fun login(): Deferred<Any> {
+        return RetrofitUtils.get().api.login()
+    }
 
-            }
-
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-
-            }
-
-        })
+    override suspend fun banner(): WanResponse<List<Banner>> {
+        return RetrofitUtils.get().api.banner()
     }
 }

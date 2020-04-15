@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_3"
                 android:max="100"
-                android:progressDrawable="@drawable/web_progress" />
+                android:progressDrawable="@drawable/bg_web_progress" />
 
             <com.ziqi.baselibrary.view.webview.TouchWebView
                 android:id="@+id/touchView"

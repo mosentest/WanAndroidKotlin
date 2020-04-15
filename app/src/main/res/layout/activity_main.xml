@@ -46,26 +46,13 @@
 
         </LinearLayout>
 
-        <!-- 侧滑菜单左侧部分 -->
-        <LinearLayout
-            android:layout_width="@dimen/dp_250"
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="#FFFFFF"
-            android:orientation="vertical"
-            android:paddingTop="?attr/actionBarSize">
-
-            <Button
-                android:id="@+id/openWeb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="@{listener::onClick}"
-                android:text="打开浏览器"
-                android:textSize="@dimen/sp_18" />
-
-            <!--android:background="?android:selectableItemBackground"
-                -->
-        </LinearLayout>
+            android:layout_gravity="left"
+            app:headerLayout="@layout/activity_main_header"
+            app:menu="@menu/menu_main" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

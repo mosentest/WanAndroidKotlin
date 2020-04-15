@@ -1,0 +1,19 @@
+package com.ziqi.wanandroid.bean
+
+/**
+ * Copyright (C), 2018-2020
+ * Author: ziqimo
+ * Date: 2020/4/15 11:06 AM
+ * Description:
+ * History:
+ * <author> <time> <version> <desc>
+ * 作者姓名 修改时间 版本号 描述
+ */
+class WanResponse<T> {
+
+    var errorCode = 0
+
+    var errorMsg: String? = null
+
+    var data: T? = null
+}

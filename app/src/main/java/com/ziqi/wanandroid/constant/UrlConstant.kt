@@ -14,4 +14,6 @@ import com.ziqi.wanandroid.net.RetrofitUtils
 object UrlConstant {
 
     var host = "https://www.wanandroid.com"
+
+    const val url_banner = "/banner/json"
 }

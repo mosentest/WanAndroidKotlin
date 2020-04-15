@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.ziqi.baselibrary.R
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.databinding.FragmentWebBinding
+import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.webview.SimulationListener
 
 /**
@@ -57,6 +58,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
 
             override fun onError(url: String?) {
                 mViewDataBinding?.progress?.visibility = View.GONE
+                zStatusErrorView(-1, "")
             }
 
         })
@@ -66,8 +68,16 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
         }
         mLeftMenu?.text = "关闭"
         mLeftMenu?.setOnClickListener {
-            activity?.onBackPressed()
+            activity?.finish()
         }
+        mZStatusView?.config(
+            ZStatusViewBuilder.Builder()
+                .setOnErrorRetryClickListener {
+                    zStatusContentView()
+                    mViewDataBinding?.touchView?.loadURL(mViewDataBinding?.touchView?.getReloadURL()!!)
+                }
+                .build()
+        )
     }
 
     override fun zSetLayoutId(): Int {

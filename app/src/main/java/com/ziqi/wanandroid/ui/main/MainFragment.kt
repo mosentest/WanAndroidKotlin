@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcelable
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import com.ziqi.baselibrary.ITimerManagerService
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
@@ -17,6 +19,7 @@ import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.ActivityMainBinding
 import com.ziqi.wanandroid.util.StartUtil
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 /**
  * Copyright (C), 2018-2020
@@ -62,12 +65,16 @@ class MainFragment : ZBaseFragment<Parcelable, ActivityMainBinding>() {
                 }, 1000)
             }
             R.id.openWeb -> {
-                if (context != null) {
-                    val webInfo = WebInfo()
-                    webInfo.url = "https://www.wanandroid.com"
-                    StartUtil.startWebFragment(context!!, this, -1, webInfo)
-                }
+                openWeb()
             }
+        }
+    }
+
+    private fun openWeb() {
+        activity?.let {
+            val webInfo = WebInfo()
+            webInfo.url = "https://www.wanandroid.com"
+            StartUtil.startWebFragment(it, this, -1, webInfo)
         }
     }
 
@@ -117,6 +124,20 @@ class MainFragment : ZBaseFragment<Parcelable, ActivityMainBinding>() {
             override fun onDrawerOpened(drawerView: View) {
             }
         })
+        //https://www.jianshu.com/p/4b33d0a715e6
+        mViewDataBinding?.navigationView?.itemIconTintList = null
+        mViewDataBinding?.navigationView?.setNavigationItemSelectedListener {
+            it.itemId
+            true
+        }
+
+        mViewDataBinding
+            ?.navigationView
+            ?.getHeaderView(0)
+            ?.findViewById<Button>(R.id.openWeb)
+            ?.setOnClickListener {
+                openWeb()
+            }
     }
 
     override fun onDestroy() {

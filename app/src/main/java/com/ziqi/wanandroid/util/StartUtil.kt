@@ -31,8 +31,8 @@ object StartUtil {
             fragment,
             WebFragment::class.java.name,
             requestCode,
-            Intent(context, CommonActivity::class.java),
-            "详情",
+            Intent(context, WebActivity::class.java),
+            webInfo.url,
             true,
             webInfo
         )

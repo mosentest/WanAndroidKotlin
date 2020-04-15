@@ -10,6 +10,8 @@
         android:id="@id/myToolbar"
         layout="@layout/layout_toolbar" />
 
+    <!--android:background="?android:selectableItemBackground"
+            -->
 
     <FrameLayout
         android:id="@id/myRootView"

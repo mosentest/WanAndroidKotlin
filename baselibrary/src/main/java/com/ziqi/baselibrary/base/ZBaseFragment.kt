@@ -82,7 +82,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     /**
      * 状态view
      */
-    private var mZStatusView: ZStatusView? = null
+    protected var mZStatusView: ZStatusView? = null
 
 
     /**
