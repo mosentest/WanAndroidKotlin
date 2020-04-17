@@ -23,24 +23,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitUtils {
 
 
-    var api: WanAndroidService
+    var api: WanAndroidApi
 
     private constructor() {
         //val contentType = "application/json".toMediaType()
-        var contentType = MediaType.parse("application/json; charset=utf-8")
+        //var contentType = MediaType.parse("application/json; charset=utf-8")
         val retrofit = Retrofit.Builder()
             .baseUrl(UrlConstant.host)
             .addConverterFactory(StringConverterFactory())
-            .addConverterFactory(Json.asConverterFactory(contentType!!))
+            //retrofit2-kotlinx-serialization-converter 暂时不知道干嘛用
+            //.addConverterFactory(Json.asConverterFactory(contentType!!))
             .addConverterFactory(GsonConverterFactory.create(GsonUtil.gson))
             //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
             // Please migrate to Retrofit 2.6.0 or newer and its built-in suspend support
             //https://github.com/square/retrofit/blob/master/CHANGELOG.md#version-260-2019-06-05
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            //.addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(OkHttpUtils.instance.okHttpClient)
             .build()
-        api = retrofit.create(WanAndroidService::class.java)
+        api = retrofit.create(WanAndroidApi::class.java)
     }
 
     companion object {

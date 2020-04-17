@@ -45,12 +45,12 @@ class NavigationFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-
     }
 
 
 
     override fun zLazyVisible() {
         super.zLazyVisible()
+        zStatusEmptyView()
     }
 }

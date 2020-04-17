@@ -51,5 +51,6 @@ class SystematicsFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     override fun zLazyVisible() {
         super.zLazyVisible()
+        zStatusEmptyView()
     }
 }

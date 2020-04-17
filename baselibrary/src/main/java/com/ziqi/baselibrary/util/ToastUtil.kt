@@ -20,10 +20,6 @@ object ToastUtil {
         if (TextUtils.isEmpty(msg)) {
             return
         }
-        if (msg.equals(currentMsg)) {
-            return
-        }
-        currentMsg = msg
         Toast.makeText(ContextUtils.context, msg, Toast.LENGTH_LONG).show()
     }
 
@@ -31,10 +27,6 @@ object ToastUtil {
         if (TextUtils.isEmpty(msg)) {
             return
         }
-        if (msg.equals(currentMsg)) {
-            return
-        }
-        currentMsg = msg
         Toast.makeText(ContextUtils.context, msg, Toast.LENGTH_SHORT).show()
     }
 }

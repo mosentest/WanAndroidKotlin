@@ -39,9 +39,6 @@ public class ZStatusView extends FrameLayout {
     private @LayoutRes
     int errorLayoutId = R.layout.zsv_error_layout;
 
-    private @LayoutRes
-    int loadDialogLayoutRes = R.layout.zsv_load_dialog_layout;
-
     // 状态布局 View 缓存集合
     private SparseArray<View> viewArray = new SparseArray<>();
     // 状态布局 View 显示时的回调接口集合
@@ -132,22 +129,6 @@ public class ZStatusView extends FrameLayout {
     }
 
     /**
-     * 在Fragment中的初始化方法
-     *
-     * @param fragment
-     * @param viewId   使用多状态布局的 ViewId
-     * @return
-     */
-    public static ZStatusView init(Fragment fragment, @IdRes int viewId, @LayoutRes int loadDialogLayoutRes) {
-        View rootView = fragment.getView();
-        View contentView = null;
-        if (rootView != null) {
-            contentView = rootView.findViewById(viewId);
-        }
-        return init(contentView, loadDialogLayoutRes);
-    }
-
-    /**
      * 用 StatusView 替换要使用多状态布局的 View
      */
     private static ZStatusView init(View contentView) {
@@ -166,80 +147,6 @@ public class ZStatusView extends FrameLayout {
         statusView.setContentView(contentView);
         parent.addView(statusView, index, lp);
         return statusView;
-    }
-
-    /**
-     * 用 StatusView 替换要使用多状态布局的 View
-     */
-    private static ZStatusView init(View contentView, @LayoutRes int loadDialogLayoutRes) {
-        if (contentView == null) {
-            throw new RuntimeException("ContentView can not be null!");
-        }
-        ViewGroup parent = (ViewGroup) contentView.getParent();
-        if (parent == null) {
-            throw new RuntimeException("ContentView must have a parent view!");
-        }
-        ViewGroup.LayoutParams lp = contentView.getLayoutParams();
-        int index = parent.indexOfChild(contentView);
-        parent.removeView(contentView);
-        ZStatusView statusView = new ZStatusView(contentView.getContext());
-        statusView.setLoadDialogView(loadDialogLayoutRes);
-        /**
-         * 2020-4-9
-         * 这我自己新增的
-         * start
-         */
-        FrameLayout loadFrameLayout = new FrameLayout(contentView.getContext());
-        loadFrameLayout.addView(contentView);
-        loadFrameLayout.addView(statusView.getLoadDialogView());
-        /**
-         * 2020-4-9
-         * 这我自己新增的
-         * end
-         */
-        statusView.addView(loadFrameLayout);
-        statusView.setContentView(loadFrameLayout);
-        parent.addView(statusView, index, lp);
-        return statusView;
-    }
-
-
-    private View mLoadDialogView;
-
-    /**
-     * moziqi 设置自定义 LoadDialog 布局文件
-     */
-    private void setLoadDialogView(@LayoutRes int loadDialogLayoutRes) {
-        this.loadingLayoutId = loadDialogLayoutRes;
-        mLoadDialogView = inflate(loadingLayoutId);
-        mLoadDialogView.setOnClickListener(view -> {
-
-        });
-        hideLoadDialog();
-    }
-
-    private View getLoadDialogView() {
-        return mLoadDialogView;
-    }
-
-    /**
-     * 展示dialog
-     */
-    public void showLoadDialog() {
-        if (mLoadDialogView != null) {
-            mLoadDialogView.setVisibility(VISIBLE);
-            mLoadDialogView.findViewById(R.id.sv_load_dialog_progressbar);
-        }
-    }
-
-    /**
-     * 隐藏dialog
-     */
-    public void hideLoadDialog() {
-        if (mLoadDialogView != null) {
-            mLoadDialogView.setVisibility(GONE);
-            mLoadDialogView.findViewById(R.id.sv_load_dialog_progressbar);
-        }
     }
 
 

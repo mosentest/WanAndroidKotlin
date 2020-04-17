@@ -1,5 +1,6 @@
 package com.ziqi.wanandroid.net
 
+import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
 import com.ziqi.wanandroid.bean.WanResponse
 import kotlinx.coroutines.Deferred
@@ -18,13 +19,17 @@ import retrofit2.Response
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object NetRepository : WanAndroidApi {
+object NetRepository {
 
-    override fun login(): Deferred<Any> {
+    suspend fun login(): Deferred<Any> {
         return RetrofitUtils.get().api.login()
     }
 
-    override suspend fun banner(): WanResponse<List<Banner>> {
+    suspend fun banner(): WanResponse<MutableList<Banner>> {
         return RetrofitUtils.get().api.banner()
+    }
+
+    suspend fun articleTop(): WanResponse<MutableList<Article>> {
+        return RetrofitUtils.get().api.articleTop()
     }
 }

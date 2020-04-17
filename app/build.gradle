@@ -114,13 +114,21 @@ dependencies {
     //申请权限
     //https://github.com/sagar-viradiya/eazypermissions
 
-
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
+    //banner广告图
+    //https://github.com/youth5201314/banner
+    implementation 'com.youth.banner:banner:2.0.6'
 
-    //https://www.wanandroid.com/blog/show/2293
-    implementation 'com.github.kelinZhou:Banner:2.6.0'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+
+    //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
+
+    //https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout?hl=zh-cn
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     implementation project(':baselibrary')
 }

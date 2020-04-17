@@ -1,7 +1,7 @@
 package com.ziqi.baselibrary.view.webview
 
 import android.webkit.JavascriptInterface
-import com.ziqi.baselibrary.util.LogUtil.i
+import com.ziqi.baselibrary.util.LogUtil
 
 /**
  * 作者 : moziqi
@@ -13,24 +13,24 @@ import com.ziqi.baselibrary.util.LogUtil.i
 internal class InJavaScriptLocalObj(private val touchWebView: TouchWebView) {
     @JavascriptInterface
     fun showSource(html: String) {
-        i("====>showSource=$html")
+        LogUtil.i("====>showSource=$html")
         touchWebView.getSource(html)
     }
 
     @JavascriptInterface
     fun readyState(readyState: String) {
-        i("====>readyState=$readyState")
+        LogUtil.i("====>readyState=$readyState")
         touchWebView.readyState(readyState)
     }
 
     @JavascriptInterface
     fun showDescription(str: String) {
-        i("====>showDescription=$str")
+        LogUtil.i("====>showDescription=$str")
     }
 
     @JavascriptInterface
     fun showReferrer(str: String) {
-        i("====>showReferrer=$str")
+        LogUtil.i("====>showReferrer=$str")
     }
 
 }

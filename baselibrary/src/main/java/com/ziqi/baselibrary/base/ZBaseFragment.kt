@@ -144,7 +144,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         if (zIsEventBus()) {
-            //增加eventbus
+            //增加eventBus
             EventBus.getDefault().register(this)
         }
         arguments?.apply {
@@ -215,15 +215,10 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         super.onViewCreated(view, savedInstanceState)
         if (zContentViewId() != -1) {
             LogUtil.i(TAG, zGetClassName() + ">>>zContentViewId:" + zContentViewId())
-            mZStatusView = ZStatusView.init(this, zContentViewId(), zLoadingDialogId())
+            mZStatusView = ZStatusView.init(this, zContentViewId())
             zStatusLoadingView()
         }
     }
-
-    /**
-     * 悬浮在内容上面的加载布局
-     */
-    open fun zLoadingDialogId(): Int = R.layout.zsv_load_dialog_layout
 
     /**
      * 控制展示内容的根布局
@@ -260,11 +255,11 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 处理头部的逻辑
      */
     private fun initBaseView() {
-        mToolBar = findViewById(R.id.toolbar);
-        mLeftMenu = findViewById(R.id.leftMenu);
-        mRightOneMenu = findViewById(R.id.rightOneMenu);
-        mRightTwoMenu = findViewById(R.id.rightTwoMenu);
-        mTvTitle = findViewById(R.id.title);
+        mToolBar = findViewById(R.id.toolbar)
+        mLeftMenu = findViewById(R.id.leftMenu)
+        mRightOneMenu = findViewById(R.id.rightOneMenu)
+        mRightTwoMenu = findViewById(R.id.rightTwoMenu)
+        mTvTitle = findViewById(R.id.title)
         activity?.apply {
             (activity as AppCompatActivity).apply {
                 setSupportActionBar(mToolBar)
@@ -275,6 +270,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             }
         }
         mTvTitle?.text = mTitle
+        mTvTitle?.isSelected = true
     }
 
     override fun onStart() {
@@ -319,7 +315,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     override fun onDestroy() {
         super.onDestroy()
         if (zIsEventBus()) {
-            //移除evenbus
+            //移除eventBus
             EventBus.getDefault().unregister(this)
         }
     }
@@ -527,18 +523,16 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     }
 
     override fun zHideLoadDialog(flag: Int) {
-        mZStatusView?.hideLoadDialog()
     }
 
     override fun zShowLoadDialog(flag: Int, msg: String?) {
-        mZStatusView?.showLoadDialog()
     }
 
     override fun zStatusContentView() {
         mZStatusView?.showContentView()
     }
 
-    override fun zStatusErrorView(type: Int, msg: String?) {
+    override fun zStatusErrorView() {
         mZStatusView?.showErrorView()
     }
 

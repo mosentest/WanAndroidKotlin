@@ -14,5 +14,6 @@ interface SimulationListener {
     fun doSimulation()
     fun onPageFinished(url: String?)
     fun onProgressChanged(newProgress: Int)
+    fun onReceivedTitle(title: String?)
     fun onError(url: String?)
 }

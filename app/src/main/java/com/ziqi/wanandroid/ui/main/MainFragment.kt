@@ -13,9 +13,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.ziqi.baselibrary.ITimerManagerService
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMainBinding
@@ -23,6 +25,7 @@ import com.ziqi.wanandroid.ui.home.HomeFragment
 import com.ziqi.wanandroid.ui.me.MeFragment
 import com.ziqi.wanandroid.ui.project.ProjectFragment
 import com.ziqi.wanandroid.ui.systematics.SystematicsFragment
+import com.ziqi.wanandroid.view.MyPageTransformer
 import com.ziqi.wanandroid.util.StartUtil
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -54,6 +57,8 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
     private var timerManagerService: ITimerManagerService? = null
 
     var viewModel: MainViewModel? = null
+
+    val MIN_ALPHA = 0.5f
 
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_main
@@ -95,27 +100,42 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
         handleDrawer()
         handleBottomMenu(0)
 
-        mViewDataBinding?.viewPager2?.adapter =
-            object : BaseFragmentStateAdapter(this) {
-                override fun getItemCount(): Int {
-                    return 4
-                }
-
-                override fun createFragment(position: Int): Fragment {
-                    var fragment = when (position) {
-                        0 -> HomeFragment.newInstance(null)
-                        1 -> SystematicsFragment.newInstance(null)
-                        2 -> ProjectFragment.newInstance(null)
-                        3 -> MeFragment.newInstance(null)
-                        else -> HomeFragment.newInstance(null)
-                    }
-                    return fragment
-                }
-
+        var mAdapter = object : BaseFragmentStateAdapter(this) {
+            override fun getItemCount(): Int {
+                return 4
             }
+
+            override fun createFragment(position: Int): Fragment {
+                var fragment = when (position) {
+                    0 -> HomeFragment.newInstance(null)
+                    1 -> SystematicsFragment.newInstance(null)
+                    2 -> ProjectFragment.newInstance(null)
+                    3 -> MeFragment.newInstance(null)
+                    else -> HomeFragment.newInstance(null)
+                }
+                return fragment
+            }
+
+        }
+        mViewDataBinding?.viewPager2?.apply {
+            adapter = mAdapter
+            setPageTransformer(MyPageTransformer())
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    handleBottomMenu(position)
+                }
+            })
+        }
     }
 
     private fun handleBottomMenu(position: Int) {
+        //设置这个
+        viewPager2.setCurrentItem(position, true)
+        handleBottomSelect(position)
+    }
+
+    private fun handleBottomSelect(position: Int) {
         mViewDataBinding?.apply {
             ivHome.isSelected = false
             ivSystematics.isSelected = false
@@ -126,6 +146,7 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
             tvSystematics.isSelected = false
             tvProject.isSelected = false
             tvMe.isSelected = false
+
         }
         when (position) {
             0 -> {
@@ -145,7 +166,6 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
                     ivProject.isSelected = true
                     tvProject.isSelected = true
                 }
-
             }
             3 -> {
                 mViewDataBinding?.apply {
@@ -229,9 +249,6 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
                 zHideLoadDialog(-1)
             }, 1000)
         }
-        mToolBar?.postDelayed({
-            zStatusContentView()
-        }, 1000)
     }
 
     override fun onDestroy() {

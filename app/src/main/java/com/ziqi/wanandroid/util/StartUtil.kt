@@ -18,23 +18,25 @@ import com.ziqi.baselibrary.util.StartActivityCompat
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object StartUtil {
-
-    fun startWebFragment(
-        context: Context,
-        fragment: Fragment?,
-        requestCode: Int = -1,
-        webInfo: WebInfo
-    ) {
-        StartActivityCompat.startActivity(
-            context,
-            fragment,
-            WebFragment::class.java.name,
-            requestCode,
-            Intent(context, WebActivity::class.java),
-            webInfo.url,
-            true,
-            webInfo
-        )
+class StartUtil {
+    companion object {
+        fun startWebFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            webInfo: WebInfo
+        ) {
+            StartActivityCompat.startActivity(
+                context,
+                fragment,
+                WebFragment::class.java.name,
+                requestCode,
+                Intent(context, WebActivity::class.java),
+                webInfo.url,
+                true,
+                webInfo
+            )
+        }
     }
+
 }

@@ -1,5 +1,6 @@
 package com.ziqi.wanandroid.net
 
+import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
 import com.ziqi.wanandroid.bean.WanResponse
 import com.ziqi.wanandroid.constant.UrlConstant
@@ -26,5 +27,10 @@ interface WanAndroidApi {
      * 2.6.0 新方式
      */
     @GET(UrlConstant.url_banner)
-    suspend fun banner(): WanResponse<List<Banner>>
+    suspend fun banner(): WanResponse<MutableList<Banner>>
+
+
+    @GET(UrlConstant.url_article_top)
+    suspend fun articleTop(): WanResponse<MutableList<Article>>
+
 }

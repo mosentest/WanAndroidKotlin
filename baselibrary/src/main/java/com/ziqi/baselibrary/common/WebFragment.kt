@@ -56,9 +56,13 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
                     if (mViewDataBinding?.touchView?.canGoBack()!!) View.VISIBLE else View.GONE
             }
 
+            override fun onReceivedTitle(title: String?) {
+                mTvTitle?.text = title
+            }
+
             override fun onError(url: String?) {
                 mViewDataBinding?.progress?.visibility = View.GONE
-                zStatusErrorView(-1, "")
+                zStatusErrorView()
             }
 
         })
@@ -87,6 +91,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
     override fun zContentViewId(): Int {
         return R.id.myRootView
     }
+
     override fun zIsDataBinding(): Boolean {
         return true
     }

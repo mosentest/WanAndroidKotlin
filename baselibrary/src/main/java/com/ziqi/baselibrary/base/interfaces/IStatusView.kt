@@ -24,7 +24,7 @@ interface IStatusView {
     /**
      * 错误信息view
      */
-    fun zStatusErrorView(type: Int, msg: String?)
+    fun zStatusErrorView()
 
     /**
      * 正常view

@@ -16,4 +16,8 @@ object UrlConstant {
     var host = "https://www.wanandroid.com"
 
     const val url_banner = "/banner/json"
+
+    const val url_friend = "/friend/json"
+
+    const val url_article_top = "/article/top/json"
 }

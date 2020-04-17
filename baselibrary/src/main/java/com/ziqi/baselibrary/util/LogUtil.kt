@@ -11,20 +11,33 @@ import android.util.Log
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object LogUtil {
+class LogUtil {
 
-    @JvmStatic
-    public fun i(msg: String) {
-        Log.i("LogUtil", msg)
+
+    companion object {
+
+        private val TAG: String = LogUtil.javaClass.simpleName
+
+        @JvmStatic
+        public fun i(msg: String) {
+            Log.i(TAG, msg)
+        }
+
+        @JvmStatic
+        public fun i(tag: String, msg: String) {
+            Log.i(tag, msg)
+        }
+
+        @JvmStatic
+        public fun e(tag: String, msg: String, throwable: Throwable) {
+            Log.e(tag, msg, throwable)
+        }
+
+        @JvmStatic
+        public fun e(msg: String, throwable: Throwable) {
+            Log.e(TAG, msg, throwable)
+        }
     }
 
-    @JvmStatic
-    public fun i(tag: String, msg: String) {
-        Log.i(tag, msg)
-    }
 
-    @JvmStatic
-    public fun e(tag: String, msg: String, throwable: Throwable) {
-        Log.e(tag, msg, throwable)
-    }
 }

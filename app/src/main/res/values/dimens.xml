@@ -95,7 +95,11 @@
     <dimen name="dp_78">78dp</dimen>
     <dimen name="dp_79">79dp</dimen>
 
+    <dimen name="dp_175">175dp</dimen>
+
     <dimen name="dp_250">250dp</dimen>
+
+    <dimen name="dp_300">300dp</dimen>
 
 
     <dimen name="sp_1">1sp</dimen>

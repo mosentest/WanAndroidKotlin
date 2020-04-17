@@ -47,7 +47,7 @@ class ProjectFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-
+        zStatusEmptyView()
     }
 
 

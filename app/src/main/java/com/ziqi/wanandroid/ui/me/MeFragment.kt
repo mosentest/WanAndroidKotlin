@@ -40,11 +40,6 @@ class MeFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
         return R.layout.fragment_me
     }
 
-    override fun zContentViewId(): Int {
-        return R.id.myRootView
-    }
-
-
     override fun zVisibleToUser(isNewIntent: Boolean) {
 
     }

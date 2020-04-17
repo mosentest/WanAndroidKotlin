@@ -16,4 +16,8 @@ class WanResponse<T> {
     var errorMsg: String? = null
 
     var data: T? = null
+
+    fun preProcessData(): T? {
+        return if (errorCode == 0) data else throw Throwable(errorMsg)
+    }
 }
