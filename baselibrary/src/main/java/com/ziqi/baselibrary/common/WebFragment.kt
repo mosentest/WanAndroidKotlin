@@ -92,10 +92,6 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
         return R.id.myRootView
     }
 
-    override fun zIsDataBinding(): Boolean {
-        return true
-    }
-
     override fun onInterceptBackPressed(): Boolean {
         if (activity == null) {
             return super.onInterceptBackPressed()

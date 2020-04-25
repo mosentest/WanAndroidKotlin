@@ -56,7 +56,7 @@ android {
     kapt {
         generateStubs = true
         arguments {
-            arg('eventBusIndex', 'com.ziqi.baselibrary.MyEventBusIndex')
+//            arg('eventBusIndex', 'com.ziqi.baselibrary.MyEventBusIndex')
         }
     }
 

@@ -1,12 +1,7 @@
 package com.ziqi.wanandroid.bean
 
-import android.R
 import android.os.Parcel
 import android.os.Parcelable
-import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 
 
 /**

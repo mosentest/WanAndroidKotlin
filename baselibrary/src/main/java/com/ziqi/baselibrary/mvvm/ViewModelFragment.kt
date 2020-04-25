@@ -1,30 +1,29 @@
 package com.ziqi.baselibrary.mvvm
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.ziqi.baselibrary.base.ZBaseActivity
+import com.ziqi.baselibrary.base.ZBaseFragment
 import java.lang.reflect.ParameterizedType
 
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo
- * Date: 2020/4/3 5:54 PM
+ * Date: 2020/4/25 8:58 PM
  * Description:
  * History:
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> :
-    ZBaseActivity<Binding>() {
+abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, Binding : ViewDataBinding> :
+    ZBaseFragment<StartParams, Binding>() {
 
     protected var mViewModel: VM? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         createViewModel()
     }
 
@@ -35,7 +34,7 @@ abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> 
             val tClass = tp as? Class<VM> ?: BaseViewModel::class.java
             mViewModel = ViewModelProvider(this).get(tClass) as VM
         }
-        mViewModel?.mStatusView?.observe(this, Observer {
+        mViewModel?.mStatusView?.observe(viewLifecycleOwner, Observer {
             when (it.getContentIfNotHandled()) {
                 1 -> {
                     zStatusContentView()
@@ -45,15 +44,15 @@ abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> 
                 }
             }
         })
-        mViewModel?.mLoading?.observe(this, Observer {
+        mViewModel?.mLoading?.observe(viewLifecycleOwner, Observer {
             if (it.getContentIfNotHandled() == true) {
                 zShowLoadDialog(-1, null)
             } else {
                 zHideLoadDialog(-1)
             }
         })
-        mViewModel?.mToast?.observe(this, Observer {
-            zToastShort(-1, it)
+        mViewModel?.mToast?.observe(viewLifecycleOwner, Observer {
+            zToastShort(-1, it.getContentIfNotHandled())
         })
     }
 }

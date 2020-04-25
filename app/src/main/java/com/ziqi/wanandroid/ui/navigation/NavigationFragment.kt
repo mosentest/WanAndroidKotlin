@@ -31,10 +31,6 @@ class NavigationFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     }
 
-    override fun zIsDataBinding(): Boolean {
-        return true
-    }
-
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_navigation
     }
@@ -46,7 +42,6 @@ class NavigationFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
     }
-
 
 
     override fun zLazyVisible() {

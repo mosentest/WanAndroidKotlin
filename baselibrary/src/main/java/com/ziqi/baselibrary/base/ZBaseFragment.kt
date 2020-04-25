@@ -35,6 +35,7 @@ import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.util.ToastUtil
 import com.ziqi.baselibrary.view.status.ZStatusView
 import org.greenrobot.eventbus.EventBus
+import java.lang.reflect.ParameterizedType
 
 /**
  * Copyright (C), 2018-2020
@@ -83,7 +84,6 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     protected var mZStatusView: ZStatusView? = null
 
-
     /**
      * toobar控件
      */
@@ -93,16 +93,24 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 标题内容
      */
     protected var mTvTitle: TextView? = null
+
     /**
      * 左边菜单
      */
     protected var mLeftMenu: TextView? = null
 
+    /**
+     * 右边第一个菜单
+     */
     protected var mRightOneMenu: TextView? = null
 
+    /**
+     * 右边第二个菜单
+     */
     protected var mRightTwoMenu: TextView? = null
-
-
+    /**
+     *
+     */
     private var mSnackbar: Snackbar? = null
 
     /**
@@ -139,6 +147,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 懒加载
      */
     private var lazyLoad = false
+
+
+    protected var mLoadingDialog: ZLoadingDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -182,12 +193,18 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     ): View? {
         if (zSetLayoutId() != -1) {
             mRootView = inflater.inflate(zSetLayoutId(), container, false)
-            if (zIsDataBinding()) {
-                mRootView?.apply {
-                    mViewDataBinding = DataBindingUtil.bind(this)
+            val parameterizedType = javaClass.genericSuperclass
+            if (parameterizedType is ParameterizedType) {
+                val actualTypeArguments = parameterizedType.actualTypeArguments
+                val type = actualTypeArguments[actualTypeArguments.size - 1] as Class<*>
+                if (ViewDataBinding::class.java.isAssignableFrom(type) && ViewDataBinding::class.java != type) {
+                    mRootView?.apply {
+                        mViewDataBinding = DataBindingUtil.bind(this)
+                        mViewDataBinding?.lifecycleOwner = this@ZBaseFragment
+                    }
                 }
             }
-            return mRootView;
+            return mRootView
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -318,6 +335,24 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             //移除eventBus
             EventBus.getDefault().unregister(this)
         }
+        mZStatusView = null
+        mLoadingDialog = null
+        mSnackbar = null
+
+        mViewDataBinding?.unbind()
+        mViewDataBinding = null
+
+        mToolBar = null
+        mRightTwoMenu = null
+        mRightTwoMenu = null
+        mLeftMenu = null
+
+        mBundleData = null
+        mTvTitle = null
+
+        mConnectivityManager = null
+        mNetWorkReceiver = null
+        mNetworkCallback = null
     }
 
 
@@ -522,10 +557,13 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         }
     }
 
-    override fun zHideLoadDialog(flag: Int) {
+    override fun zShowLoadDialog(flag: Int, msg: String?) {
+        mLoadingDialog = ZLoadingDialogFragment.newInstance(msg ?: "加载中...")
+        mLoadingDialog?.show(childFragmentManager, msg ?: "loading")
     }
 
-    override fun zShowLoadDialog(flag: Int, msg: String?) {
+    override fun zHideLoadDialog(flag: Int) {
+        mLoadingDialog?.dismissAllowingStateLoss()
     }
 
     override fun zStatusContentView() {

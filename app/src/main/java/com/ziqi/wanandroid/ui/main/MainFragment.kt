@@ -64,10 +64,6 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
         return R.layout.fragment_main
     }
 
-    override fun zIsDataBinding(): Boolean {
-        return true
-    }
-
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.openWeb -> {
@@ -244,7 +240,7 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
         mRightTwoMenu?.visibility = View.VISIBLE
         mRightTwoMenu?.setOnClickListener {
             timerManagerService?.setTime("设置时间")
-            zShowLoadDialog(-1, "")
+            zShowLoadDialog(-1, null)
             mToolBar?.postDelayed({
                 zHideLoadDialog(-1)
             }, 1000)

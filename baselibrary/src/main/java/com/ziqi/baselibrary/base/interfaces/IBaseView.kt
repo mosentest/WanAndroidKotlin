@@ -16,11 +16,6 @@ interface IBaseView : IView, IStatusView, IToastView {
      */
     fun zIsEventBus(): Boolean = false
 
-    /**
-     * 是否使用DataBinding
-     */
-    fun zIsDataBinding(): Boolean = false
-
     fun zSetLayoutId(): Int = -1
 
     fun zVisibleToUser(isNewIntent: Boolean)

@@ -3,6 +3,7 @@ package com.ziqi.wanandroid.ui.main
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
+import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.SystemTool
 import com.ziqi.wanandroid.BuildConfig
@@ -30,37 +31,4 @@ class MainViewModel(ctx: Application) : AndroidViewModel(ctx) {
 
     private val TAG: String = MainViewModel::class.java.simpleName
 
-    var mBanner: MutableLiveData<MutableList<Banner>> = MutableLiveData()
-
-    var mArticleTop: MutableLiveData<MutableList<Article>> = MutableLiveData()
-
-    var mHomeStatusView: MutableLiveData<Int> = MutableLiveData()
-    var mToast: MutableLiveData<String> = MutableLiveData()
-
-    fun loadBanner() = asyncExt({
-
-    }, {
-        val data = async { NetRepository.banner().preProcessData() }
-        mBanner.value = data.await()
-    })
-
-    fun loadArticleTop(showLoading: Boolean) = asyncExt({
-        if (showLoading) {
-            //
-        }
-    }, {
-        val data = async { NetRepository.articleTop().preProcessData() }
-        mArticleTop.value = data.await()
-        mHomeStatusView.value = 1
-        loadBanner()
-    }, {
-        mHomeStatusView.value = 2
-        mToast.value = it.message
-        LogUtil.e(TAG, "loadArticleTop", it)
-    }, {
-        if (showLoading) {
-            //
-        }
-
-    })
 }

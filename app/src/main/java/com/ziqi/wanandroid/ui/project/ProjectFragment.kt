@@ -32,11 +32,6 @@ class ProjectFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     }
 
-    override fun zIsDataBinding(): Boolean {
-        return true
-    }
-
-
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_navigation
     }

@@ -58,7 +58,8 @@ class OkHttpUtils {
             chain.proceed(request)
         }
         val httpCacheDirectory = File(context!!.getCacheDir(), "okhttpCache")
-        okHttpClient = OkHttpClient().newBuilder().addNetworkInterceptor(HttpLoggingInterceptor())
+        okHttpClient = OkHttpClient().newBuilder()
+            .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addNetworkInterceptor(netCacheInterceptor)
             .addInterceptor(offlineCacheInterceptor)
             .readTimeout(30, TimeUnit.SECONDS)

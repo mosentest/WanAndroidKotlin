@@ -20,6 +20,8 @@ import com.youth.banner.transformer.DepthPageTransformer
 import com.youth.banner.util.BannerUtils
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.livedata.Event
+import com.ziqi.baselibrary.mvvm.ViewModelFragment
 import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusView
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
@@ -42,9 +44,8 @@ import com.ziqi.wanandroid.view.banner.ImageAdapter
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeFragment : ZBaseFragment<Parcelable, FragmentHomeBinding>(),
+class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
-
 
     companion object {
         @JvmStatic
@@ -57,16 +58,10 @@ class HomeFragment : ZBaseFragment<Parcelable, FragmentHomeBinding>(),
 
     private var mHeaderViewDataBinding: FragmentHomeHeaderBinding? = null
 
-    private lateinit var mViewModel: MainViewModel
-
     private lateinit var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>
 
     override fun onClick(v: View?) {
 
-    }
-
-    override fun zIsDataBinding(): Boolean {
-        return true
     }
 
     override fun zSetLayoutId(): Int {
@@ -94,21 +89,8 @@ class HomeFragment : ZBaseFragment<Parcelable, FragmentHomeBinding>(),
                 onRefresh()
             }
             .build())
-        mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        mViewModel.mHomeStatusView.observe(this, Observer {
-            when (it) {
-                1 -> {
-                    zStatusContentView()
-                }
-                2 -> {
-                    zStatusErrorView()
-                }
-            }
-        })
-        mViewModel.mToast.observe(this, Observer {
-            zToastShort(-1, it)
-        })
-        mViewModel.mBanner.observe(this, Observer {
+
+        mViewModel?.mBanner?.observe(viewLifecycleOwner, Observer {
             mHeaderViewDataBinding?.banner?.apply {
                 setAdapter(ImageAdapter(it))
                 setIndicator(CircleIndicator(context))
@@ -148,11 +130,11 @@ class HomeFragment : ZBaseFragment<Parcelable, FragmentHomeBinding>(),
                 start()
             }
         })
-        mViewModel.mArticleTop.observe(this, Observer {
+        mViewModel?.mArticleTop?.observe(viewLifecycleOwner, Observer {
             mAdapter.setNewInstance(it)
             mViewDataBinding?.myRootView?.isRefreshing = false
         })
-        mViewModel.loadArticleTop(false)
+        mViewModel?.loadArticleTop(false)
     }
 
     private fun initRv() {
@@ -198,6 +180,6 @@ class HomeFragment : ZBaseFragment<Parcelable, FragmentHomeBinding>(),
     }
 
     override fun onRefresh() {
-        mViewModel.loadArticleTop(false)
+        mViewModel?.loadArticleTop(false)
     }
 }

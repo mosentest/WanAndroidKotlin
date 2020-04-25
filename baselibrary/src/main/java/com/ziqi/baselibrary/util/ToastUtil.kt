@@ -2,6 +2,7 @@ package com.ziqi.baselibrary.util
 
 import android.text.TextUtils
 import android.widget.Toast
+import java.lang.Exception
 
 /**
  * Copyright (C), 2018-2020
@@ -17,16 +18,25 @@ object ToastUtil {
     private var currentMsg: String? = null
 
     fun showLongToast(msg: String?) {
-        if (TextUtils.isEmpty(msg)) {
-            return
+        try {
+            if (TextUtils.isEmpty(msg)) {
+                return
+            }
+            Toast.makeText(ContextUtils.context, msg, Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            LogUtil.e("showLongToast", e)
         }
-        Toast.makeText(ContextUtils.context, msg, Toast.LENGTH_LONG).show()
+
     }
 
     fun showShortToast(msg: String?) {
-        if (TextUtils.isEmpty(msg)) {
-            return
+        try {
+            if (TextUtils.isEmpty(msg)) {
+                return
+            }
+            Toast.makeText(ContextUtils.context, msg, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            LogUtil.e("showShortToast", e)
         }
-        Toast.makeText(ContextUtils.context, msg, Toast.LENGTH_SHORT).show()
     }
 }

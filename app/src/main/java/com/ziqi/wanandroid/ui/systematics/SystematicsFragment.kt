@@ -31,11 +31,6 @@ class SystematicsFragment : ZBaseFragment<Parcelable, ViewDataBinding>() {
 
     }
 
-    override fun zIsDataBinding(): Boolean {
-        return true
-    }
-
-
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_systematics
     }
