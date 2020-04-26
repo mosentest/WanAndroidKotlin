@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
+import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.ziqi.baselibrary.base.interfaces.IView
 
@@ -33,6 +34,8 @@ class ZLoadingDialogFragment : DialogFragment(), IView {
         val content = arguments?.getString("content")
         return activity?.let {
             val dialog = ProgressDialog(activity)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
             dialog.setMessage(content)
             dialog.setCanceledOnTouchOutside(false)
             dialog.setCancelable(false)

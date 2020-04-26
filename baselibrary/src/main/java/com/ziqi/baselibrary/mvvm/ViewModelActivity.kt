@@ -53,7 +53,7 @@ abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> 
             }
         })
         mViewModel?.mToast?.observe(this, Observer {
-            zToastShort(-1, it)
+            zToastShort(-1, it.getContentIfNotHandled())
         })
     }
 }
