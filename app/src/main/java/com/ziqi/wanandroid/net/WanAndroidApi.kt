@@ -3,9 +3,11 @@ package com.ziqi.wanandroid.net
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
 import com.ziqi.wanandroid.bean.WanResponse
+import com.ziqi.wanandroid.bean.WanResponseList
 import com.ziqi.wanandroid.constant.UrlConstant
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /**
  * Copyright (C), 2018-2020
@@ -33,4 +35,6 @@ interface WanAndroidApi {
     @GET(UrlConstant.url_article_top)
     suspend fun articleTop(): WanResponse<MutableList<Article>>
 
+    @GET("article/list/{pos}/json")
+    suspend fun articleList(@Path("pos") pos: Int): WanResponse<WanResponseList<Article>>
 }

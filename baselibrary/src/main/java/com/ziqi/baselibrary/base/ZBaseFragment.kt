@@ -558,12 +558,16 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     }
 
     override fun zShowLoadDialog(flag: Int, msg: String?) {
-        mLoadingDialog = ZLoadingDialogFragment.newInstance(msg ?: "加载中...")
-        mLoadingDialog?.show(childFragmentManager, msg ?: "loading")
+        if (mLoadingDialog == null) {
+            mLoadingDialog = ZLoadingDialogFragment.newInstance(msg ?: "加载中...")
+        }
+        mLoadingDialog?.show(parentFragmentManager, msg ?: "loading")
     }
 
     override fun zHideLoadDialog(flag: Int) {
-        mLoadingDialog?.dismissAllowingStateLoss()
+        mLoadingDialog?.dismiss()
+        //执行完需要置空，不然会内存泄漏?parentFragmentManager?
+        mLoadingDialog = null
     }
 
     override fun zStatusContentView() {

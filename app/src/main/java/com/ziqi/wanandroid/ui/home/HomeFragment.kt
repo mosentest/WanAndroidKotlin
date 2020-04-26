@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.animation.AlphaInAnimation
+import com.chad.library.adapter.base.module.BaseLoadMoreModule
+import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
@@ -28,6 +30,7 @@ import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
+import com.ziqi.wanandroid.bean.WanResponseList
 import com.ziqi.wanandroid.databinding.FragmentHomeBinding
 import com.ziqi.wanandroid.databinding.FragmentHomeHeaderBinding
 import com.ziqi.wanandroid.ui.main.MainViewModel
@@ -134,6 +137,12 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
             mAdapter.setNewInstance(it)
             mViewDataBinding?.myRootView?.isRefreshing = false
         })
+        mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
+            mAdapter.loadMoreModule.isEnableLoadMore = it.curPage < it.pageCount
+            it.datas?.apply {
+                mAdapter.addData(this)
+            }
+        })
         mViewModel?.loadArticleTop(false)
     }
 
@@ -156,15 +165,19 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-        mAdapter.setOnItemClickListener { adapter, view, position ->
+        mAdapter.setOnItemClickListener { _, _, _ ->
 
         }
-
         val headerView = LayoutInflater.from(context).inflate(R.layout.fragment_home_header, null)
         mHeaderViewDataBinding = DataBindingUtil.bind(headerView)
         mAdapter.addHeaderView(headerView)
         mAdapter.headerWithEmptyEnable = true
-
+        //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
+        mAdapter.loadMoreModule.setOnLoadMoreListener {
+            val list = mViewModel?.mArticleList?.value
+            mViewModel?.loadArticleList(list?.curPage ?: 1)
+        }
+        mAdapter.loadMoreModule.isEnableLoadMore = false
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
     }
 

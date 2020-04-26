@@ -3,6 +3,7 @@ package com.ziqi.wanandroid.net
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
 import com.ziqi.wanandroid.bean.WanResponse
+import com.ziqi.wanandroid.bean.WanResponseList
 import kotlinx.coroutines.Deferred
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -31,5 +32,9 @@ object NetRepository {
 
     suspend fun articleTop(): WanResponse<MutableList<Article>> {
         return RetrofitUtils.get().api.articleTop()
+    }
+
+    suspend fun articleList(pos: Int): WanResponse<WanResponseList<Article>> {
+        return RetrofitUtils.get().api.articleList(pos)
     }
 }

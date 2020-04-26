@@ -35,12 +35,16 @@ class ZLoadingDialogFragment : DialogFragment(), IView {
         return activity?.let {
             val dialog = ProgressDialog(activity)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
             dialog.setMessage(content)
             dialog.setCanceledOnTouchOutside(false)
             dialog.setCancelable(false)
             dialog
         } ?: super.onCreateDialog(savedInstanceState)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun zGetClassName(): String {

@@ -13,11 +13,11 @@ import com.ziqi.wanandroid.net.RetrofitUtils
  */
 object UrlConstant {
 
-    var host = "https://www.wanandroid.com"
+    var host = "https://www.wanandroid.com/"
 
-    const val url_banner = "/banner/json"
+    const val url_banner = "banner/json"
 
-    const val url_friend = "/friend/json"
+    const val url_friend = "friend/json"
 
-    const val url_article_top = "/article/top/json"
+    const val url_article_top = "article/top/json"
 }
