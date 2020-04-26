@@ -3,7 +3,12 @@ package com.ziqi.baselibrary.mvvm
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ziqi.baselibrary.http.error.ExceptionHandle
+import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.livedata.Event
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Copyright (C), 2018-2020
@@ -22,23 +27,68 @@ open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
 
     var mToast: MutableLiveData<Event<String>> = MutableLiveData()
 
+    var mConfirmDialog: MutableLiveData<Event<String>> = MutableLiveData()
+
+    /**
+     * 展示loading
+     */
     fun zShowLoadingDialog() {
         mLoading.value = Event(true)
     }
 
+    /**
+     * 隐藏loading
+     */
     fun zHideLoadingDialog() {
         mLoading.value = Event(true)
     }
 
+    /**
+     * 内容布局
+     */
     fun zContentView() {
         mStatusView.value = Event(1)
     }
 
+    /**
+     * 错误布局
+     */
     fun zErrorView() {
         mStatusView.value = Event(2)
     }
 
+    /**
+     * toast提示
+     */
     fun zToast(msg: String?) {
         mToast.value = Event(msg ?: "")
+    }
+
+    /**
+     * 对话框提示
+     */
+    fun zConfirmDialog(msg: String?) {
+        mConfirmDialog.value = Event(msg ?: "")
+    }
+
+    fun asyncExt(
+        block: suspend CoroutineScope.() -> Unit,
+        onError: (rt: ResponseThrowable) -> Unit = {},
+        isLoading: Boolean = false
+    ) {
+        viewModelScope.launch {
+            try {
+                if (isLoading) {
+                    zShowLoadingDialog()
+                }
+                block.invoke(this)
+            } catch (e: Exception) {
+                onError(ExceptionHandle.handleException(e))
+            } finally {
+                if (isLoading) {
+                    zHideLoadingDialog()
+                }
+            }
+        }
     }
 }

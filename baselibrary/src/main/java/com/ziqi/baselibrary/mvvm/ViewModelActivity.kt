@@ -55,5 +55,8 @@ abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> 
         mViewModel?.mToast?.observe(this, Observer {
             zToastShort(-1, it.getContentIfNotHandled())
         })
+        mViewModel?.mConfirmDialog?.observe(this, Observer {
+            zConfirmDialog(-1,it.getContentIfNotHandled())
+        })
     }
 }

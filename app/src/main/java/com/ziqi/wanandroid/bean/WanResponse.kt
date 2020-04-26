@@ -1,5 +1,7 @@
 package com.ziqi.wanandroid.bean
 
+import com.ziqi.baselibrary.http.error.ResponseThrowable
+
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo
@@ -18,6 +20,6 @@ class WanResponse<T> {
     var data: T? = null
 
     fun preProcessData(): T? {
-        return if (errorCode == 0) data else throw Throwable(errorMsg)
+        return if (errorCode == 0) data else throw ResponseThrowable(errorCode, errorMsg ?: "")
     }
 }

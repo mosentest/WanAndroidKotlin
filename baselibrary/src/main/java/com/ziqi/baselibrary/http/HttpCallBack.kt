@@ -16,10 +16,10 @@ abstract class HttpCallBack<T> {
         mType = if (superclass is Class<*>) {
             null
         } else { //ParameterizedType参数化类型，即泛型
-            val parameterized = superclass as ParameterizedType?
+            val parameterized = superclass as ParameterizedType
             //getActualTypeArguments获取参数化类型的数组，泛型可能有多个
             //将Java 中的Type实现,转化为自己内部的数据实现,得到gson解析需要的泛型
-            `$Gson$Types`.canonicalize(parameterized!!.actualTypeArguments[0])
+            `$Gson$Types`.canonicalize(parameterized.actualTypeArguments[0])
         }
     }
 }

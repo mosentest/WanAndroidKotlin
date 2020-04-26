@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.util.GsonUtil
 import com.ziqi.baselibrary.util.MemoryStatus.availableExternalMemorySize
 import com.ziqi.baselibrary.util.MemoryStatus.availableInternalMemorySize
@@ -241,7 +242,10 @@ class OkHttp {
                             } else {
                                 fileHandler.post {
                                     httpFileCallBack.error(
-                                        ResponseException(-1, "内存不足")
+                                        ResponseThrowable(
+                                            -1,
+                                            "内存不足"
+                                        )
                                     )
                                 }
                             }
@@ -258,7 +262,10 @@ class OkHttp {
                     } else {
                         fileHandler.post {
                             httpFileCallBack.error(
-                                ResponseException(response.code(), "请求状态码不对,下载失败")
+                                ResponseThrowable(
+                                    response.code(),
+                                    "请求状态码不对,下载失败"
+                                )
                             )
                         }
                     }

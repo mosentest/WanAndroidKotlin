@@ -54,5 +54,8 @@ abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, B
         mViewModel?.mToast?.observe(viewLifecycleOwner, Observer {
             zToastShort(-1, it.getContentIfNotHandled())
         })
+        mViewModel?.mConfirmDialog?.observe(viewLifecycleOwner, Observer {
+            zConfirmDialog(-1,it.getContentIfNotHandled())
+        })
     }
 }
