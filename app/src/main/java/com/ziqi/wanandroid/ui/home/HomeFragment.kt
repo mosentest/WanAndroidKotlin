@@ -93,6 +93,19 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
             }
             .build())
 
+        mViewModel?.mRefresh?.observe(viewLifecycleOwner, Observer {
+            mViewDataBinding?.myRootView?.isRefreshing = false
+        })
+        mViewModel?.mLoadMore?.observe(viewLifecycleOwner, Observer {
+            when (it.getContentIfNotHandled()) {
+                true -> {
+                    mAdapter.loadMoreModule.loadMoreComplete()
+                }
+                false -> {
+                    mAdapter.loadMoreModule.loadMoreFail()
+                }
+            }
+        })
         mViewModel?.mBanner?.observe(viewLifecycleOwner, Observer {
             mHeaderViewDataBinding?.banner?.apply {
                 setAdapter(ImageAdapter(it))
@@ -135,15 +148,19 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
         })
         mViewModel?.mArticleTop?.observe(viewLifecycleOwner, Observer {
             mAdapter.setNewInstance(it)
-            mViewDataBinding?.myRootView?.isRefreshing = false
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
-            mAdapter.loadMoreModule.isEnableLoadMore = it.curPage < it.pageCount
-            it.datas?.apply {
-                mAdapter.addData(this)
+            if ((it.curPage < it.pageCount)) {
+                it.datas?.apply {
+                    mAdapter.addData(this)
+                }
+                mAdapter.loadMoreModule.isEnableLoadMore = true
+            } else {
+                mAdapter.loadMoreModule.isEnableLoadMore = false
+                mAdapter.loadMoreModule.loadMoreEnd()
             }
         })
-        mViewModel?.loadArticleTop(false)
+        onRefresh()
     }
 
     private fun initRv() {
@@ -165,8 +182,12 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-        mAdapter.setOnItemClickListener { _, _, _ ->
-
+        mAdapter.setOnItemClickListener { _, _, position ->
+            activity?.let {
+                val webInfo = WebInfo()
+                webInfo.url = mAdapter.data.get(position).projectLink
+                StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
+            }
         }
         val headerView = LayoutInflater.from(context).inflate(R.layout.fragment_home_header, null)
         mHeaderViewDataBinding = DataBindingUtil.bind(headerView)

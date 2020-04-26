@@ -6,11 +6,11 @@ import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
-import com.ziqi.wanandroid.bean.WanResponse
 import com.ziqi.wanandroid.bean.WanResponseList
 import com.ziqi.wanandroid.net.NetRepository
-import com.ziqi.wanandroid.util.asyncExt
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 /**
  * Copyright (C), 2018-2020
@@ -32,29 +32,33 @@ class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
     var mArticleList: MutableLiveData<WanResponseList<Article>> = MutableLiveData()
 
     private fun loadBanner() = asyncExt({
-        val data = async { NetRepository.banner().preProcessData() }
-        mBanner.value = data.await()
+        mBanner.value = async { NetRepository.banner().preProcessData() }.await()
     })
 
     fun loadArticleTop(showLoading: Boolean) = asyncExt({
-        val data = async { NetRepository.articleTop().preProcessData() }
-        mArticleTop.value = data.await()
-        loadBanner()
+        mArticleTop.value = async { NetRepository.articleTop().preProcessData() }.await()
         zContentView()
+        loadBanner()
         loadArticleList(1)
+        zRefresh(true)
     }, {
         LogUtil.e(TAG, "loadArticleTop.Error..", it)
         zErrorView()
+        zRefresh(false)
         zToast(it.message)
     }, showLoading)
 
     fun loadArticleList(pos: Int) = asyncExt({
-        val data = async {
-            NetRepository.articleList(pos).preProcessData()
-        }
-        mArticleList.value = data.await()
+        mArticleList.value =
+            withContext(Dispatchers.IO) {
+                NetRepository.articleList(
+                    pos
+                ).preProcessData()
+            }
+        zLoadMore(true)
     }, {
         LogUtil.e(TAG, "loadArticleList.Error..", it)
-        zConfirmDialog(it.message)
+        zToast(it.message)
+        zLoadMore(false)
     })
 }

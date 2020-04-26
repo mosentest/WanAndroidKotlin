@@ -29,6 +29,10 @@ open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
 
     var mConfirmDialog: MutableLiveData<Event<String>> = MutableLiveData()
 
+    var mRefresh: MutableLiveData<Event<Boolean>> = MutableLiveData()
+
+    var mLoadMore: MutableLiveData<Event<Boolean>> = MutableLiveData()
+
     /**
      * 展示loading
      */
@@ -62,6 +66,14 @@ open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
      */
     fun zToast(msg: String?) {
         mToast.value = Event(msg ?: "")
+    }
+
+    fun zRefresh(success: Boolean) {
+        mRefresh.value = Event(success)
+    }
+
+    fun zLoadMore(success: Boolean) {
+        mLoadMore.value = Event(success)
     }
 
     /**
