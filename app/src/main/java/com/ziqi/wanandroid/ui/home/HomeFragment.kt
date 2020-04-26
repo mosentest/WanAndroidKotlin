@@ -172,6 +172,10 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
         mHeaderViewDataBinding = DataBindingUtil.bind(headerView)
         mAdapter.addHeaderView(headerView)
         mAdapter.headerWithEmptyEnable = true
+        mAdapter.addLoadMoreModule(object : LoadMoreAdapter<Article>(-1, null) {
+            override fun convert(holder: BaseViewHolder, item: Article) {
+            }
+        })
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter.loadMoreModule.setOnLoadMoreListener {
             val list = mViewModel?.mArticleList?.value
