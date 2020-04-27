@@ -24,12 +24,12 @@ enum class ERROR(private val code: Int, private val err: String) {
     /**
      * 协议出错
      */
-    HTTP_ERROR(1003, "协议出错"),
+    HTTP_ERROR(1003, "协议错误"),
 
     /**
      * 证书出错
      */
-    SSL_ERROR(1004, "证书出错"),
+    SSL_ERROR(1004, "证书错误"),
 
     /**
      * 连接超时

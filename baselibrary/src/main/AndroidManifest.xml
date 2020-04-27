@@ -15,15 +15,6 @@
         <service
             android:name=".service.ServerTimerService"
             android:exported="true" />
-
-        <activity
-            android:name=".common.WebActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
-            android:launchMode="singleTop"
-            android:process=":web" />
-        <activity
-            android:name=".common.CommonActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation" />
     </application>
 
 </manifest>

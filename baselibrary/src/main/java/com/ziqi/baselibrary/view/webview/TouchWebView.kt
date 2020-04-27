@@ -195,7 +195,7 @@ class TouchWebView : WebView {
                     reloadURL = url
                     isFinish = true
                     if (SystemTool.checkNet(context) != SystemTool.NETWORK_NONE) {
-                        openUrl(context, url)
+                        //openUrl(context, url)
                     }
                 }
             }
@@ -218,7 +218,7 @@ class TouchWebView : WebView {
                 reloadURL = failingUrl
                 isFinish = true
                 if (SystemTool.checkNet(context) != SystemTool.NETWORK_NONE) {
-                    openUrl(context, failingUrl)
+                    //openUrl(context, failingUrl)
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ziqi.baselibrary.http.error.ExceptionHandle
 import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.livedata.Event
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -88,14 +89,14 @@ open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
         onError: (rt: ResponseThrowable) -> Unit = {},
         isLoading: Boolean = false
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(CoroutineExceptionHandler { _, e ->
+            onError(ExceptionHandle.handleException(e))
+        }) {
             try {
                 if (isLoading) {
                     zShowLoadingDialog()
                 }
                 block.invoke(this)
-            } catch (e: Exception) {
-                onError(ExceptionHandle.handleException(e))
             } finally {
                 if (isLoading) {
                     zHideLoadingDialog()

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.ziqi.baselibrary.R
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.databinding.FragmentWebBinding
+import com.ziqi.baselibrary.util.ShareUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.webview.SimulationListener
 
@@ -36,6 +37,14 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
             activity?.finish()
             return
         }
+        mZStatusView?.config(
+            ZStatusViewBuilder.Builder()
+                .setOnErrorRetryClickListener {
+                    zStatusContentView()
+                    mViewDataBinding?.touchView?.loadURL(mViewDataBinding?.touchView?.getReloadURL()!!)
+                }
+                .build()
+        )
         zStatusContentView()
         mViewDataBinding?.touchView?.setSimulationListener(object : SimulationListener {
             override fun doSimulation() {
@@ -53,7 +62,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
                 mViewDataBinding?.progress?.progress = newProgress
 
                 mLeftMenu?.visibility =
-                    if (mViewDataBinding?.touchView?.canGoBack()!!) View.VISIBLE else View.GONE
+                    if (mViewDataBinding?.touchView?.canGoBack() == true) View.VISIBLE else View.GONE
             }
 
             override fun onReceivedTitle(title: String?) {
@@ -66,22 +75,25 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
             }
 
         })
-        mBundleData?.url?.apply {
-            mViewDataBinding?.touchView?.loadURL(this)
-            mViewDataBinding?.progress?.visibility = View.VISIBLE
-        }
         mLeftMenu?.text = "关闭"
         mLeftMenu?.setOnClickListener {
             activity?.finish()
         }
-        mZStatusView?.config(
-            ZStatusViewBuilder.Builder()
-                .setOnErrorRetryClickListener {
-                    zStatusContentView()
-                    mViewDataBinding?.touchView?.loadURL(mViewDataBinding?.touchView?.getReloadURL()!!)
-                }
-                .build()
-        )
+        mRightTwoMenu?.visibility = View.VISIBLE
+        mRightTwoMenu?.text = "分享"
+        mRightTwoMenu?.setOnClickListener {
+            activity?.apply {
+                ShareUtil.shareText(
+                    this,
+                    packageName,
+                    mViewDataBinding?.touchView?.url ?: ""
+                )
+            }
+        }
+        mBundleData?.url?.apply {
+            mViewDataBinding?.touchView?.loadURL(this)
+            mViewDataBinding?.progress?.visibility = View.VISIBLE
+        }
     }
 
     override fun zSetLayoutId(): Int {

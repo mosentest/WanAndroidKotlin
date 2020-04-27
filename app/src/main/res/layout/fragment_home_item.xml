@@ -44,6 +44,7 @@
             android:id="@+id/niceDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:textColor="@color/color_999999"
             android:textSize="@dimen/sp_14"
             app:layout_constraintBaseline_toBaselineOf="@id/author"

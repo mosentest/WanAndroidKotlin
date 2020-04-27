@@ -55,19 +55,9 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     protected val TAG: String = ZBaseFragment::class.java.getSimpleName()
 
     /**
-     * 根view
-     */
-    protected var mRootView: View? = null
-
-    /**
      * 上个页面带过来的数据
      */
     protected var mBundleData: StartParams? = null
-
-    /**
-     * DataBinding
-     */
-    protected var mViewDataBinding: Binding? = null
 
     /**
      * 标题
@@ -78,6 +68,17 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 是否展示返回键
      */
     protected var mShowBack: Boolean = false
+
+    /**
+     * 根view
+     */
+    protected var mRootView: View? = null
+
+
+    /**
+     * DataBinding
+     */
+    protected var mViewDataBinding: Binding? = null
 
     /**
      * 状态view
@@ -147,7 +148,6 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 懒加载
      */
     private var lazyLoad = false
-
 
     protected var mLoadingDialog: ZLoadingDialogFragment? = null
 

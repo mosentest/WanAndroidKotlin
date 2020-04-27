@@ -6,7 +6,7 @@ import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
-import com.ziqi.wanandroid.bean.WanResponseList
+import com.ziqi.wanandroid.bean.WanList
 import com.ziqi.wanandroid.net.NetRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,36 +29,46 @@ class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     var mArticleTop: MutableLiveData<MutableList<Article>> = MutableLiveData()
 
-    var mArticleList: MutableLiveData<WanResponseList<Article>> = MutableLiveData()
+    var mArticleList: MutableLiveData<WanList<Article>> = MutableLiveData()
 
     private fun loadBanner() = asyncExt({
         mBanner.value = async { NetRepository.banner().preProcessData() }.await()
     })
 
-    fun loadArticleTop(showLoading: Boolean) = asyncExt({
-        mArticleTop.value = async { NetRepository.articleTop().preProcessData() }.await()
-        zContentView()
-        loadBanner()
-        loadArticleList(1)
-        zRefresh(true)
-    }, {
-        LogUtil.e(TAG, "loadArticleTop.Error..", it)
-        zErrorView()
-        zRefresh(false)
-        zToast(it.message)
-    }, showLoading)
+    fun loadArticleTop(showLoading: Boolean) = asyncExt(
+        {
+            mArticleTop.value = async { NetRepository.articleTop().preProcessData() }.await()
+            zContentView()
+            loadOther()
+            zRefresh(true)
+        },
+        {
+            LogUtil.e(TAG, "loadArticleTop.Error..", it)
+            zErrorView()
+            zRefresh(false)
+            zToast("""${it.errMsg}[${it.code}]""")
+        }, showLoading
+    )
 
-    fun loadArticleList(pos: Int) = asyncExt({
-        mArticleList.value =
-            withContext(Dispatchers.IO) {
-                NetRepository.articleList(
-                    pos
-                ).preProcessData()
-            }
-        zLoadMore(true)
-    }, {
-        LogUtil.e(TAG, "loadArticleList.Error..", it)
-        zToast(it.message)
-        zLoadMore(false)
-    })
+
+    private fun loadOther() {
+        loadBanner()
+        loadArticleList(0)
+    }
+
+    fun loadArticleList(pos: Int) = asyncExt(
+        {
+            mArticleList.value =
+                withContext(Dispatchers.IO) {
+                    NetRepository.articleList(
+                        pos
+                    ).preProcessData()
+                }
+            zLoadMore(true)
+        },
+        {
+            LogUtil.e(TAG, "loadArticleList.Error..", it)
+            zToast("""${it.errMsg}[${it.code}]""")
+            zLoadMore(false)
+        })
 }

@@ -1,6 +1,7 @@
 package com.ziqi.baselibrary.mvvm
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
@@ -18,8 +19,8 @@ import java.lang.reflect.ParameterizedType
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> :
-    ZBaseActivity<Binding>() {
+abstract class ViewModelActivity<VM : BaseViewModel, StartParams : Parcelable, Binding : ViewDataBinding> :
+    ZBaseActivity<StartParams, Binding>() {
 
     protected var mViewModel: VM? = null
 
@@ -56,7 +57,7 @@ abstract class ViewModelActivity<VM : BaseViewModel, Binding : ViewDataBinding> 
             zToastShort(-1, it.getContentIfNotHandled())
         })
         mViewModel?.mConfirmDialog?.observe(this, Observer {
-            zConfirmDialog(-1,it.getContentIfNotHandled())
+            zConfirmDialog(-1, it.getContentIfNotHandled())
         })
     }
 }

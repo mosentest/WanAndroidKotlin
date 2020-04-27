@@ -6,34 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
-import com.chad.library.adapter.base.module.BaseLoadMoreModule
-import com.chad.library.adapter.base.module.LoadMoreModule
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.listener.OnPageChangeListener
 import com.youth.banner.transformer.DepthPageTransformer
 import com.youth.banner.util.BannerUtils
-import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.mvvm.ViewModelFragment
 import com.ziqi.baselibrary.util.StringUtil
-import com.ziqi.baselibrary.view.status.ZStatusView
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
-import com.ziqi.wanandroid.bean.WanResponseList
+import com.ziqi.wanandroid.bean.WanList
 import com.ziqi.wanandroid.databinding.FragmentHomeBinding
 import com.ziqi.wanandroid.databinding.FragmentHomeHeaderBinding
-import com.ziqi.wanandroid.ui.main.MainViewModel
 import com.ziqi.wanandroid.util.StartUtil
 import com.ziqi.wanandroid.view.banner.ImageAdapter
 
@@ -62,6 +55,8 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
     private var mHeaderViewDataBinding: FragmentHomeHeaderBinding? = null
 
     private lateinit var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>
+
+    var mWanList: WanList<Article>? = null
 
     override fun onClick(v: View?) {
 
@@ -99,10 +94,10 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
         mViewModel?.mLoadMore?.observe(viewLifecycleOwner, Observer {
             when (it.getContentIfNotHandled()) {
                 true -> {
-                    mAdapter.loadMoreModule.loadMoreComplete()
+                    mAdapter.loadMoreComplete()
                 }
                 false -> {
-                    mAdapter.loadMoreModule.loadMoreFail()
+                    mAdapter.loadMoreFail()
                 }
             }
         })
@@ -147,18 +142,19 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
             }
         })
         mViewModel?.mArticleTop?.observe(viewLifecycleOwner, Observer {
-            mAdapter.setNewInstance(it)
+            mAdapter.setNewData(it)
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
             if ((it.curPage < it.pageCount)) {
                 it.datas?.apply {
                     mAdapter.addData(this)
                 }
-                mAdapter.loadMoreModule.isEnableLoadMore = true
+                mAdapter.setEnableLoadMore(true)
             } else {
-                mAdapter.loadMoreModule.isEnableLoadMore = false
-                mAdapter.loadMoreModule.loadMoreEnd()
+                mAdapter.setEnableLoadMore(false)
+                mAdapter.loadMoreEnd()
             }
+            mWanList = it
         })
         onRefresh()
     }
@@ -169,14 +165,14 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
                 override fun convert(holder: BaseViewHolder, item: Article) {
                     holder.setText(R.id.author, StringUtil.emptyTip(item.author, "暂无"))
                     holder.setText(R.id.title, item.title)
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate}""")
+                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
                 }
             }
 
-        mAdapter.adapterAnimation = AlphaInAnimation()
+        mAdapter.openLoadAnimation(AlphaInAnimation())
         mViewDataBinding?.recyclerview?.adapter = mAdapter
         mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
         mViewDataBinding?.recyclerview?.addItemDecoration(
@@ -185,24 +181,18 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
         mAdapter.setOnItemClickListener { _, _, position ->
             activity?.let {
                 val webInfo = WebInfo()
-                webInfo.url = mAdapter.data.get(position).projectLink
+                webInfo.url = mAdapter.data.get(position).link
                 StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
             }
         }
         val headerView = LayoutInflater.from(context).inflate(R.layout.fragment_home_header, null)
         mHeaderViewDataBinding = DataBindingUtil.bind(headerView)
         mAdapter.addHeaderView(headerView)
-        mAdapter.headerWithEmptyEnable = true
-        mAdapter.addLoadMoreModule(object : LoadMoreAdapter<Article>(-1, null) {
-            override fun convert(holder: BaseViewHolder, item: Article) {
-            }
-        })
+        mAdapter.setHeaderAndEmpty(true)
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
-        mAdapter.loadMoreModule.setOnLoadMoreListener {
-            val list = mViewModel?.mArticleList?.value
-            mViewModel?.loadArticleList(list?.curPage ?: 1)
-        }
-        mAdapter.loadMoreModule.isEnableLoadMore = false
+        mAdapter.setOnLoadMoreListener({
+            mViewModel?.loadArticleList(mWanList?.curPage ?: 1)
+        }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
     }
 

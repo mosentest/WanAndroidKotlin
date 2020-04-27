@@ -125,7 +125,8 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.10.0'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
+    //新版本的3.0.x用起来太复杂
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
 
     //https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout?hl=zh-cn
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"

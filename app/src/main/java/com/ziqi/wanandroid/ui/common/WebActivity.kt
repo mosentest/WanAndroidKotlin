@@ -1,9 +1,11 @@
-package com.ziqi.baselibrary.common
+package com.ziqi.wanandroid.ui.common
 
+import android.os.Parcelable
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.ziqi.baselibrary.base.ZBaseActivity
+import com.ziqi.baselibrary.common.WebFragment
 
 /**
  * Copyright (C), 2018-2020
@@ -14,9 +16,9 @@ import com.ziqi.baselibrary.base.ZBaseActivity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class WebActivity : ZBaseActivity<ViewDataBinding>() {
+class WebActivity : ZBaseActivity<Parcelable, ViewDataBinding>() {
     override fun createFragment(): Fragment? {
-        return WebFragment.newInstance(intent.extras)
+        return WebFragment.newInstance(intent?.extras)
     }
 
     override fun onClick(v: View?) {

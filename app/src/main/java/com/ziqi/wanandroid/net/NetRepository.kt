@@ -3,13 +3,8 @@ package com.ziqi.wanandroid.net
 import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
 import com.ziqi.wanandroid.bean.WanResponse
-import com.ziqi.wanandroid.bean.WanResponseList
+import com.ziqi.wanandroid.bean.WanList
 import kotlinx.coroutines.Deferred
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /**
  * Copyright (C), 2018-2020
@@ -34,7 +29,7 @@ object NetRepository {
         return RetrofitUtils.get().api.articleTop()
     }
 
-    suspend fun articleList(pos: Int): WanResponse<WanResponseList<Article>> {
+    suspend fun articleList(pos: Int): WanResponse<WanList<Article>> {
         return RetrofitUtils.get().api.articleList(pos)
     }
 }

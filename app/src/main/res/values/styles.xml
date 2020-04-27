@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BaseTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/bg_web_splash</item>
+        <!--https://blog.csdn.net/u010218170/article/details/92437667-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">false</item>-->
+    </style>
 </resources>

@@ -3,8 +3,7 @@ package com.ziqi.wanandroid.util
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.ziqi.baselibrary.common.CommonActivity
-import com.ziqi.baselibrary.common.WebActivity
+import com.ziqi.wanandroid.ui.common.WebActivity
 import com.ziqi.baselibrary.common.WebFragment
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StartActivityCompat

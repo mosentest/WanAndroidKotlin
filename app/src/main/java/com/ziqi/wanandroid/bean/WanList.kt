@@ -7,7 +7,7 @@ package com.ziqi.wanandroid.bean
  * desc   :
  * version: 1.0
  */
-class WanResponseList<T> {
+class WanList<T> {
 
     /**
      * curPage : 2

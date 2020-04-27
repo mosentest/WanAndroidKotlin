@@ -1,13 +1,12 @@
-package com.ziqi.baselibrary.common
+package com.ziqi.wanandroid.ui.common
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.TextUtils
 import android.view.View
-import android.widget.TextView
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.ziqi.baselibrary.base.ZBaseActivity
-import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.StartActivityCompat
 
 /**
@@ -19,25 +18,29 @@ import com.ziqi.baselibrary.util.StartActivityCompat
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class CommonActivity : ZBaseActivity<ViewDataBinding>() {
+class CommonActivity : ZBaseActivity<Parcelable, ViewDataBinding>() {
     override fun createFragment(): Fragment? {
+        var newFragment: Fragment? = null
         try {
-            intent.extras?.apply {
+            intent?.extras?.apply {
                 val fragmentName = getString(StartActivityCompat.NEXT_FRAGMENT)
                 if (!TextUtils.isEmpty(fragmentName)) {
                     val forName = Class.forName(fragmentName!!)
                     val newInstanceMethod =
                         forName.getDeclaredMethod("newInstance", Bundle::class.java)
                     newInstanceMethod.isAccessible = true
-                    val invokeFragment = newInstanceMethod.invoke(null, this) as Fragment
-                    return invokeFragment
+                    newFragment = newInstanceMethod.invoke(null, this) as Fragment
                 }
             }
         } catch (e: Exception) {
             zToastShort(-1, "无法打开页面")
             finish()
+        } finally {
+            if (newFragment == null) {
+                finish()
+            }
         }
-        return null
+        return newFragment
     }
 
     override fun onClick(v: View?) {

@@ -18,6 +18,8 @@
         <!--
             android:layout_height="?attr/actionBarSize"
 
+?attr/colorPrimary
+
             app:navigationIcon="@drawable/icon_return_registered"
 
         -->
@@ -47,22 +49,11 @@
                 tools:text="左一"
                 tools:visibility="visible" />
 
-            <TextView
-                android:id="@id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
-                android:textColor="@color/color_FFFFFF"
-                android:textSize="@dimen/sp_18"
-                tools:text="我是标题" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical">
+                android:layout_gravity="end|center_vertical">
 
                 <TextView
                     android:id="@id/rightOneMenu"
@@ -75,7 +66,7 @@
                     android:textColor="@color/color_FFFFFF"
                     android:textSize="@dimen/sp_15"
                     android:visibility="gone"
-                    tools:text="右二"
+                    tools:text="右一"
                     tools:visibility="visible" />
 
                 <TextView
@@ -92,6 +83,19 @@
                     tools:text="右二"
                     tools:visibility="visible" />
             </LinearLayout>
+
+            <TextView
+                android:id="@id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/sp_18"
+                tools:text="我是标题" />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
