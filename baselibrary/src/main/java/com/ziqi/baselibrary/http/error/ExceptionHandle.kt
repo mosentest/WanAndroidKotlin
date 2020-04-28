@@ -6,6 +6,7 @@ import retrofit2.HttpException
 import android.net.ParseException
 import com.google.gson.JsonParseException
 import com.google.gson.stream.MalformedJsonException
+import com.ziqi.baselibrary.util.LogUtil
 import java.net.ConnectException
 
 /**
@@ -17,6 +18,7 @@ import java.net.ConnectException
  */
 object ExceptionHandle {
     fun handleException(e: Throwable): ResponseThrowable {
+        LogUtil.e("handleException", e)
         val ex: ResponseThrowable
         if (e is ResponseThrowable) {
             ex = e

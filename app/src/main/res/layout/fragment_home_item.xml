@@ -7,72 +7,100 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.mcxtzhang.swipemenulib.SwipeMenuLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:selectableItemBackground"
-        android:padding="@dimen/dp_10">
+        app:ios="true"
+        app:leftSwipe="true"
+        app:swipeEnable="true">
 
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/sp_18"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="【扔物线】消失了半年，这个 Android 界的第一骚货终于回来了" />
+            android:background="?android:selectableItemBackground">
 
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintEnd_toStartOf="@+id/niceDate"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            tools:text="扔物线" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10">
 
 
-        <TextView
-            android:id="@+id/niceDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/color_999999"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintBaseline_toBaselineOf="@id/author"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            tools:text="时间：2020-04-09 23:51" />
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="【扔物线】消失了半年，这个 Android 界的第一骚货终于回来了" />
+
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintEnd_toStartOf="@+id/niceDate"
+                    app:layout_constraintStart_toStartOf="@+id/title"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:text="扔物线" />
 
 
-        <TextView
-            android:id="@+id/chapterName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:textColor="@color/color_999999"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/author"
-            tools:text="干货资源/干货资源" />
+                <TextView
+                    android:id="@+id/niceDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintBaseline_toBaselineOf="@id/author"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:text="时间：2020-04-09 23:51" />
 
 
-        <com.ziqi.wanandroid.view.RecyclerViewX
-            android:id="@+id/tags"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chapterName" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/chapterName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_14"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/author"
+                    tools:text="干货资源/干货资源" />
+
+
+                <com.ziqi.wanandroid.view.RecyclerViewX
+                    android:id="@+id/tags"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chapterName" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCollect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:clickable="true"
+            android:padding="@dimen/dp_16"
+            android:foreground="?android:selectableItemBackground"
+            android:text="收藏"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_18" />
+
+    </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
 </layout>

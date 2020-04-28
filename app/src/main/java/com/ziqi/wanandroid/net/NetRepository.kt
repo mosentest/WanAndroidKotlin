@@ -1,9 +1,6 @@
 package com.ziqi.wanandroid.net
 
-import com.ziqi.wanandroid.bean.Article
-import com.ziqi.wanandroid.bean.Banner
-import com.ziqi.wanandroid.bean.WanResponse
-import com.ziqi.wanandroid.bean.WanList
+import com.ziqi.wanandroid.bean.*
 import kotlinx.coroutines.Deferred
 
 /**
@@ -31,5 +28,9 @@ object NetRepository {
 
     suspend fun articleList(pos: Int): WanResponse<WanList<Article>> {
         return RetrofitUtils.get().api.articleList(pos)
+    }
+
+    suspend fun tree(): WanResponse<MutableList<Tree>> {
+        return RetrofitUtils.get().api.tree()
     }
 }

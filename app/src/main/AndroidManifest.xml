@@ -25,9 +25,7 @@
         <activity
             android:name=".ui.common.WebActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
-            android:launchMode="singleTop"
-            android:theme="@style/BaseTheme"
-            android:process=":web" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.common.CommonActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation" />

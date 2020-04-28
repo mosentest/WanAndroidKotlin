@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@id/myRootView"
+            android:id="@+id/myRootView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:layout_height="match_parent">
+
+            <com.yyydjk.library.DropDownMenu
+                android:id="@+id/dropDownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:dddividerColor="@color/gray"
+                app:ddmaskColor="@color/mask_color"
+                app:ddmenuBackgroundColor="@color/white"
+                app:ddmenuMenuHeightPercent="0.5"
+                app:ddmenuTextSize="13sp"
+                app:ddmenuSelectedIcon="@drawable/ic_android_black_24dp"
+                app:ddmenuUnselectedIcon="@drawable/ic_android_black_24dp"
+                app:ddtextSelectedColor="@color/colorPrimary"
+                app:ddtextUnselectedColor="@color/color_999999"
+                app:ddunderlineColor="@color/gray" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -107,7 +107,10 @@
     <dimen name="dp_88">88dp</dimen>
     <dimen name="dp_89">89dp</dimen>
 
+    <dimen name="dp_100">100dp</dimen>
+
     <dimen name="dp_200">200dp</dimen>
+
     <dimen name="dp_250">250dp</dimen>
 
 

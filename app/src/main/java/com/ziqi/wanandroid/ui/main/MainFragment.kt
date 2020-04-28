@@ -123,6 +123,7 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
                 }
             })
         }
+        mViewDataBinding?.viewPager2?.setUserInputEnabled(false); //true:滑动，false：禁止滑动
     }
 
     private fun handleBottomMenu(position: Int) {

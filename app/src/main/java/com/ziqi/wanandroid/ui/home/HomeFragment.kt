@@ -2,8 +2,10 @@ package com.ziqi.wanandroid.ui.home
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -76,7 +78,6 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
 
     override fun zLazyVisible() {
         super.zLazyVisible()
-        initRv()
         mZStatusView?.config(ZStatusViewBuilder.Builder()
             .setOnErrorRetryClickListener {
                 zStatusLoadingView()
@@ -87,7 +88,12 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
                 onRefresh()
             }
             .build())
+        initRv()
+        dealViewModel()
+        onRefresh()
+    }
 
+    private fun dealViewModel() {
         mViewModel?.mRefresh?.observe(viewLifecycleOwner, Observer {
             mViewDataBinding?.myRootView?.isRefreshing = false
         })
@@ -112,7 +118,7 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
                 setIndicatorMargins(IndicatorConfig.Margins(BannerUtils.dp2px(10f).toInt()))
                 setIndicatorWidth(10, 20)
                 setPageTransformer(DepthPageTransformer())
-                setOnBannerListener { data, position ->
+                setOnBannerListener { data, _ ->
                     activity?.let {
                         val webInfo = WebInfo()
                         webInfo.url = (data as Banner).url
@@ -156,7 +162,6 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
             }
             mWanList = it
         })
-        onRefresh()
     }
 
     private fun initRv() {
@@ -164,27 +169,31 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
             object : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.fragment_home_item, null) {
                 override fun convert(holder: BaseViewHolder, item: Article) {
                     holder.setText(R.id.author, StringUtil.emptyTip(item.author, "暂无"))
-                    holder.setText(R.id.title, item.title)
+                    holder.setText(R.id.title, Html.fromHtml(item.title))
                     holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
+                    holder.getView<LinearLayout>(R.id.content).setOnClickListener {
+                        activity?.let {
+                            val webInfo = WebInfo()
+                            webInfo.url = item.link
+                            StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
+                        }
+                    }
                 }
             }
 
         mAdapter.openLoadAnimation(AlphaInAnimation())
         mViewDataBinding?.recyclerview?.adapter = mAdapter
+        //=================================================================================
         mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-        mAdapter.setOnItemClickListener { _, _, position ->
-            activity?.let {
-                val webInfo = WebInfo()
-                webInfo.url = mAdapter.data.get(position).link
-                StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
-            }
+        mAdapter.setOnItemClickListener { _, _, _ ->
         }
+        //=================================================================================
         val headerView = LayoutInflater.from(context).inflate(R.layout.fragment_home_header, null)
         mHeaderViewDataBinding = DataBindingUtil.bind(headerView)
         mAdapter.addHeaderView(headerView)

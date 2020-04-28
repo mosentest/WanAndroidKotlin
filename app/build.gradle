@@ -117,22 +117,29 @@ dependencies {
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
-    //banner广告图
-    //https://github.com/youth5201314/banner
-    implementation 'com.youth.banner:banner:2.0.6'
 
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     kapt 'com.github.bumptech.glide:compiler:4.10.0'
+
+    //https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout?hl=zh-cn
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    //banner广告图
+    //https://github.com/youth5201314/banner
+    implementation 'com.youth.banner:banner:2.0.6'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     //新版本的3.0.x用起来太复杂
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
 
-    //https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout?hl=zh-cn
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
     //https://github.com/Bigkoo/Android-PickerView
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
+
+    //https://github.com/mcxtzhang/SwipeDelMenuLayout/blob/master/README-cn.md
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+
+    //https://github.com/dongjunkun/DropDownMenu
+    implementation 'com.github.dongjunkun:DropDownMenu:1.0.4'
 
     implementation project(':baselibrary')
 }
