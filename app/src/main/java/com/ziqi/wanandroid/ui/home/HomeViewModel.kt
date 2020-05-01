@@ -27,48 +27,12 @@ class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     var mBanner: MutableLiveData<MutableList<Banner>> = MutableLiveData()
 
-    var mArticleTop: MutableLiveData<MutableList<Article>> = MutableLiveData()
-
-    var mArticleList: MutableLiveData<WanList<Article>> = MutableLiveData()
-
-    private fun loadBanner() = asyncExt({
+    public fun loadBanner() = asyncExt({
         mBanner.value = async { NetRepository.banner().preProcessData() }.await()
+        zContentView()
+    }, {
+        LogUtil.e(TAG, "loadBanner.Error..", it)
+        zErrorView()
+        zToast("""${it.errMsg}[${it.code}]""")
     })
-
-    fun loadArticleTop(showLoading: Boolean) = asyncExt(
-        {
-            mArticleTop.value = async { NetRepository.articleTop().preProcessData() }.await()
-            zContentView()
-            loadOther()
-            zRefresh(true)
-        },
-        {
-            LogUtil.e(TAG, "loadArticleTop.Error..", it)
-            zErrorView()
-            zRefresh(false)
-            zToast("""${it.errMsg}[${it.code}]""")
-        }, showLoading
-    )
-
-
-    private fun loadOther() {
-        loadBanner()
-        loadArticleList(0)
-    }
-
-    fun loadArticleList(pos: Int) = asyncExt(
-        {
-            mArticleList.value =
-                withContext(Dispatchers.IO) {
-                    NetRepository.articleList(
-                        pos
-                    ).preProcessData()
-                }
-            zLoadMore(true)
-        },
-        {
-            LogUtil.e(TAG, "loadArticleList.Error..", it)
-            zToast("""${it.errMsg}[${it.code}]""")
-            zLoadMore(false)
-        })
 }

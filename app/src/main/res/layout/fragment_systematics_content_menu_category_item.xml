@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_16"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/selector_tv_color_999999_6200ee"
             android:textSize="@dimen/sp_16"
             tools:text="111" />
     </LinearLayout>

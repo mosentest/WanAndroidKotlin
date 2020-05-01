@@ -23,9 +23,9 @@
                 app:ddmaskColor="@color/mask_color"
                 app:ddmenuBackgroundColor="@color/white"
                 app:ddmenuMenuHeightPercent="0.5"
+                app:ddmenuSelectedIcon="@drawable/icon_transparent"
                 app:ddmenuTextSize="13sp"
-                app:ddmenuSelectedIcon="@drawable/ic_android_black_24dp"
-                app:ddmenuUnselectedIcon="@drawable/ic_android_black_24dp"
+                app:ddmenuUnselectedIcon="@drawable/icon_transparent"
                 app:ddtextSelectedColor="@color/colorPrimary"
                 app:ddtextUnselectedColor="@color/color_999999"
                 app:ddunderlineColor="@color/gray" />

@@ -17,7 +17,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ziqi.baselibrary.ITimerManagerService
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMainBinding
@@ -102,14 +101,12 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
             }
 
             override fun createFragment(position: Int): Fragment {
-                var fragment = when (position) {
+                return when (position) {
                     0 -> HomeFragment.newInstance(null)
                     1 -> SystematicsFragment.newInstance(null)
                     2 -> ProjectFragment.newInstance(null)
-                    3 -> MeFragment.newInstance(null)
-                    else -> HomeFragment.newInstance(null)
+                    else -> MeFragment.newInstance(null)
                 }
-                return fragment
             }
 
         }

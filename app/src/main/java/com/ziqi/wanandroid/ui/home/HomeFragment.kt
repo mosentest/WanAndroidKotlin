@@ -2,33 +2,25 @@ package com.ziqi.wanandroid.ui.home
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.Html
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.chad.library.adapter.base.animation.AlphaInAnimation
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.listener.OnPageChangeListener
 import com.youth.banner.transformer.DepthPageTransformer
 import com.youth.banner.util.BannerUtils
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.mvvm.ViewModelFragment
-import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
+import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.Banner
-import com.ziqi.wanandroid.bean.WanList
 import com.ziqi.wanandroid.databinding.FragmentHomeBinding
-import com.ziqi.wanandroid.databinding.FragmentHomeHeaderBinding
+import com.ziqi.wanandroid.ui.common.BaseFragment
+import com.ziqi.wanandroid.ui.recentblog.RecentBlogFragment
+import com.ziqi.wanandroid.ui.recentproject.RecentProjectFragment
 import com.ziqi.wanandroid.util.StartUtil
 import com.ziqi.wanandroid.view.banner.ImageAdapter
 
@@ -42,8 +34,9 @@ import com.ziqi.wanandroid.view.banner.ImageAdapter
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBinding>(),
-    SwipeRefreshLayout.OnRefreshListener {
+class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding>() {
+
+    private var mTabLayoutMediator: TabLayoutMediator? = null
 
     companion object {
         @JvmStatic
@@ -53,12 +46,6 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
             return mWBaseFragment
         }
     }
-
-    private var mHeaderViewDataBinding: FragmentHomeHeaderBinding? = null
-
-    private lateinit var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>
-
-    var mWanList: WanList<Article>? = null
 
     override fun onClick(v: View?) {
 
@@ -88,43 +75,68 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
                 onRefresh()
             }
             .build())
-        initRv()
+        initView()
         dealViewModel()
         onRefresh()
     }
 
-    private fun dealViewModel() {
-        mViewModel?.mRefresh?.observe(viewLifecycleOwner, Observer {
-            mViewDataBinding?.myRootView?.isRefreshing = false
-        })
-        mViewModel?.mLoadMore?.observe(viewLifecycleOwner, Observer {
-            when (it.getContentIfNotHandled()) {
-                true -> {
-                    mAdapter.loadMoreComplete()
-                }
-                false -> {
-                    mAdapter.loadMoreFail()
+    override fun initView() {
+        mViewDataBinding?.homeHeader?.banner?.apply {
+            setIndicator(CircleIndicator(context))
+            setIndicatorSelectedColorRes(R.color.colorPrimary)
+            setIndicatorNormalColorRes(R.color.color_999999)
+            setIndicatorGravity(IndicatorConfig.Direction.LEFT)
+            setIndicatorSpace(BannerUtils.dp2px(20f).toInt())
+            setIndicatorMargins(IndicatorConfig.Margins(BannerUtils.dp2px(10f).toInt()))
+            setIndicatorWidth(10, 20)
+            setPageTransformer(DepthPageTransformer())
+            setOnBannerListener { data, _ ->
+                activity?.let {
+                    val webInfo = WebInfo()
+                    webInfo.url = (data as Banner).url
+                    StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
                 }
             }
-        })
-        mViewModel?.mBanner?.observe(viewLifecycleOwner, Observer {
-            mHeaderViewDataBinding?.banner?.apply {
-                setAdapter(ImageAdapter(it))
-                setIndicator(CircleIndicator(context))
-                setIndicatorSelectedColorRes(R.color.colorPrimary)
-                setIndicatorNormalColorRes(R.color.color_999999)
-                setIndicatorGravity(IndicatorConfig.Direction.LEFT)
-                setIndicatorSpace(BannerUtils.dp2px(20f).toInt())
-                setIndicatorMargins(IndicatorConfig.Margins(BannerUtils.dp2px(10f).toInt()))
-                setIndicatorWidth(10, 20)
-                setPageTransformer(DepthPageTransformer())
-                setOnBannerListener { data, _ ->
-                    activity?.let {
-                        val webInfo = WebInfo()
-                        webInfo.url = (data as Banner).url
-                        StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
-                    }
+        }
+        var mAdapter = object : BaseFragmentStateAdapter(this) {
+            override fun getItemCount(): Int {
+                return 2
+            }
+
+            override fun createFragment(position: Int): Fragment {
+                return when (position) {
+                    0 -> RecentBlogFragment.newInstance()
+                    else -> RecentProjectFragment.newInstance()
                 }
+            }
+        }
+        mViewDataBinding?.viewPager2?.apply {
+            adapter = mAdapter
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    //.,.
+                }
+            })
+        }
+        mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
+
+        mTabLayoutMediator = TabLayoutMediator(
+            mViewDataBinding?.tabLayout!!,
+            mViewDataBinding?.viewPager2!!,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                when (position) {
+                    0 -> tab.text = "最新博客"
+                    else -> tab.text = "最新项目"
+                }
+            })
+        mTabLayoutMediator?.attach()
+    }
+
+    override fun dealViewModel() {
+        mViewModel?.mBanner?.observe(viewLifecycleOwner, Observer {
+            mViewDataBinding?.homeHeader?.banner?.apply {
+                adapter = ImageAdapter(it)
                 addOnPageChangeListener(object : OnPageChangeListener {
                     override fun onPageScrollStateChanged(state: Int) {
                     }
@@ -138,85 +150,33 @@ class HomeFragment : ViewModelFragment<HomeViewModel, Parcelable, FragmentHomeBi
 
                     override fun onPageSelected(position: Int) {
                         if (position >= 0 && position < it.size) {
-                            val banner = it.get(position)
-                            mHeaderViewDataBinding?.title?.text = banner.title
+                            val banner = it[position]
+                            mViewDataBinding?.homeHeader?.title?.text = banner.title
                         }
                     }
-
                 })
                 start()
             }
         })
-        mViewModel?.mArticleTop?.observe(viewLifecycleOwner, Observer {
-            mAdapter.setNewData(it)
-        })
-        mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
-            if ((it.curPage < it.pageCount)) {
-                it.datas?.apply {
-                    mAdapter.addData(this)
-                }
-                mAdapter.setEnableLoadMore(true)
-            } else {
-                mAdapter.setEnableLoadMore(false)
-                mAdapter.loadMoreEnd()
-            }
-            mWanList = it
-        })
-    }
-
-    private fun initRv() {
-        mAdapter =
-            object : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.fragment_home_item, null) {
-                override fun convert(holder: BaseViewHolder, item: Article) {
-                    holder.setText(R.id.author, StringUtil.emptyTip(item.author, "暂无"))
-                    holder.setText(R.id.title, Html.fromHtml(item.title))
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
-                    holder.setText(
-                        R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
-                    )
-                    holder.getView<LinearLayout>(R.id.content).setOnClickListener {
-                        activity?.let {
-                            val webInfo = WebInfo()
-                            webInfo.url = item.link
-                            StartUtil.startWebFragment(it, this@HomeFragment, -1, webInfo)
-                        }
-                    }
-                }
-            }
-
-        mAdapter.openLoadAnimation(AlphaInAnimation())
-        mViewDataBinding?.recyclerview?.adapter = mAdapter
-        //=================================================================================
-        mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
-        mViewDataBinding?.recyclerview?.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
-        mAdapter.setOnItemClickListener { _, _, _ ->
-        }
-        //=================================================================================
-        val headerView = LayoutInflater.from(context).inflate(R.layout.fragment_home_header, null)
-        mHeaderViewDataBinding = DataBindingUtil.bind(headerView)
-        mAdapter.addHeaderView(headerView)
-        mAdapter.setHeaderAndEmpty(true)
-        //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
-        mAdapter.setOnLoadMoreListener({
-            mViewModel?.loadArticleList(mWanList?.curPage ?: 1)
-        }, mViewDataBinding?.recyclerview)
-        mViewDataBinding?.myRootView?.setOnRefreshListener(this)
     }
 
 
     override fun onResume() {
         super.onResume()
-        mHeaderViewDataBinding?.banner?.start()
+        mViewDataBinding?.homeHeader?.banner?.start()
     }
 
     override fun onPause() {
         super.onPause()
-        mHeaderViewDataBinding?.banner?.stop()
+        mViewDataBinding?.homeHeader?.banner?.stop()
     }
 
     override fun onRefresh() {
-        mViewModel?.loadArticleTop(false)
+        mViewModel?.loadBanner()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mTabLayoutMediator?.detach()
     }
 }
