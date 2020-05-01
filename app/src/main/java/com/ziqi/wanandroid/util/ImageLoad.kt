@@ -2,6 +2,7 @@ package com.ziqi.wanandroid.util
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.ziqi.baselibrary.util.LogUtil
 import okio.JvmOverloads
@@ -21,6 +22,14 @@ object ImageLoad {
     fun loadUrl(context: Context, url: String, imageView: ImageView) {
         try {
             Glide.with(context).load(url).into(imageView)
+        } catch (e: Exception) {
+            LogUtil.e("loadUrl", e)
+        }
+    }
+
+    fun loadUrl(fragment: Fragment, url: String, imageView: ImageView) {
+        try {
+            Glide.with(fragment).load(url).into(imageView)
         } catch (e: Exception) {
             LogUtil.e("loadUrl", e)
         }

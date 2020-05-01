@@ -25,15 +25,18 @@ interface WanAndroidApi {
     /**
      * 2.6.0 新方式
      */
-    @GET(UrlConstant.url_banner)
+    @GET("banner/json")
     suspend fun banner(): WanResponse<MutableList<Banner>>
 
-    @GET(UrlConstant.url_article_top)
+    @GET("article/top/json")
     suspend fun articleTop(): WanResponse<MutableList<Article>>
 
     @GET("article/list/{pos}/json")
     suspend fun articleList(@Path("pos") pos: Int): WanResponse<WanList<Article>>
 
-    @GET(UrlConstant.url_tree)
+    @GET("tree/json")
     suspend fun tree(): WanResponse<MutableList<Tree>>
+
+    @GET("article/listproject/{pos}/json")
+    suspend fun listproject(@Path("pos") pos: Int): WanResponse<ListProject>
 }

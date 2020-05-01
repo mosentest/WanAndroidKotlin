@@ -1,13 +1,9 @@
 package com.ziqi.wanandroid.net
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ziqi.baselibrary.http.OkHttpUtils
 import com.ziqi.baselibrary.http.retrofit.StringConverterFactory
 import com.ziqi.baselibrary.util.GsonUtil
 import com.ziqi.wanandroid.constant.UrlConstant
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitUtils {
 
 
-    var api: WanAndroidApi
+    var wanAndroidApi: WanAndroidApi
 
     private constructor() {
         //val contentType = "application/json".toMediaType()
@@ -41,7 +37,7 @@ class RetrofitUtils {
             //.addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(OkHttpUtils.instance.okHttpClient)
             .build()
-        api = retrofit.create(WanAndroidApi::class.java)
+        wanAndroidApi = retrofit.create(WanAndroidApi::class.java)
     }
 
     companion object {
