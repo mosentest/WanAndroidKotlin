@@ -31,7 +31,7 @@ class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
             LogUtil.e(TAG, "loadArticleTop.Error..", it)
             zErrorView()
             zRefresh(false)
-            zToast("""${it.errMsg}[${it.code}]""")
+            zToast(errorInfo(it))
         }, showLoading
     )
 
@@ -48,7 +48,7 @@ class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
         },
         {
             LogUtil.e(TAG, "loadArticleList.Error..", it)
-            zToast("""${it.errMsg}[${it.code}]""")
+            zToast(errorInfo(it))
             zLoadMore(false)
         })
 

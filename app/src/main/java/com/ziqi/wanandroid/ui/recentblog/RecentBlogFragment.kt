@@ -28,7 +28,7 @@ class RecentBlogFragment :
     }
 
 
-    private lateinit var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>
+    private var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>? = null
 
     var mWanList: WanList<Article>? = null
 
@@ -72,7 +72,10 @@ class RecentBlogFragment :
 
     override fun initView() {
         mAdapter =
-            object : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.fragment_recent_blog_item, null) {
+            object : BaseQuickAdapter<Article, BaseViewHolder>(
+                R.layout.fragment_recent_blog_item,
+                null
+            ) {
                 override fun convert(holder: BaseViewHolder, item: Article) {
                     holder.setText(
                         R.id.author,
@@ -93,18 +96,18 @@ class RecentBlogFragment :
                 }
             }
 
-        mAdapter.openLoadAnimation(AlphaInAnimation())
+        mAdapter?.openLoadAnimation(AlphaInAnimation())
         mViewDataBinding?.recyclerview?.adapter = mAdapter
         //=================================================================================
         mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-        mAdapter.setOnItemClickListener { _, _, _ ->
+        mAdapter?.setOnItemClickListener { _, _, _ ->
 
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
-        mAdapter.setOnLoadMoreListener({
+        mAdapter?.setOnLoadMoreListener({
             mViewModel?.loadArticleList(mWanList?.curPage ?: 1)
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
@@ -115,29 +118,32 @@ class RecentBlogFragment :
             mViewDataBinding?.myRootView?.isRefreshing = false
         })
         mViewModel?.mLoadMore?.observe(viewLifecycleOwner, Observer {
-            when (it.getContentIfNotHandled()) {
-                true -> {
-                    mAdapter.loadMoreComplete()
-                }
-                false -> {
-                    mAdapter.loadMoreFail()
+            it?.apply {
+                when (getContentIfNotHandled()) {
+                    true -> {
+                        mAdapter?.loadMoreComplete()
+                    }
+                    false -> {
+                        mAdapter?.loadMoreFail()
+                    }
                 }
             }
         })
         mViewModel?.mArticleTop?.observe(viewLifecycleOwner, Observer {
-            mAdapter.setNewData(it)
+            mAdapter?.setNewData(it)
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
-            if ((it.curPage < it.pageCount)) {
-                it.datas?.apply {
-                    mAdapter.addData(this)
+            it?.let {
+                if ((it.curPage < it.pageCount)) {
+                    it.datas?.apply {
+                        mAdapter?.addData(this)
+                    }
+                    mAdapter?.setEnableLoadMore(true)
+                } else {
+                    mAdapter?.loadMoreEnd()
                 }
-                mAdapter.setEnableLoadMore(true)
-            } else {
-                mAdapter.setEnableLoadMore(false)
-                mAdapter.loadMoreEnd()
+                mWanList = it
             }
-            mWanList = it
         })
     }
 }

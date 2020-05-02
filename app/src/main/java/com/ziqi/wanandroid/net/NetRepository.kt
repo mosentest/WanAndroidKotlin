@@ -30,11 +30,15 @@ object NetRepository {
         return RetrofitUtils.get().wanAndroidApi.articleList(pos)
     }
 
+    suspend fun listproject(pos: Int): WanResponse<ListProject> {
+        return RetrofitUtils.get().wanAndroidApi.listproject(pos)
+    }
+
     suspend fun tree(): WanResponse<MutableList<Tree>> {
         return RetrofitUtils.get().wanAndroidApi.tree()
     }
 
-    suspend fun listproject(pos: Int): WanResponse<ListProject> {
-        return RetrofitUtils.get().wanAndroidApi.listproject(pos)
+    suspend fun articleList(pos: Int, cid: Int): WanResponse<WanList<Article>> {
+        return RetrofitUtils.get().wanAndroidApi.articleList(pos, cid)
     }
 }

@@ -7,6 +7,9 @@ import com.ziqi.wanandroid.ui.common.WebActivity
 import com.ziqi.baselibrary.common.WebFragment
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StartActivityCompat
+import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewActivity
+import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewFragment
+import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
 
 /**
  * Copyright (C), 2018-2020
@@ -34,6 +37,24 @@ class StartUtil {
                 webInfo.url,
                 true,
                 webInfo
+            )
+        }
+
+        fun startImagePreviewFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            info: ImagePreviewParams
+        ) {
+            StartActivityCompat.startActivity(
+                context,
+                fragment,
+                ImagePreviewFragment::class.java.name,
+                requestCode,
+                Intent(context, ImagePreviewActivity::class.java),
+                "",
+                true,
+                info
             )
         }
     }

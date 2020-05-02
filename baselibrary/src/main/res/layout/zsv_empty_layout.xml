@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_20000000"
-    android:gravity="center">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ImageView
         android:id="@+id/sv_empty_icon"
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_120"
         android:src="@drawable/ic_help"
         android:tint="@color/colorAccent" />
     <!--android:backgroundTint-->
@@ -40,6 +41,7 @@
         android:paddingBottom="@dimen/dp_3"
         android:text="点我重试"
         android:textColor="@color/color_888888"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/sp_14"
+        android:visibility="gone" />
 
 </RelativeLayout>

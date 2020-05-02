@@ -3,6 +3,7 @@
     package="com.ziqi.wanandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -11,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation">
@@ -20,8 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".ui.imagepreview.ImagePreviewActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.common.WebActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"

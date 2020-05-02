@@ -6,8 +6,20 @@
 
     </data>
 
-    <com.ziqi.wanandroid.view.RecyclerViewX
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.ziqi.wanandroid.view.SwipeRefreshLayoutX
+            android:id="@+id/myRootView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ziqi.wanandroid.view.RecyclerViewX
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.ziqi.wanandroid.view.SwipeRefreshLayoutX>
+    </LinearLayout>
+
 </layout>

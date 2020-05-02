@@ -33,6 +33,6 @@ class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
     }, {
         LogUtil.e(TAG, "loadBanner.Error..", it)
         zErrorView()
-        zToast("""${it.errMsg}[${it.code}]""")
+        zToast(errorInfo(it))
     })
 }

@@ -105,7 +105,7 @@ open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
         }
     }
 
-    fun errorInfo(rt: ResponseThrowable): String {
-        return """${rt.errMsg}[${rt.code}]"""
+    fun errorInfo(rt: ResponseThrowable?): String {
+        return """${rt?.errMsg}[${rt?.code}]"""
     }
 }

@@ -129,6 +129,22 @@ public class ZStatusView extends FrameLayout {
     }
 
     /**
+     * 任意父view
+     *
+     * @param rootView
+     * @param viewId
+     * @return
+     */
+    public static ZStatusView init(View rootView, @IdRes int viewId) {
+        View contentView = null;
+        if (rootView != null) {
+            contentView = rootView.findViewById(viewId);
+            return init(contentView);
+        }
+        return null;
+    }
+
+    /**
      * 用 StatusView 替换要使用多状态布局的 View
      */
     private static ZStatusView init(View contentView) {

@@ -31,6 +31,7 @@
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStart="0dp"
             app:elevation="0dp"
+            app:layout_scrollFlags="scroll"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 

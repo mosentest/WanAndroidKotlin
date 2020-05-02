@@ -23,7 +23,7 @@ public class Tree {
      */
 
     public String courseId;
-    public String id;
+    public int id;
     public String name;
     public String order;
     public String parentChapterId;
@@ -44,7 +44,7 @@ public class Tree {
          */
 
         public String courseId;
-        public String id;
+        public int id;
         public String name;
         public String order;
         public String parentChapterId;

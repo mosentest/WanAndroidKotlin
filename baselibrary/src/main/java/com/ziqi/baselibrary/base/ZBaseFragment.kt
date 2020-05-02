@@ -505,15 +505,16 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             LogUtil.i(TAG, """${zGetClassName()}>>>onNetUnavailable""")
         }
         if (mSnackbar == null) {
-            val currentView = findViewById<ViewGroup>(zContentViewId())
-            currentView?.apply {
-                mSnackbar = Snackbar.make(currentView, "当前网络不可用", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("前往设置") {
-                        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        })
-                    }
-            }
+            //暂时不需要
+//            val currentView = findViewById<ViewGroup>(zContentViewId())
+//            currentView?.apply {
+//                mSnackbar = Snackbar.make(currentView, "当前网络不可用", Snackbar.LENGTH_INDEFINITE)
+//                    .setAction("前往设置") {
+//                        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
+//                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        })
+//                    }
+//            }
         }
         mSnackbar?.apply {
             if (!isShown) {

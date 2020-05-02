@@ -4,9 +4,11 @@ import android.content.Context
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
 import com.ziqi.baselibrary.util.LogUtil
-import okio.JvmOverloads
-import java.lang.Exception
+import java.io.File
+import java.util.concurrent.ExecutionException
+
 
 /**
  * Copyright (C), 2018-2020
@@ -23,7 +25,7 @@ object ImageLoad {
         try {
             Glide.with(context).load(url).into(imageView)
         } catch (e: Exception) {
-            LogUtil.e("loadUrl", e)
+            LogUtil.e("context.loadUrl", e)
         }
     }
 
@@ -31,8 +33,30 @@ object ImageLoad {
         try {
             Glide.with(fragment).load(url).into(imageView)
         } catch (e: Exception) {
-            LogUtil.e("loadUrl", e)
+            LogUtil.e("fragment.loadUrl", e)
         }
+    }
+
+    /**
+     * https://www.jianshu.com/p/b5246e210b07
+     */
+    fun getImagePathFromCache(
+        fragment: Fragment,
+        url: String?,
+        expectW: Int,
+        expectH: Int
+    ): String? {
+        val future: FutureTarget<File> =
+            Glide.with(fragment).load(url).downloadOnly(expectW, expectH)
+        try {
+            val cacheFile: File = future.get()
+            return cacheFile.getAbsolutePath()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } catch (e: ExecutionException) {
+            e.printStackTrace()
+        }
+        return null
     }
 
 }

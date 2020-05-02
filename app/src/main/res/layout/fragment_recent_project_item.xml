@@ -26,9 +26,10 @@
                 android:id="@+id/envelopePic"
                 android:layout_width="@dimen/dp_75"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
+                android:background="?android:selectableItemBackground"
                 tools:background="@color/color_999999" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

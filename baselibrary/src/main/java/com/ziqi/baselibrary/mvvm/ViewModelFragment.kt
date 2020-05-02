@@ -35,27 +35,35 @@ abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, B
             mViewModel = ViewModelProvider(this).get(tClass) as VM
         }
         mViewModel?.mStatusView?.observe(viewLifecycleOwner, Observer {
-            when (it.getContentIfNotHandled()) {
-                1 -> {
-                    zStatusContentView()
-                }
-                2 -> {
-                    zStatusErrorView()
+            it?.apply {
+                when (getContentIfNotHandled()) {
+                    1 -> {
+                        zStatusContentView()
+                    }
+                    2 -> {
+                        zStatusErrorView()
+                    }
                 }
             }
         })
         mViewModel?.mLoading?.observe(viewLifecycleOwner, Observer {
-            if (it.getContentIfNotHandled() == true) {
-                zShowLoadDialog(-1, null)
-            } else {
-                zHideLoadDialog(-1)
+            it?.apply {
+                if (getContentIfNotHandled() == true) {
+                    zShowLoadDialog(-1, null)
+                } else {
+                    zHideLoadDialog(-1)
+                }
             }
         })
         mViewModel?.mToast?.observe(viewLifecycleOwner, Observer {
-            zToastShort(-1, it.getContentIfNotHandled())
+            it?.apply {
+                zToastShort(-1, getContentIfNotHandled())
+            }
         })
         mViewModel?.mConfirmDialog?.observe(viewLifecycleOwner, Observer {
-            zConfirmDialog(-1,it.getContentIfNotHandled())
+            it?.apply {
+                zConfirmDialog(-1, getContentIfNotHandled())
+            }
         })
     }
 }

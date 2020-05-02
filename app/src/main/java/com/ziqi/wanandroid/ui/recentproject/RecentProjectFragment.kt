@@ -3,6 +3,7 @@ package com.ziqi.wanandroid.ui.recentproject
 import android.os.Parcelable
 import android.text.Html
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,6 +24,7 @@ import com.ziqi.wanandroid.databinding.FragmentProjectBindingImpl
 import com.ziqi.wanandroid.databinding.FragmentRecentBlogBinding
 import com.ziqi.wanandroid.databinding.FragmentRecentProjectBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
+import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.ui.recentblog.RecentBlogViewModel
 import com.ziqi.wanandroid.util.ImageLoad
 import com.ziqi.wanandroid.util.StartUtil
@@ -35,7 +37,7 @@ class RecentProjectFragment :
     }
 
 
-    private lateinit var mAdapter: BaseQuickAdapter<ListProject.DatasBean, BaseViewHolder>
+    private var mAdapter: BaseQuickAdapter<ListProject.DatasBean, BaseViewHolder>? = null
 
     var mData: ListProject? = null
 
@@ -92,21 +94,33 @@ class RecentProjectFragment :
                             StartUtil.startWebFragment(it, this@RecentProjectFragment, -1, webInfo)
                         }
                     }
+                    holder.getView<ImageView>(R.id.envelopePic).setOnClickListener {
+                        activity?.let {
+                            var params = ImagePreviewParams()
+                            params.imgUrl = arrayListOf(item.envelopePic, item.envelopePic)
+                            StartUtil.startImagePreviewFragment(
+                                it,
+                                this@RecentProjectFragment,
+                                -1,
+                                params
+                            )
+                        }
+                    }
                 }
             }
 
-        mAdapter.openLoadAnimation(AlphaInAnimation())
+        mAdapter?.openLoadAnimation(AlphaInAnimation())
         mViewDataBinding?.recyclerview?.adapter = mAdapter
         //=================================================================================
         mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-        mAdapter.setOnItemClickListener { _, _, _ ->
+        mAdapter?.setOnItemClickListener { _, _, _ ->
 
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
-        mAdapter.setOnLoadMoreListener({
+        mAdapter?.setOnLoadMoreListener({
             mViewModel?.loadListProject(mData?.curPage ?: 1)
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
@@ -117,26 +131,33 @@ class RecentProjectFragment :
             mViewDataBinding?.myRootView?.isRefreshing = false
         })
         mViewModel?.mLoadMore?.observe(viewLifecycleOwner, Observer {
-            when (it.getContentIfNotHandled()) {
-                true -> {
-                    mAdapter.loadMoreComplete()
-                }
-                false -> {
-                    mAdapter.loadMoreFail()
+            it.apply {
+                when (getContentIfNotHandled()) {
+                    true -> {
+                        mAdapter?.loadMoreComplete()
+                    }
+                    false -> {
+                        mAdapter?.loadMoreFail()
+                    }
                 }
             }
         })
         mViewModel?.mListProject?.observe(viewLifecycleOwner, Observer {
-            if ((it.curPage < it.pageCount)) {
-                it.datas?.apply {
-                    mAdapter.addData(this)
+            it?.let {
+                if ((it.curPage < it.pageCount)) {
+                    it.datas?.apply {
+                        if (it.curPage == 1) {
+                            mAdapter?.setNewData(this)
+                        } else {
+                            mAdapter?.addData(this)
+                        }
+                    }
+                    mAdapter?.setEnableLoadMore(true)
+                } else {
+                    mAdapter?.loadMoreEnd()
                 }
-                mAdapter.setEnableLoadMore(true)
-            } else {
-                mAdapter.setEnableLoadMore(false)
-                mAdapter.loadMoreEnd()
+                mData = it
             }
-            mData = it
         })
     }
 
