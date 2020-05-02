@@ -185,7 +185,7 @@ class SystematicsFragment :
             mCurrentTree = mFirstAdapter?.let {
                 it.data[mFirstPosition]
             }
-            onRefresh()
+            loadData(true, 0)
             mViewDataBinding?.dropDownMenu?.closeMenu()
         }
         mMenuCategoryBinding?.recyclerViewSecond?.adapter = mSecondAdapter
@@ -250,26 +250,16 @@ class SystematicsFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mContentAdapter?.setOnLoadMoreListener({
-            val children = mCurrentTree?.children?.let {
-                var temp = -1
-                for (i in it.indices) {
-                    val tempChild = it[i]
-                    if (tempChild.userControlSetTop) {
-                        temp = i
-                        break
-                    }
-                }
-                if (temp == -1) {
-                    temp = 0
-                }
-                it[temp]
-            }
-            mViewModel?.loadArticleList(mWanList?.curPage ?: 1, children?.id ?: 0)
+            loadData(false, mWanList?.curPage ?: 1)
         }, mContentViewBinding?.recyclerview)
         mContentViewBinding?.myRootView?.setOnRefreshListener(this)
     }
 
     override fun onRefresh() {
+        loadData(false, 0)
+    }
+
+    private fun loadData(showLoading: Boolean, pot: Int) {
         val children = mCurrentTree?.children?.let {
             var temp = -1
             for (i in it.indices) {
@@ -284,7 +274,7 @@ class SystematicsFragment :
             }
             it[temp]
         }
-        mViewModel?.loadArticleList(0, children?.id ?: 0)
+        mViewModel?.loadArticleList(showLoading, pot, children?.id ?: pot)
     }
 
     override fun dealViewModel() {
@@ -304,12 +294,14 @@ class SystematicsFragment :
             }
         })
         mViewModel?.mContentStatusView?.observe(viewLifecycleOwner, Observer {
-            when (it.getContentIfNotHandled()) {
-                1 -> {
-                    zStatusContentView()
-                }
-                2 -> {
-                    zStatusErrorView()
+            it.apply {
+                when (getContentIfNotHandled()) {
+                    1 -> {
+                        mContentViewStatusView?.showContentView()
+                    }
+                    else -> {
+                        mContentViewStatusView?.showErrorView()
+                    }
                 }
             }
         })
@@ -329,6 +321,10 @@ class SystematicsFragment :
                         it[0].children[0].userControlSetTop = true
                     }
                     mCurrentTree = it[temp]
+                    //给第二栏目设置数据同时刷新下面的列表
+                    mSecondAdapter?.setNewData(mCurrentTree?.children)
+                    mContentViewStatusView?.showLoadingView()
+                    onRefresh()
                 } else {
                     //中间显示空
                     mContentViewStatusView?.showEmptyView()
@@ -338,7 +334,7 @@ class SystematicsFragment :
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if ((it.curPage < it.pageCount)) {
+                if (it.curPage <= it.pageCount) {
                     it.datas?.apply {
                         if (it.curPage == 1) {
                             mContentAdapter?.setNewData(this)
@@ -346,10 +342,10 @@ class SystematicsFragment :
                             mContentAdapter?.addData(this)
                         }
                     }
-                    mContentAdapter?.setEnableLoadMore(true)
                 } else {
                     mContentAdapter?.loadMoreEnd()
                 }
+                mContentAdapter?.setEnableLoadMore(it.pageCount > 1)
                 mWanList = it
             }
         })

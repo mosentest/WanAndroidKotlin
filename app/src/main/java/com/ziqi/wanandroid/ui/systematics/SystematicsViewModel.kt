@@ -43,7 +43,7 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
         }
     )
 
-    fun loadArticleList(pos: Int, cid: Int) = asyncExt(
+    fun loadArticleList(showLoading: Boolean, pos: Int, cid: Int) = asyncExt(
         {
             mArticleList.value =
                 withContext(Dispatchers.IO) {
@@ -68,5 +68,7 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
             } else {
                 zLoadMore(false)
             }
-        })
+        },
+        showLoading
+    )
 }

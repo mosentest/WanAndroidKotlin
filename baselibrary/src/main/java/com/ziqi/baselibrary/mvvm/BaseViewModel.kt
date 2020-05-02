@@ -45,7 +45,7 @@ open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
      * 隐藏loading
      */
     fun zHideLoadingDialog() {
-        mLoading.value = Event(true)
+        mLoading.value = Event(false)
     }
 
     /**

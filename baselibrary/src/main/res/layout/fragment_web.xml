@@ -9,25 +9,25 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
 
         <include
             android:id="@id/myToolbar"
             layout="@layout/layout_toolbar" />
 
-
         <LinearLayout
             android:id="@id/myRootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ProgressBar
                 android:id="@+id/progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_3"
+                android:layout_height="@dimen/dp_2"
                 android:max="100"
                 android:progressDrawable="@drawable/bg_web_progress" />
 

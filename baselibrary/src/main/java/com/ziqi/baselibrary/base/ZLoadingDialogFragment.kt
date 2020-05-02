@@ -42,11 +42,6 @@ class ZLoadingDialogFragment : DialogFragment(), IView {
         } ?: super.onCreateDialog(savedInstanceState)
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun zGetClassName(): String {
         return javaClass.simpleName
     }

@@ -134,14 +134,14 @@ class RecentBlogFragment :
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if ((it.curPage < it.pageCount)) {
+                if (it.curPage <= it.pageCount) {
                     it.datas?.apply {
                         mAdapter?.addData(this)
                     }
-                    mAdapter?.setEnableLoadMore(true)
                 } else {
                     mAdapter?.loadMoreEnd()
                 }
+                mAdapter?.setEnableLoadMore(it.pageCount > 1)
                 mWanList = it
             }
         })

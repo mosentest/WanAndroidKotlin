@@ -1,5 +1,6 @@
 package com.ziqi.baselibrary.base
 
+import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,10 +14,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.os.SystemClock
 import android.provider.Settings
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
@@ -35,6 +33,7 @@ import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.util.ToastUtil
 import com.ziqi.baselibrary.view.status.ZStatusView
 import org.greenrobot.eventbus.EventBus
+import java.lang.Exception
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -149,7 +148,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     private var lazyLoad = false
 
-    protected var mLoadingDialog: ZLoadingDialogFragment? = null
+    protected var mLoadingDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -546,29 +545,46 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     }
 
     override fun zConfirmDialog(flag: Int, msg: String?) {
-        context?.apply {
-            val dialog = AlertDialog.Builder(this)
-                .setMessage(msg)
-                .setTitle("温馨提示")
-                .setPositiveButton("确认") { p0, p1 ->
-                    p0.dismiss()
-                }
-                .create()
-            dialog.show()
+        try {
+            activity?.apply {
+                val dialog = AlertDialog.Builder(this)
+                    .setMessage(msg)
+                    .setTitle("温馨提示")
+                    .setPositiveButton("确认") { p0, p1 ->
+                        p0.dismiss()
+                    }
+                    .create()
+                dialog.show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     override fun zShowLoadDialog(flag: Int, msg: String?) {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = ZLoadingDialogFragment.newInstance(msg ?: "加载中...")
+        try {
+            if (mLoadingDialog == null) {
+                mLoadingDialog = ProgressDialog(context)
+            }
+            mLoadingDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mLoadingDialog?.setMessage(msg ?: "加载中...")
+            mLoadingDialog?.setCanceledOnTouchOutside(false)
+            mLoadingDialog?.setCancelable(false)
+            mLoadingDialog?.show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            zHideLoadDialog(flag)
         }
-        mLoadingDialog?.show(parentFragmentManager, msg ?: "loading")
     }
 
     override fun zHideLoadDialog(flag: Int) {
-        mLoadingDialog?.dismiss()
-        //执行完需要置空，不然会内存泄漏?parentFragmentManager?
-        mLoadingDialog = null
+        try {
+            mLoadingDialog?.dismiss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            mLoadingDialog = null
+        }
     }
 
     override fun zStatusContentView() {
