@@ -30,7 +30,7 @@ class RecentBlogFragment :
 
     private var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>? = null
 
-    var mWanList: WanList<Article>? = null
+    var mData: WanList<Article>? = null
 
 
     override fun zSetLayoutId(): Int {
@@ -108,12 +108,12 @@ class RecentBlogFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
-            val curPage = mWanList?.curPage
-            val pageCount = mWanList?.pageCount
+            val curPage = mData?.curPage
+            val pageCount = mData?.pageCount
             if (curPage ?: 1 >= pageCount ?: 1) {
                 mAdapter?.loadMoreEnd()
             } else {
-                mViewModel?.loadArticleList(mWanList?.curPage ?: 1)
+                mViewModel?.loadArticleList(mData?.curPage ?: 1)
             }
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
@@ -148,7 +148,7 @@ class RecentBlogFragment :
                     }
                 }
                 mAdapter?.setEnableLoadMore(it.pageCount > 1)
-                mWanList = it
+                mData = it
             }
         })
     }

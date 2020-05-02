@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
-import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.mvvm.ViewModelFragment
 import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusView
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
@@ -31,7 +28,6 @@ import com.ziqi.wanandroid.databinding.FragmentSystematicsContentBinding
 import com.ziqi.wanandroid.databinding.FragmentSystematicsContentMenuCategoryBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.util.StartUtil
-import java.util.*
 
 /**
  * Copyright (C), 2018-2020
@@ -74,7 +70,7 @@ class SystematicsFragment :
 
     private var mContentViewStatusView: ZStatusView? = null
 
-    private var mWanList: WanList<Article>? = null
+    private var mData: WanList<Article>? = null
 
 
     override fun onClick(v: View?) {
@@ -250,8 +246,8 @@ class SystematicsFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mContentAdapter?.setOnLoadMoreListener({
-            val curPage = mWanList?.curPage
-            val pageCount = mWanList?.pageCount
+            val curPage = mData?.curPage
+            val pageCount = mData?.pageCount
             if (curPage ?: 1 >= pageCount ?: 1) {
                 mContentAdapter?.loadMoreEnd()
             } else {
@@ -348,7 +344,7 @@ class SystematicsFragment :
                     }
                 }
                 mContentAdapter?.setEnableLoadMore(it.pageCount > 1)
-                mWanList = it
+                mData = it
             }
         })
     }
