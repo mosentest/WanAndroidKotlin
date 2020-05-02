@@ -250,7 +250,13 @@ class SystematicsFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mContentAdapter?.setOnLoadMoreListener({
-            loadData(false, mWanList?.curPage ?: 1)
+            val curPage = mWanList?.curPage
+            val pageCount = mWanList?.pageCount
+            if (curPage ?: 1 >= pageCount ?: 1) {
+                mContentAdapter?.loadMoreEnd()
+            } else {
+                loadData(false, curPage ?: 1)
+            }
         }, mContentViewBinding?.recyclerview)
         mContentViewBinding?.myRootView?.setOnRefreshListener(this)
     }
@@ -334,16 +340,12 @@ class SystematicsFragment :
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it.curPage <= it.pageCount) {
-                    it.datas?.apply {
-                        if (it.curPage == 1) {
-                            mContentAdapter?.setNewData(this)
-                        } else {
-                            mContentAdapter?.addData(this)
-                        }
+                it.datas?.apply {
+                    if (it.curPage == 1) {
+                        mContentAdapter?.setNewData(this)
+                    } else {
+                        mContentAdapter?.addData(this)
                     }
-                } else {
-                    mContentAdapter?.loadMoreEnd()
                 }
                 mContentAdapter?.setEnableLoadMore(it.pageCount > 1)
                 mWanList = it

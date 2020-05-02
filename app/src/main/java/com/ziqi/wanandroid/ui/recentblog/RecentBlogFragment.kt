@@ -108,7 +108,13 @@ class RecentBlogFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
-            mViewModel?.loadArticleList(mWanList?.curPage ?: 1)
+            val curPage = mWanList?.curPage
+            val pageCount = mWanList?.pageCount
+            if (curPage ?: 1 >= pageCount ?: 1) {
+                mAdapter?.loadMoreEnd()
+            } else {
+                mViewModel?.loadArticleList(mWanList?.curPage ?: 1)
+            }
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
     }
@@ -134,12 +140,12 @@ class RecentBlogFragment :
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it.curPage <= it.pageCount) {
-                    it.datas?.apply {
+                it.datas?.apply {
+                    if (it.curPage == 1) {
+                        mAdapter?.setNewData(this)
+                    } else {
                         mAdapter?.addData(this)
                     }
-                } else {
-                    mAdapter?.loadMoreEnd()
                 }
                 mAdapter?.setEnableLoadMore(it.pageCount > 1)
                 mWanList = it
