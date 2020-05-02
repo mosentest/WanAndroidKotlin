@@ -53,14 +53,21 @@ class SystematicsFragment :
     }
 
     private var mFirstPosition: Int = 0
+    /**
+     * 临时变量
+     */
+    private var mTempFirstPosition: Int = 0
 
+    /**
+     * 标记当前选中的位置参数
+     */
     private var mCurrentTree: Tree? = null
 
     private var mFirstAdapter: BaseQuickAdapter<Tree, BaseViewHolder>? = null
 
     private var mSecondAdapter: BaseQuickAdapter<Tree.ChildrenBean, BaseViewHolder>? = null
 
-    private var tabTexts = arrayListOf("分类筛选")
+    private var tabTexts = arrayListOf("体系分类")
 
     private var mMenuCategoryBinding: FragmentSystematicsContentMenuCategoryBinding? = null
 
@@ -120,6 +127,26 @@ class SystematicsFragment :
             .inflate(R.layout.fragment_systematics_content, null)
         //==================================================================
         mViewDataBinding?.dropDownMenu?.setDropDownMenu(tabTexts, popupViews, contentView)
+        mViewDataBinding?.dropDownMenu?.apply {
+            //通过反射获取原本的位置
+            val maskViewField = javaClass.getDeclaredField("maskView")
+            maskViewField.isAccessible = true
+            val maskView: View = maskViewField.get(this) as View
+            maskView.setOnClickListener {
+                if (mTempFirstPosition != mFirstPosition) {
+                    mFirstAdapter?.data?.apply {
+                        for (tree in this) {
+                            tree.userControlSetTop = false
+                        }
+                        mCurrentTree = get(mFirstPosition)
+                        mCurrentTree?.userControlSetTop = true
+                        mFirstAdapter?.notifyDataSetChanged()
+                        mSecondAdapter?.setNewData(mCurrentTree?.children)
+                    }
+                }
+                closeMenu()
+            }
+        }
         //==================================================================
         mMenuCategoryBinding = DataBindingUtil.bind(menuCategoryView)
         //==================================================================
@@ -138,13 +165,10 @@ class SystematicsFragment :
                 //点击的时候，遍历改为false
                 for (tree in it) {
                     tree.userControlSetTop = false
-                    for (child in tree.children) {
-                        child.userControlSetTop = false
-                    }
                 }
                 //当前选择的位置
-                mFirstPosition = position
-                val item = it[mFirstPosition]
+                mTempFirstPosition = position
+                val item = it[mTempFirstPosition]
                 item.userControlSetTop = true
                 //刷新第二屏幕的数据
                 mSecondAdapter?.setNewData(item.children)
@@ -168,15 +192,22 @@ class SystematicsFragment :
             }
         }
         mSecondAdapter?.setOnItemClickListener { _, _, position ->
-            mSecondAdapter?.data?.let {
-                //遍历设置false
-                for (child in it) {
-                    child.userControlSetTop = false
+            //遍历所有的改为false
+            mFirstAdapter?.data?.let {
+                for (tree in it) {
+                    for (child in tree.children) {
+                        child.userControlSetTop = false
+                    }
                 }
+            }
+            //处理当前位置的
+            mSecondAdapter?.data?.let {
                 //修改这个true
                 it[position].userControlSetTop = true
             }
             mSecondAdapter?.notifyDataSetChanged()
+            //点击过这里才去赋值
+            mFirstPosition = mTempFirstPosition
             //找到第一个数据
             mCurrentTree = mFirstAdapter?.let {
                 it.data[mFirstPosition]
@@ -274,6 +305,7 @@ class SystematicsFragment :
             if (temp == -1) {
                 temp = 0
             }
+            mSecondAdapter?.notifyItemChanged(temp)
             it[temp]
         }
         mViewModel?.loadArticleList(showLoading, pot, children?.id ?: pot)
