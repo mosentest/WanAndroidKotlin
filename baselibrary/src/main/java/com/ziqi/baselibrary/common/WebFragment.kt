@@ -70,6 +70,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
             }
 
             override fun onError(url: String?) {
+                mViewDataBinding?.progress?.progress = 100
                 mViewDataBinding?.progress?.visibility = View.GONE
                 zStatusErrorView()
             }

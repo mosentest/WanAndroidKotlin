@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_16"
         android:text="加载中"
-        android:textColor="@color/color_2c2c2c"
+        android:textColor="@color/color_888888"
         android:textSize="@dimen/sp_18" />
 
 </RelativeLayout>

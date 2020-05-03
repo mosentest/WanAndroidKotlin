@@ -229,6 +229,7 @@ class TouchWebView : WebView {
                     //LogUtil.i(getTAG(), "onProgressChanged>>>" + newProgress);
                     inFinish()
                     simulationListener?.onProgressChanged(newProgress)
+                    simulationListener?.onPageFinished(url)
                     //getReferrer("onProgressChanged");
                 } else {
                     simulationListener?.onProgressChanged(newProgress)
