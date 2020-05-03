@@ -1,6 +1,8 @@
 # WanAndroidKotlin
 WanAndroidKotlin
 
+基于Androidx，大量使用recyclerview和viewpager2实现页面交互
+
 基于kotlin+viewmodel+livedata实现布局页面
 
 基于kotlin协程+retrofit实现网络请求
