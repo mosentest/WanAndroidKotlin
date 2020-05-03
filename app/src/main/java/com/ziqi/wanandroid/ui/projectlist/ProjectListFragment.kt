@@ -1,5 +1,6 @@
-package com.ziqi.wanandroid.ui.recentproject
+package com.ziqi.wanandroid.ui.projectlist
 
+import android.os.Bundle
 import android.os.Parcelable
 import android.text.Html
 import android.view.View
@@ -8,44 +9,50 @@ import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.mvvm.ViewModelFragment
 import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.bean.Article
 import com.ziqi.wanandroid.bean.ListProject
-import com.ziqi.wanandroid.bean.WanList
-import com.ziqi.wanandroid.databinding.FragmentProjectBinding
-import com.ziqi.wanandroid.databinding.FragmentProjectBindingImpl
-import com.ziqi.wanandroid.databinding.FragmentRecentBlogBinding
-import com.ziqi.wanandroid.databinding.FragmentRecentProjectBinding
+import com.ziqi.wanandroid.bean.Tree
+import com.ziqi.wanandroid.databinding.FragmentProjectListBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.ui.recentblog.RecentBlogViewModel
 import com.ziqi.wanandroid.util.ImageLoad
 import com.ziqi.wanandroid.util.StartUtil
 
-class RecentProjectFragment :
-    BaseFragment<RecentProjectViewModel, Parcelable, FragmentRecentProjectBinding>() {
+/**
+ * Copyright (C), 2018-2020
+ * Author: ziqimo
+ * Date: 2020/5/2 9:02 PM
+ * Description:
+ * History:
+ * <author> <time> <version> <desc>
+ * 作者姓名 修改时间 版本号 描述
+ */
+class ProjectListFragment :
+    BaseFragment<ProjectListViewModel, Parcelable, FragmentProjectListBinding>() {
+
 
     companion object {
-        fun newInstance() = RecentProjectFragment()
+        @JvmStatic
+        fun newInstance(bundle: Bundle?): ProjectListFragment {
+            var mWBaseFragment = ProjectListFragment()
+            mWBaseFragment.arguments = bundle
+            return mWBaseFragment
+        }
     }
 
+    private var mTree: Tree? = null
 
     private var mAdapter: BaseQuickAdapter<ListProject.DatasBean, BaseViewHolder>? = null
 
     var mData: ListProject? = null
 
-    override fun onClick(v: View?) {
-    }
-
     override fun zSetLayoutId(): Int {
-        return R.layout.fragment_recent_project
+        return R.layout.fragment_project_list
     }
 
     override fun zContentViewId(): Int {
@@ -53,6 +60,11 @@ class RecentProjectFragment :
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
+        mTree = arguments?.getParcelable("tree")
+    }
+
+    override fun onClick(v: View?) {
+
     }
 
     override fun zLazyVisible() {
@@ -83,7 +95,7 @@ class RecentProjectFragment :
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
                     ImageLoad.loadUrl(
-                        this@RecentProjectFragment,
+                        this@ProjectListFragment,
                         item.envelopePic,
                         holder.getView(R.id.envelopePic)
                     )
@@ -91,7 +103,7 @@ class RecentProjectFragment :
                         activity?.let {
                             val webInfo = WebInfo()
                             webInfo.url = item.link
-                            StartUtil.startWebFragment(it, this@RecentProjectFragment, -1, webInfo)
+                            StartUtil.startWebFragment(it, this@ProjectListFragment, -1, webInfo)
                         }
                     }
                     holder.getView<ImageView>(R.id.envelopePic).setOnClickListener {
@@ -100,7 +112,7 @@ class RecentProjectFragment :
                             params.imgUrl = arrayListOf(item.envelopePic, item.envelopePic)
                             StartUtil.startImagePreviewFragment(
                                 it,
-                                this@RecentProjectFragment,
+                                this@ProjectListFragment,
                                 -1,
                                 params
                             )
@@ -121,12 +133,12 @@ class RecentProjectFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
-            val curPage = mData?.curPage
-            val pageCount = mData?.pageCount
-            if (curPage ?: 1 >= pageCount ?: 1) {
+            val curPage = mData?.curPage ?: 1
+            val pageCount = mData?.pageCount ?: 1
+            if (curPage >= pageCount) {
                 mAdapter?.loadMoreEnd()
             } else {
-                mViewModel?.loadListProject(mData?.curPage ?: 1)
+                mViewModel?.loadListProject(curPage, mTree?.id ?: 0)
             }
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
@@ -149,22 +161,23 @@ class RecentProjectFragment :
             }
         })
         mViewModel?.mListProject?.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                it.datas?.apply {
-                    if (it.curPage == 1) {
+            it?.apply {
+                datas?.apply {
+                    if (curPage == 1) {
                         mAdapter?.setNewData(this)
                     } else {
                         mAdapter?.addData(this)
                     }
                 }
-                mAdapter?.setEnableLoadMore(it.pageCount > 1)
-                mData = it
+                mAdapter?.setEnableLoadMore(pageCount > 1)
+                mData = this
             }
         })
     }
 
+
     override fun onRefresh() {
-        mViewModel?.loadListProject(0)
+        mViewModel?.loadListProject(0, mTree?.id ?: 0)
     }
 
 }

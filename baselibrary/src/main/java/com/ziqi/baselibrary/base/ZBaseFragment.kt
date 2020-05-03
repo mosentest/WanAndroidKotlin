@@ -242,6 +242,11 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     open fun zContentViewId(): Int = -1
 
+    /**
+     * 展示网络不好的情况
+     */
+    open fun zNetWorkView(): Int = -1
+
 
     /**
      * 处理数据问题
@@ -505,15 +510,15 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         }
         if (mSnackbar == null) {
             //暂时不需要
-//            val currentView = findViewById<ViewGroup>(zContentViewId())
-//            currentView?.apply {
-//                mSnackbar = Snackbar.make(currentView, "当前网络不可用", Snackbar.LENGTH_INDEFINITE)
-//                    .setAction("前往设置") {
-//                        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
-//                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                        })
-//                    }
-//            }
+            val currentView = findViewById<View>(zNetWorkView())
+            currentView?.apply {
+                mSnackbar = Snackbar.make(currentView, "当前网络不可用", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("前往设置") {
+                        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        })
+                    }
+            }
         }
         mSnackbar?.apply {
             if (!isShown) {

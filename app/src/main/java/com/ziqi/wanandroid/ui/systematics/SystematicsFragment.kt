@@ -39,8 +39,7 @@ import com.ziqi.wanandroid.util.StartUtil
  * 作者姓名 修改时间 版本号 描述
  */
 class SystematicsFragment :
-    BaseFragment<SystematicsViewModel, Parcelable, FragmentSystematicsBinding>(),
-    SwipeRefreshLayout.OnRefreshListener {
+    BaseFragment<SystematicsViewModel, Parcelable, FragmentSystematicsBinding>(){
 
 
     companion object {
@@ -140,10 +139,12 @@ class SystematicsFragment :
                         }
                         mCurrentTree = get(mFirstPosition)
                         mCurrentTree?.userControlSetTop = true
+                        //刷新数据
                         mFirstAdapter?.notifyDataSetChanged()
                         mSecondAdapter?.setNewData(mCurrentTree?.children)
                     }
                 }
+                mMenuCategoryBinding?.recyclerViewFrist?.scrollToPosition(mFirstPosition)
                 closeMenu()
             }
         }

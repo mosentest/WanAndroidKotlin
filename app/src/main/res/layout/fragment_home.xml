@@ -8,7 +8,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/networkView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/myRootView"
@@ -30,10 +36,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabIndicatorColor="@color/colorPrimary"
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/colorPrimaryDark"
-                    app:tabTextColor="@color/colorPrimary" />
+                    app:tabTextColor="@color/color_999999" />
             </com.google.android.material.appbar.AppBarLayout>
 
 

@@ -36,7 +36,6 @@ import com.ziqi.wanandroid.view.banner.ImageAdapter
  */
 class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding>() {
 
-    private var mTabLayoutMediator: TabLayoutMediator? = null
 
     companion object {
         @JvmStatic
@@ -47,9 +46,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
         }
     }
 
-    override fun onClick(v: View?) {
-
-    }
+    private var mTabLayoutMediator: TabLayoutMediator? = null
 
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_home
@@ -57,6 +54,14 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
 
     override fun zContentViewId(): Int {
         return R.id.myRootView
+    }
+
+    override fun zNetWorkView(): Int {
+        return R.id.networkView
+    }
+
+    override fun onClick(v: View?) {
+
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
@@ -112,24 +117,19 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
         }
         mViewDataBinding?.viewPager2?.apply {
             adapter = mAdapter
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    //.,.
-                }
-            })
         }
         mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
-
-        mTabLayoutMediator = TabLayoutMediator(
-            mViewDataBinding?.tabLayout!!,
-            mViewDataBinding?.viewPager2!!,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                when (position) {
-                    0 -> tab.text = "最新博客"
-                    else -> tab.text = "最新项目"
-                }
-            })
+        if (mViewDataBinding?.tabLayout != null && mViewDataBinding?.viewPager2 != null) {
+            mTabLayoutMediator = TabLayoutMediator(
+                mViewDataBinding?.tabLayout!!,
+                mViewDataBinding?.viewPager2!!,
+                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    when (position) {
+                        0 -> tab.text = "最新博客"
+                        else -> tab.text = "最新项目"
+                    }
+                })
+        }
         mTabLayoutMediator?.attach()
     }
 

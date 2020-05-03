@@ -2,6 +2,8 @@ package com.ziqi.wanandroid.net
 
 import com.ziqi.wanandroid.bean.*
 import kotlinx.coroutines.Deferred
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Copyright (C), 2018-2020
@@ -40,5 +42,13 @@ object NetRepository {
 
     suspend fun articleList(pos: Int, cid: Int): WanResponse<WanList<Article>> {
         return RetrofitUtils.get().wanAndroidApi.articleList(pos, cid)
+    }
+
+    suspend fun projectTree(): WanResponse<MutableList<Tree>> {
+        return RetrofitUtils.get().wanAndroidApi.projectTree()
+    }
+
+    suspend fun project(pos: Int, cid: Int): WanResponse<ListProject> {
+        return RetrofitUtils.get().wanAndroidApi.project(pos, cid)
     }
 }

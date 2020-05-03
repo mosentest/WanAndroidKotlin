@@ -55,9 +55,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:textColor="@color/color_999999"
+                    android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_14"
-                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title"
                     tools:text="基于Fullter实现的一款精美的仿开眼视频(Eyepetizer )跨平台App,适合入门,快速掌握Dart语言以及上手flutter开发,希望和大家共同成长,喜欢的话，欢迎start或fork!" />
