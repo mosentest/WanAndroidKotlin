@@ -225,8 +225,8 @@ class TouchWebView : WebView {
         webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
+                LogUtil.i(tAG, "onProgressChanged>>>$newProgress");
                 if (newProgress >= 100) {
-                    //LogUtil.i(getTAG(), "onProgressChanged>>>" + newProgress);
                     inFinish()
                     simulationListener?.onProgressChanged(newProgress)
                     simulationListener?.onPageFinished(url)

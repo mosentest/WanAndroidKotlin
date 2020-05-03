@@ -138,7 +138,8 @@ class ProjectListFragment :
             if (curPage >= pageCount) {
                 mAdapter?.loadMoreEnd()
             } else {
-                mViewModel?.loadListProject(curPage, mTree?.id ?: 0)
+                //这从0开始，只能加1
+                mViewModel?.loadListProject(curPage + 1, mTree?.id ?: 0)
             }
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
@@ -163,7 +164,7 @@ class ProjectListFragment :
         mViewModel?.mListProject?.observe(viewLifecycleOwner, Observer {
             it?.apply {
                 datas?.apply {
-                    if (curPage == 1) {
+                    if (curPage <= 1) {
                         mAdapter?.setNewData(this)
                     } else {
                         mAdapter?.addData(this)

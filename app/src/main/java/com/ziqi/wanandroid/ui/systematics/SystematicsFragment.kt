@@ -39,7 +39,7 @@ import com.ziqi.wanandroid.util.StartUtil
  * 作者姓名 修改时间 版本号 描述
  */
 class SystematicsFragment :
-    BaseFragment<SystematicsViewModel, Parcelable, FragmentSystematicsBinding>(){
+    BaseFragment<SystematicsViewModel, Parcelable, FragmentSystematicsBinding>() {
 
 
     companion object {
@@ -278,12 +278,12 @@ class SystematicsFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mContentAdapter?.setOnLoadMoreListener({
-            val curPage = mData?.curPage
-            val pageCount = mData?.pageCount
-            if (curPage ?: 1 >= pageCount ?: 1) {
+            val curPage = mData?.curPage ?: 1
+            val pageCount = mData?.pageCount ?: 1
+            if (curPage >= pageCount) {
                 mContentAdapter?.loadMoreEnd()
             } else {
-                loadData(false, curPage ?: 1)
+                loadData(false, curPage)
             }
         }, mContentViewBinding?.recyclerview)
         mContentViewBinding?.myRootView?.setOnRefreshListener(this)
@@ -293,7 +293,7 @@ class SystematicsFragment :
         loadData(false, 0)
     }
 
-    private fun loadData(showLoading: Boolean, pot: Int) {
+    private fun loadData(showLoading: Boolean, pos: Int) {
         val children = mCurrentTree?.children?.let {
             var temp = -1
             for (i in it.indices) {
@@ -309,7 +309,7 @@ class SystematicsFragment :
             mSecondAdapter?.notifyItemChanged(temp)
             it[temp]
         }
-        mViewModel?.loadArticleList(showLoading, pot, children?.id ?: pot)
+        mViewModel?.loadArticleList(showLoading, pos, children?.id ?: pos)
     }
 
     override fun dealViewModel() {
@@ -341,21 +341,21 @@ class SystematicsFragment :
             }
         })
         mViewModel?.mTree?.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it.size > 0) {
+            it?.apply {
+                if (this.size > 0) {
                     var temp = -1
-                    for (i in it.indices) {
-                        if (it[i].userControlSetTop) {
+                    for (i in this.indices) {
+                        if (this[i].userControlSetTop) {
                             temp = i
                             break
                         }
                     }
                     if (temp == -1) {
                         temp = 0
-                        it[0].userControlSetTop = true
-                        it[0].children[0].userControlSetTop = true
+                        this[0].userControlSetTop = true
+                        this[0].children[0].userControlSetTop = true
                     }
-                    mCurrentTree = it[temp]
+                    mCurrentTree = this[temp]
                     //给第二栏目设置数据同时刷新下面的列表
                     mSecondAdapter?.setNewData(mCurrentTree?.children)
                     mContentViewStatusView?.showLoadingView()
@@ -364,20 +364,20 @@ class SystematicsFragment :
                     //中间显示空
                     mContentViewStatusView?.showEmptyView()
                 }
-                mFirstAdapter?.setNewData(it)
+                mFirstAdapter?.setNewData(this)
             }
         })
         mViewModel?.mArticleList?.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                it.datas?.apply {
-                    if (it.curPage == 1) {
+            it?.apply {
+                datas?.apply {
+                    if (curPage <= 1) {
                         mContentAdapter?.setNewData(this)
                     } else {
                         mContentAdapter?.addData(this)
                     }
                 }
-                mContentAdapter?.setEnableLoadMore(it.pageCount > 1)
-                mData = it
+                mContentAdapter?.setEnableLoadMore(pageCount > 1)
+                mData = this
             }
         })
     }
