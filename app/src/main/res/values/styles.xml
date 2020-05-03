@@ -8,6 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/color_999999</item>
+    </style>
+
+
     <style name="BaseTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/bg_web_splash</item>
         <!--https://blog.csdn.net/u010218170/article/details/92437667-->

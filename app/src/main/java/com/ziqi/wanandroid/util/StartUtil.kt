@@ -2,14 +2,19 @@ package com.ziqi.wanandroid.util
 
 import android.content.Context
 import android.content.Intent
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import com.ziqi.wanandroid.ui.common.WebActivity
 import com.ziqi.baselibrary.common.WebFragment
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StartActivityCompat
+import com.ziqi.wanandroid.ui.common.CommonActivity
 import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewActivity
 import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewFragment
 import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
+import com.ziqi.wanandroid.ui.login.LoginActivity
+import com.ziqi.wanandroid.ui.login.LoginFragment
+import com.ziqi.wanandroid.ui.register.RegisterFragment
 
 /**
  * Copyright (C), 2018-2020
@@ -53,6 +58,42 @@ class StartUtil {
                 requestCode,
                 Intent(context, ImagePreviewActivity::class.java),
                 "",
+                true,
+                info
+            )
+        }
+
+        fun startLoginFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            info: Parcelable?
+        ) {
+            StartActivityCompat.startActivity(
+                context,
+                fragment,
+                LoginFragment::class.java.name,
+                requestCode,
+                Intent(context, LoginActivity::class.java),
+                "登录",
+                true,
+                info
+            )
+        }
+
+        fun startRegisterFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            info: Parcelable
+        ) {
+            StartActivityCompat.startActivity(
+                context,
+                fragment,
+                RegisterFragment::class.java.name,
+                requestCode,
+                Intent(context, CommonActivity::class.java),
+                "注册",
                 true,
                 info
             )

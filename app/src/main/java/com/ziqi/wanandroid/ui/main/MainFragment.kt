@@ -64,7 +64,7 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
     }
 
     override fun onClick(p0: View?) {
-        when (p0!!.id) {
+        when (p0?.id) {
             R.id.openWeb -> {
                 handleOpenWeb()
             }
@@ -79,9 +79,6 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
             }
             R.id.llMe -> {
                 handleBottomMenu(3)
-            }
-            else -> {
-
             }
         }
     }
@@ -125,7 +122,7 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
 
     private fun handleBottomMenu(position: Int) {
         //设置这个
-        viewPager2.setCurrentItem(position, true)
+        viewPager2.setCurrentItem(position, false)
         handleBottomSelect(position)
     }
 

@@ -18,7 +18,7 @@ import com.ziqi.baselibrary.util.StartActivityCompat
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class CommonActivity : ZBaseActivity<Parcelable, ViewDataBinding>() {
+open class CommonActivity : ZBaseActivity<Parcelable, ViewDataBinding>() {
     override fun createFragment(): Fragment? {
         var newFragment: Fragment? = null
         try {
