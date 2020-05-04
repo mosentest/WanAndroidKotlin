@@ -1,5 +1,6 @@
 package com.ziqi.wanandroid.ui.login
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -29,10 +30,16 @@ class LoginFragment : BaseFragment<LoginViewModel, Parcelable, FragmentLoginBind
     }
 
     override fun onClick(v: View?) {
-
+        when (v?.id) {
+            R.id.tvLogin -> {
+                activity?.setResult(Activity.RESULT_OK)
+                activity?.onBackPressed()
+            }
+        }
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
+        mViewDataBinding?.listener = this
     }
 
     override fun onRefresh() {

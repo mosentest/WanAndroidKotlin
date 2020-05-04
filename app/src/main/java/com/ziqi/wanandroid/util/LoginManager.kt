@@ -21,8 +21,4 @@ object LoginManager {
     fun isNoLogin(): Boolean {
         return !isLogin()
     }
-
-    fun toLogin(context: Context, fragment: Fragment) {
-        StartUtil.startLoginFragment(context, fragment, -1, null)
-    }
 }

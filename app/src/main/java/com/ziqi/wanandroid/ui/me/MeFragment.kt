@@ -47,9 +47,15 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                 handleOpenWeb()
             }
             R.id.tvNoLogin -> {
-                activity?.apply {
-                    LoginManager.toLogin(this, this@MeFragment)
-                }
+                toLogin(object : LoginListener {
+                    override fun onSuccess() {
+                        zToastShort(-1, "登录成功")
+                    }
+
+                    override fun onCancel() {
+                    }
+
+                })
             }
             R.id.tvSearch -> {
 
