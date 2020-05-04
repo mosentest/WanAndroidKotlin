@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StringUtil
+import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.bean.ListProject
 import com.ziqi.wanandroid.bean.Tree
@@ -22,6 +23,7 @@ import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.util.ImageLoad
 import com.ziqi.wanandroid.util.StartUtil
+import com.ziqi.wanandroid.view.ImageViewX
 
 /**
  * Copyright (C), 2018-2020
@@ -69,6 +71,17 @@ class ProjectListFragment :
 
     override fun zLazyVisible() {
         super.zLazyVisible()
+        mZStatusView?.config(
+            ZStatusViewBuilder.Builder()
+                .setOnErrorRetryClickListener {
+                    zStatusLoadingView()
+                    onRefresh()
+                }
+                .setOnEmptyRetryClickListener {
+                    zStatusLoadingView()
+                    onRefresh()
+                }
+                .build())
         initView()
         dealViewModel()
         onRefresh()
@@ -97,7 +110,9 @@ class ProjectListFragment :
                     ImageLoad.loadUrl(
                         this@ProjectListFragment,
                         item.envelopePic,
-                        holder.getView(R.id.envelopePic)
+                        holder.getView(R.id.envelopePic),
+                        R.drawable.icon_placeholder,
+                        ImageView.ScaleType.FIT_CENTER
                     )
                     holder.getView<LinearLayout>(R.id.content).setOnClickListener {
                         activity?.let {
@@ -106,10 +121,10 @@ class ProjectListFragment :
                             StartUtil.startWebFragment(it, this@ProjectListFragment, -1, webInfo)
                         }
                     }
-                    holder.getView<ImageView>(R.id.envelopePic).setOnClickListener {
+                    holder.getView<ImageViewX>(R.id.envelopePic).setOnClickListener {
                         activity?.let {
                             val params = ImagePreviewParams()
-                            params.imgUrl = arrayListOf(item.envelopePic, item.envelopePic)
+                            params.imgUrl = arrayListOf(item.envelopePic)
                             StartUtil.startImagePreviewFragment(
                                 it,
                                 this@ProjectListFragment,

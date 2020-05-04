@@ -3,9 +3,9 @@ package com.ziqi.wanandroid.ui.home
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
@@ -21,6 +21,7 @@ import com.ziqi.wanandroid.databinding.FragmentHomeBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.recentblog.RecentBlogFragment
 import com.ziqi.wanandroid.ui.recentproject.RecentProjectFragment
+import com.ziqi.wanandroid.util.ImageLoad
 import com.ziqi.wanandroid.util.StartUtil
 import com.ziqi.wanandroid.view.banner.ImageAdapter
 
@@ -45,6 +46,10 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
             return mWBaseFragment
         }
     }
+
+    private lateinit var mMainAdapter: BaseFragmentStateAdapter
+
+    private lateinit var mBannerAdapter: ImageAdapter
 
     private var mTabLayoutMediator: TabLayoutMediator? = null
 
@@ -86,14 +91,19 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
     }
 
     override fun initView() {
+        mBannerAdapter = object : ImageAdapter(null) {
+            override fun convert(holder: BannerViewHolder, data: Banner?, position: Int) {
+                ImageLoad.loadUrl(
+                    this@HomeFragment,
+                    data?.imagePath,
+                    holder.imageViewX,
+                    R.drawable.icon_placeholder,
+                    ImageView.ScaleType.CENTER_CROP
+                )
+            }
+        }
         mViewDataBinding?.homeHeader?.banner?.apply {
-            setIndicator(CircleIndicator(context))
-            setIndicatorSelectedColorRes(R.color.colorPrimary)
-            setIndicatorNormalColorRes(R.color.color_999999)
-            setIndicatorGravity(IndicatorConfig.Direction.LEFT)
-            setIndicatorSpace(BannerUtils.dp2px(20f).toInt())
-            setIndicatorMargins(IndicatorConfig.Margins(BannerUtils.dp2px(10f).toInt()))
-            setIndicatorWidth(10, 20)
+            adapter = mBannerAdapter
             setPageTransformer(DepthPageTransformer())
             setOnBannerListener { data, _ ->
                 activity?.let {
@@ -103,7 +113,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                 }
             }
         }
-        var mAdapter = object : BaseFragmentStateAdapter(this) {
+        mMainAdapter = object : BaseFragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 2
             }
@@ -116,7 +126,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
             }
         }
         mViewDataBinding?.viewPager2?.apply {
-            adapter = mAdapter
+            adapter = mMainAdapter
         }
         mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
         if (mViewDataBinding?.tabLayout != null && mViewDataBinding?.viewPager2 != null) {
@@ -136,7 +146,17 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
     override fun dealViewModel() {
         mViewModel?.mBanner?.observe(viewLifecycleOwner, Observer {
             mViewDataBinding?.homeHeader?.banner?.apply {
-                adapter = ImageAdapter(it)
+
+                mBannerAdapter.setDatas(it)
+
+                setIndicator(CircleIndicator(context))
+                setIndicatorSelectedColorRes(R.color.colorPrimary)
+                setIndicatorNormalColorRes(R.color.color_999999)
+                setIndicatorGravity(IndicatorConfig.Direction.LEFT)
+                setIndicatorSpace(BannerUtils.dp2px(20f).toInt())
+                setIndicatorMargins(IndicatorConfig.Margins(BannerUtils.dp2px(10f).toInt()))
+                setIndicatorWidth(10, 20)
+
                 addOnPageChangeListener(object : OnPageChangeListener {
                     override fun onPageScrollStateChanged(state: Int) {
                     }

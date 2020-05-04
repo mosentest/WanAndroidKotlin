@@ -18,5 +18,6 @@ class LoginActivity : CommonActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         StatusBarUtil.setTranslucentStatus(this)
+        StatusBarUtil.setStatusBarDarkTheme(this, true)
     }
 }

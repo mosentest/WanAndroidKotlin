@@ -103,7 +103,7 @@ class ProjectFragment :
         mViewDataBinding?.tabLayout?.apply {
             this.isTabIndicatorFullWidth = true
         }
-        //mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
+        mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
         if (mViewDataBinding?.tabLayout != null && mViewDataBinding?.viewPager2 != null) {
             mTabLayoutMediator = TabLayoutMediator(
                 mViewDataBinding?.tabLayout!!,

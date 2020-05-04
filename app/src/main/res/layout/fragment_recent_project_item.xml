@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
 
-            <ImageView
+            <com.ziqi.wanandroid.view.ImageViewX
                 android:id="@+id/envelopePic"
                 android:layout_width="@dimen/dp_75"
                 android:layout_height="match_parent"
