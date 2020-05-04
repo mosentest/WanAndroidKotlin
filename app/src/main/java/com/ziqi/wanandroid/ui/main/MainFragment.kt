@@ -172,7 +172,7 @@ class MainFragment : BaseFragment<MainViewModel, Parcelable, FragmentMainBinding
                 }
                 activity?.apply {
                     StatusBarUtil.setTranslucentStatus(this)
-                    StatusBarUtil.setStatusBarDarkTheme(this, true)
+                    StatusBarUtil.setStatusBarDarkTheme(this, false)
                 }
             }
         }
