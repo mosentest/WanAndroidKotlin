@@ -3,12 +3,18 @@ package com.ziqi.wanandroid.ui.me
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import android.widget.Button
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.databinding.ViewDataBinding
+import androidx.drawerlayout.widget.DrawerLayout
 import com.ziqi.baselibrary.base.ZBaseFragment
+import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMeBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.util.LoginManager
+import com.ziqi.wanandroid.util.StartUtil
 
 /**
  * Copyright (C), 2018-2020
@@ -37,6 +43,9 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.openWeb -> {
+                handleOpenWeb()
+            }
             R.id.tvNoLogin -> {
                 activity?.apply {
                     LoginManager.toLogin(this, this@MeFragment)
@@ -67,6 +76,8 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
     override fun zLazyVisible() {
         super.zLazyVisible()
         mViewDataBinding?.listener = this
+        handleToolBar()
+        handleDrawer()
     }
 
     override fun onResume() {
@@ -91,4 +102,81 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
     override fun dealViewModel() {
 
     }
+
+    private fun handleToolBar() {
+        mTvTitle?.text = "我的"
+        mRightTwoMenu?.text = "搜索"
+        mRightTwoMenu?.visibility = View.VISIBLE
+        mRightTwoMenu?.setOnClickListener {
+            zShowLoadDialog(-1, null)
+            mToolBar?.postDelayed({
+                zHideLoadDialog(-1)
+            }, 1000)
+        }
+    }
+
+
+    private fun handleDrawer() {
+        /**
+         * 参考这个链接
+         * https://blog.csdn.net/gaoxiaoweiandy/article/details/81505914
+         */
+        var drawerToggle = ActionBarDrawerToggle(
+            activity, mViewDataBinding?.drawerLayout, mToolBar,
+            R.string.drawer_open,
+            R.string.drawer_close
+        );
+        //同步drawerToggle按钮与侧滑菜单的打开（关闭）状态
+        drawerToggle.syncState();
+        mViewDataBinding?.drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) {
+            }
+
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                // 滑动的过程中执行 slideOffset：0~1
+                var content = mViewDataBinding?.drawerLayout!!.getChildAt(0)
+
+                var scale = 1 - slideOffset//1~0
+                var leftScale = (1 - 0.3 * scale)
+                var rightScale = (0.7f + 0.3 * scale)//0.7~1
+
+                drawerView.setScaleX(leftScale.toFloat())//1~0.7
+                drawerView.setScaleY(leftScale.toFloat())//1~0.7
+
+                content.setScaleX(rightScale.toFloat())
+                content.setScaleY(rightScale.toFloat())
+                content.setTranslationX(drawerView.getMeasuredWidth() * slideOffset)//0~width
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+            }
+        })
+        //https://www.jianshu.com/p/4b33d0a715e6
+        mViewDataBinding?.navigationView?.itemIconTintList = null
+        mViewDataBinding?.navigationView?.setNavigationItemSelectedListener {
+            when (it.itemId) {
+
+            }
+            true
+        }
+        mViewDataBinding
+            ?.navigationView
+            ?.getHeaderView(0)
+            ?.findViewById<Button>(R.id.openWeb)
+            ?.setOnClickListener {
+                handleOpenWeb()
+            }
+    }
+
+    private fun handleOpenWeb() {
+        activity?.let {
+            val webInfo = WebInfo()
+            webInfo.url = "https://www.wanandroid.com"
+            StartUtil.startWebFragment(it, this, -1, webInfo)
+        }
+    }
+
 }

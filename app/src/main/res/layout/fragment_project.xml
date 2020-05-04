@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout
             android:id="@id/myRootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,6 +32,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-        </LinearLayout>
+        </com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
@@ -13,6 +14,9 @@ import com.youth.banner.listener.OnPageChangeListener
 import com.youth.banner.transformer.DepthPageTransformer
 import com.youth.banner.util.BannerUtils
 import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.util.ContextUtils
+import com.ziqi.baselibrary.util.LogUtil
+import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
@@ -47,9 +51,9 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
         }
     }
 
-    private lateinit var mMainAdapter: BaseFragmentStateAdapter
+    private var mMainAdapter: BaseFragmentStateAdapter? = null
 
-    private lateinit var mBannerAdapter: ImageAdapter
+    private var mBannerAdapter: ImageAdapter? = null
 
     private var mTabLayoutMediator: TabLayoutMediator? = null
 
@@ -103,7 +107,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
             }
         }
         mViewDataBinding?.homeHeader?.banner?.apply {
-            adapter = mBannerAdapter
+            setAdapter(mBannerAdapter!!)
             setPageTransformer(DepthPageTransformer())
             setOnBannerListener { data, _ ->
                 activity?.let {
@@ -129,6 +133,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
             adapter = mMainAdapter
         }
         mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
+        mViewDataBinding?.viewPager2?.offscreenPageLimit = 2
         if (mViewDataBinding?.tabLayout != null && mViewDataBinding?.viewPager2 != null) {
             mTabLayoutMediator = TabLayoutMediator(
                 mViewDataBinding?.tabLayout!!,
@@ -141,13 +146,32 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                 })
         }
         mTabLayoutMediator?.attach()
+
+        mViewDataBinding?.appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val statusBarHeight = StatusBarUtil.getStatusBarHeight(ContextUtils.context)
+            mViewDataBinding?.tabLayout?.apply {
+                val target = mViewDataBinding?.tabLayout?.top!! - statusBarHeight
+                setPadding(
+                    paddingLeft,
+                    if (target < -verticalOffset) statusBarHeight else 0,
+                    paddingRight,
+                    paddingBottom
+                )
+                LogUtil.i(
+                    TAG,
+                    """${zGetClassName()}>>>addOnOffsetChangedListener->verticalOffset:${verticalOffset}->target:${target}"""
+                )
+            }
+
+
+        })
     }
 
     override fun dealViewModel() {
         mViewModel?.mBanner?.observe(viewLifecycleOwner, Observer {
             mViewDataBinding?.homeHeader?.banner?.apply {
 
-                mBannerAdapter.setDatas(it)
+                mBannerAdapter?.setDatas(it)
 
                 setIndicator(CircleIndicator(context))
                 setIndicatorSelectedColorRes(R.color.colorPrimary)
@@ -197,6 +221,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
 
     override fun onDestroy() {
         super.onDestroy()
+        mBannerAdapter = null
         mTabLayoutMediator?.detach()
     }
 }

@@ -8,24 +8,20 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcelable
 import android.view.View
-import android.widget.Button
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.ziqi.baselibrary.ITimerManagerService
-import com.ziqi.baselibrary.base.ZBaseFragment
-import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMainBinding
+import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.home.HomeFragment
 import com.ziqi.wanandroid.ui.me.MeFragment
 import com.ziqi.wanandroid.ui.project.ProjectFragment
 import com.ziqi.wanandroid.ui.systematics.SystematicsFragment
 import com.ziqi.wanandroid.view.MyPageTransformer
-import com.ziqi.wanandroid.util.StartUtil
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
@@ -38,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
+class MainFragment : BaseFragment<MainViewModel, Parcelable, FragmentMainBinding>() {
 
     companion object {
         @JvmStatic
@@ -49,15 +45,13 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
         }
     }
 
+    private lateinit var mFragmentAdapter: BaseFragmentStateAdapter
+
     private lateinit var serverConnection: ServiceConnection
 
     private var connected = false
 
     private var timerManagerService: ITimerManagerService? = null
-
-    var viewModel: MainViewModel? = null
-
-    val MIN_ALPHA = 0.5f
 
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_main
@@ -65,9 +59,6 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.openWeb -> {
-                handleOpenWeb()
-            }
             R.id.llHome -> {
                 handleBottomMenu(0)
             }
@@ -84,15 +75,11 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mViewDataBinding?.listener = this
         initServerConnection()
         bindServices()
-        handleToobar()
-        handleDrawer()
         handleBottomMenu(0)
-
-        var mAdapter = object : BaseFragmentStateAdapter(this) {
+        mFragmentAdapter = object : BaseFragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 4
             }
@@ -108,8 +95,8 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
 
         }
         mViewDataBinding?.viewPager2?.apply {
-            adapter = mAdapter
-            setPageTransformer(MyPageTransformer())
+            adapter = mFragmentAdapter
+            //setPageTransformer(MyPageTransformer())
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
@@ -117,8 +104,10 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
                 }
             })
         }
-        mViewDataBinding?.viewPager2?.setUserInputEnabled(false); //true:滑动，false：禁止滑动
+        mViewDataBinding?.viewPager2?.isUserInputEnabled = false; //true:滑动，false：禁止滑动
+        mViewDataBinding?.viewPager2?.offscreenPageLimit = 4
     }
+
 
     private fun handleBottomMenu(position: Int) {
         //设置这个
@@ -145,11 +134,22 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
                     ivHome.isSelected = true
                     tvHome.isSelected = true
                 }
+                activity?.apply {
+                    StatusBarUtil.setTranslucentStatus(this)
+                    StatusBarUtil.setStatusBarDarkTheme(this, true)
+                }
             }
             1 -> {
                 mViewDataBinding?.apply {
                     ivSystematics.isSelected = true
                     tvSystematics.isSelected = true
+                }
+                activity?.apply {
+                    StatusBarUtil.setStatusBarColor(
+                        this,
+                        resources.getColor(R.color.colorPrimaryDark)
+                    )
+                    StatusBarUtil.setStatusBarDarkTheme(this, false)
                 }
             }
             2 -> {
@@ -157,88 +157,24 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
                     ivProject.isSelected = true
                     tvProject.isSelected = true
                 }
+                activity?.apply {
+                    StatusBarUtil.setStatusBarColor(
+                        this,
+                        resources.getColor(R.color.colorPrimaryDark)
+                    )
+                    StatusBarUtil.setStatusBarDarkTheme(this, false)
+                }
             }
             3 -> {
                 mViewDataBinding?.apply {
                     ivMe.isSelected = true
                     tvMe.isSelected = true
                 }
+                activity?.apply {
+                    StatusBarUtil.setTranslucentStatus(this)
+                    StatusBarUtil.setStatusBarDarkTheme(this, true)
+                }
             }
-        }
-    }
-
-    private fun handleOpenWeb() {
-        activity?.let {
-            val webInfo = WebInfo()
-            webInfo.url = "https://www.wanandroid.com"
-            StartUtil.startWebFragment(it, this, -1, webInfo)
-        }
-    }
-
-
-    private fun handleDrawer() {
-        /**
-         * 参考这个链接
-         * https://blog.csdn.net/gaoxiaoweiandy/article/details/81505914
-         */
-        var drawerToggle = ActionBarDrawerToggle(
-            activity, drawerLayout, mToolBar,
-            R.string.drawer_open,
-            R.string.drawer_close
-        );
-        //同步drawerToggle按钮与侧滑菜单的打开（关闭）状态
-        drawerToggle.syncState();
-        drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerStateChanged(newState: Int) {
-            }
-
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                // 滑动的过程中执行 slideOffset：0~1
-                var content = drawerLayout.getChildAt(0)
-
-                var scale = 1 - slideOffset//1~0
-                var leftScale = (1 - 0.3 * scale)
-                var rightScale = (0.7f + 0.3 * scale)//0.7~1
-
-                drawerView.setScaleX(leftScale.toFloat())//1~0.7
-                drawerView.setScaleY(leftScale.toFloat())//1~0.7
-
-                content.setScaleX(rightScale.toFloat())
-                content.setScaleY(rightScale.toFloat())
-                content.setTranslationX(drawerView.getMeasuredWidth() * slideOffset)//0~width
-            }
-
-            override fun onDrawerClosed(drawerView: View) {
-            }
-
-            override fun onDrawerOpened(drawerView: View) {
-            }
-        })
-        //https://www.jianshu.com/p/4b33d0a715e6
-        mViewDataBinding?.navigationView?.itemIconTintList = null
-        mViewDataBinding?.navigationView?.setNavigationItemSelectedListener {
-            it.itemId
-            true
-        }
-        mViewDataBinding
-            ?.navigationView
-            ?.getHeaderView(0)
-            ?.findViewById<Button>(R.id.openWeb)
-            ?.setOnClickListener {
-                handleOpenWeb()
-            }
-    }
-
-    private fun handleToobar() {
-        mTvTitle?.text = "玩安卓"
-        mRightTwoMenu?.text = "测试"
-        mRightTwoMenu?.visibility = View.VISIBLE
-        mRightTwoMenu?.setOnClickListener {
-            timerManagerService?.setTime("设置时间")
-            zShowLoadDialog(-1, null)
-            mToolBar?.postDelayed({
-                zHideLoadDialog(-1)
-            }, 1000)
         }
     }
 
@@ -271,5 +207,16 @@ class MainFragment : ZBaseFragment<Parcelable, FragmentMainBinding>() {
         }
     }
 
+    override fun initView() {
+
+    }
+
+    override fun dealViewModel() {
+
+    }
+
+    override fun onRefresh() {
+
+    }
 
 }

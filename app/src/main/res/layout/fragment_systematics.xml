@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout
             android:id="@+id/myRootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,13 +24,13 @@
                 app:ddmenuBackgroundColor="@color/white"
                 app:ddmenuMenuHeightPercent="0.5"
                 app:ddmenuSelectedIcon="@drawable/icon_transparent"
-                app:ddmenuTextSize="13sp"
+                app:ddmenuTextSize="@dimen/sp_16"
                 app:ddmenuUnselectedIcon="@drawable/icon_transparent"
                 app:ddtextSelectedColor="@color/colorPrimary"
                 app:ddtextUnselectedColor="@color/color_999999"
                 app:ddunderlineColor="@color/gray" />
 
-        </LinearLayout>
+        </com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

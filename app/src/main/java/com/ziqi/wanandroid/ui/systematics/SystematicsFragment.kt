@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
@@ -90,7 +89,6 @@ class SystematicsFragment :
     override fun zContentViewId(): Int {
         return R.id.myRootView
     }
-
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
 

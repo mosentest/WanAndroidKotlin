@@ -14,10 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:paddingTop="?attr/actionBarSize">
+        android:orientation="vertical">
         <!-- 侧滑菜单左侧部分 -->
 
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_175"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_me_meinv" />
 
         <Button
             android:id="@+id/openWeb"

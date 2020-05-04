@@ -14,8 +14,6 @@ import com.ziqi.wanandroid.bean.Tree
 import com.ziqi.wanandroid.databinding.FragmentProjectBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.projectlist.ProjectListFragment
-import com.ziqi.wanandroid.ui.recentblog.RecentBlogFragment
-import com.ziqi.wanandroid.ui.recentproject.RecentProjectFragment
 
 /**
  * Copyright (C), 2018-2020

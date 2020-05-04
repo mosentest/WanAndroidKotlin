@@ -15,7 +15,8 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation">
+            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,8 +33,8 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:theme="@style/LoginTheme"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".ui.common.CommonActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"

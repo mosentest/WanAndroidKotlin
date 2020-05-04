@@ -302,6 +302,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
 
     override fun onResume() {
         super.onResume()
+        LogUtil.i(TAG, """${zGetClassName()}>>>onResume""")
         tryLoad()
     }
 

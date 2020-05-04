@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -40,10 +41,8 @@ public class StatusBarUtil {
      *
      * @param colorId 颜色
      */
-    public static void setStatusBarColor(Activity activity, int colorId) {
+    public static void setStatusBarColor(@NonNull Activity activity, int colorId) {
         //需要先将状态栏设置为透明
-        setTranslucentStatus(activity);
-        setRootViewFitsSystemWindows(activity, true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.setStatusBarColor(colorId);
@@ -58,7 +57,7 @@ public class StatusBarUtil {
      * 设置状态栏透明
      */
     @TargetApi(19)
-    public static void setTranslucentStatus(Activity activity) {
+    public static void setTranslucentStatus(@NonNull Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
             Window window = activity.getWindow();
@@ -87,7 +86,7 @@ public class StatusBarUtil {
      *
      * @param activity
      */
-    public static void setRootViewFitsSystemWindows(Activity activity, boolean fitSystemWindows) {
+    public static void setRootViewFitsSystemWindows(@NonNull Activity activity, boolean fitSystemWindows) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             ViewGroup winContent = (ViewGroup) activity.findViewById(android.R.id.content);
             if (winContent.getChildCount() > 0) {
@@ -103,7 +102,7 @@ public class StatusBarUtil {
      * 不建议在低版本4.4和5.0设置白色主题，不然状态栏适配很麻烦无法做到很好看
      * 设置状态栏深色浅色切换
      */
-    public static boolean setStatusBarDarkTheme(Activity activity, boolean dark) {
+    public static boolean setStatusBarDarkTheme(@NonNull Activity activity, boolean dark) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 setCommonUI(activity, dark);
