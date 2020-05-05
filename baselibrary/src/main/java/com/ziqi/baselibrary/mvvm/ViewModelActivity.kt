@@ -25,8 +25,8 @@ abstract class ViewModelActivity<VM : BaseViewModel, StartParams : Parcelable, B
     protected var mViewModel: VM? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         createViewModel()
+        super.onCreate(savedInstanceState)
     }
 
     private fun createViewModel() {

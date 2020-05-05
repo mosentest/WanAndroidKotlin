@@ -48,4 +48,11 @@ interface WanAndroidApi {
 
     @GET("project/list/{pos}/json")
     suspend fun project(@Path("pos") pos: Int, @Query("cid") cid: Int): WanResponse<ListProject>
+
+    @GET("wxarticle/chapters/json")
+    suspend fun wxArticleChapters(): WanResponse<MutableList<Tree>>
+
+    @GET("wxarticle/list/{cid}/{pos}/json")
+    suspend fun wxArticleList(@Path("cid") cid: Int, @Path("pos") pos: Int): WanResponse<ListProject>
+
 }

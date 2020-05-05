@@ -15,6 +15,7 @@ import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.ui.login.LoginActivity
 import com.ziqi.wanandroid.ui.login.LoginFragment
 import com.ziqi.wanandroid.ui.register.RegisterFragment
+import com.ziqi.wanandroid.ui.wxarticle.WxArticleFragment
 
 /**
  * Copyright (C), 2018-2020
@@ -58,6 +59,24 @@ class StartUtil {
                 requestCode,
                 Intent(context, ImagePreviewActivity::class.java),
                 "",
+                true,
+                info
+            )
+        }
+
+        fun startWxArticleFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            info: Parcelable?
+        ) {
+            StartActivityCompat.startActivity(
+                context,
+                fragment,
+                WxArticleFragment::class.java.name,
+                requestCode,
+                Intent(context, CommonActivity::class.java),
+                "公众号",
                 true,
                 info
             )

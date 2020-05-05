@@ -32,7 +32,8 @@ abstract class BaseFragment<VM : BaseViewModel, StartParams : Parcelable, Bindin
     /**
      * 登录的请求状态码
      */
-    private val REQUEST_LOGIN: Int = 1000
+    private val REQUEST_LOGIN = 900
+        get() = field
 
     abstract fun initView()
 

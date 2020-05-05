@@ -22,6 +22,11 @@
         <item name="colorAccent">@color/color_999999</item>
     </style>
 
+    <style name="LoginDialogTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="BaseTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/bg_web_splash</item>

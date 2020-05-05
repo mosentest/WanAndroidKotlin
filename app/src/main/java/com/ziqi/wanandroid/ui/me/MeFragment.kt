@@ -7,12 +7,15 @@ import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.florent37.fiftyshadesof.FiftyShadesOf
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMeBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
+import com.ziqi.wanandroid.ui.globaldialog.LoginDialogActivity
 import com.ziqi.wanandroid.util.LoginManager
 import com.ziqi.wanandroid.util.StartUtil
 
@@ -37,6 +40,9 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
         }
     }
 
+
+    private var mFiftyShadesOf: FiftyShadesOf? = null
+
     override fun zSetLayoutId(): Int {
         return R.layout.fragment_me
     }
@@ -58,13 +64,27 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                 })
             }
             R.id.tvSearch -> {
-
+                LoginDialogActivity.start(ContextUtils.context, "重新登录")
             }
             R.id.tvWxArticle -> {
-
+                activity?.apply {
+                    StartUtil.startWxArticleFragment(this, this@MeFragment, -1, null)
+                }
             }
             R.id.tvCollect -> {
+                if (LoginManager.isNoLogin()) {
+                    toLogin(object : LoginListener {
+                        override fun onSuccess() {
+                            zToastShort(-1, "登录成功")
+                        }
 
+                        override fun onCancel() {
+                        }
+
+                    })
+                } else {
+
+                }
             }
             R.id.tvUserArticle -> {
 
@@ -84,6 +104,21 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
         mViewDataBinding?.listener = this
         handleToolBar()
         handleDrawer()
+        mFiftyShadesOf = FiftyShadesOf.with(context)
+            .on(
+                R.id.tvNoLogin,
+                R.id.llLogin,
+                R.id.tvSearch,
+                R.id.tvWxArticle,
+                R.id.tvCollect,
+                R.id.tvUserArticle,
+                R.id.tvWenda,
+                R.id.tvLogout
+            )
+            .start()
+        mViewDataBinding?.tvNoLogin?.postDelayed({
+            mFiftyShadesOf?.stop()
+        }, 1000)
     }
 
     override fun onResume() {

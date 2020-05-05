@@ -144,5 +144,8 @@ dependencies {
     //https://github.com/dongjunkun/DropDownMenu
     implementation 'com.github.dongjunkun:DropDownMenu:1.0.4'
 
+    //https://github.com/florent37/FiftyShadesOf
+    implementation 'com.github.florent37:fiftyshadesof:1.0.0'
+
     implementation project(':baselibrary')
 }

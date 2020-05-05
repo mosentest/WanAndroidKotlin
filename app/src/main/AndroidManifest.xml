@@ -39,6 +39,11 @@
             android:name=".ui.common.CommonActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.globaldialog.LoginDialogActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:launchMode="singleInstance"
+            android:theme="@style/LoginDialogTheme" />
     </application>
 
 </manifest>

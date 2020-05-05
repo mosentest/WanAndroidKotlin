@@ -23,8 +23,9 @@ abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, B
     protected var mViewModel: VM? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        //先处理viewModel的创建
         createViewModel()
+        super.onActivityCreated(savedInstanceState)
     }
 
     private fun createViewModel() {

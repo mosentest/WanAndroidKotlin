@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid.ui.project
+package com.ziqi.wanandroid.ui.wxarticle
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -11,28 +11,18 @@ import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.bean.Tree
-import com.ziqi.wanandroid.databinding.FragmentProjectBinding
+import com.ziqi.wanandroid.databinding.FragmentWxArticleBinding
 import com.ziqi.wanandroid.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.projectlist.ProjectListFragment
+import com.ziqi.wanandroid.ui.wxarticlelist.WxArticleListFragment
 
-/**
- * Copyright (C), 2018-2020
- * Author: ziqimo
- * Date: 2020/4/15 11:37 AM
- * Description:
- * History:
- * <author> <time> <version> <desc>
- * 作者姓名 修改时间 版本号 描述
- */
-class ProjectFragment :
-    BaseFragment<ProjectViewModel, Parcelable, FragmentProjectBinding>() {
+class WxArticleFragment :
+    BaseFragment<WxArticleViewModel, Parcelable, FragmentWxArticleBinding>() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle?): ProjectFragment {
-            var mWBaseFragment = ProjectFragment()
-            mWBaseFragment.arguments = bundle
-            return mWBaseFragment
+        fun newInstance(bundle: Bundle?) = WxArticleFragment().apply {
+            arguments = bundle
         }
     }
 
@@ -44,12 +34,12 @@ class ProjectFragment :
 
     private var mAdapter: BaseFragmentStateAdapter? = null
 
-    override fun zSetLayoutId(): Int {
-        return R.layout.fragment_project
-    }
-
     override fun zContentViewId(): Int {
         return R.id.myRootView
+    }
+
+    override fun zSetLayoutId(): Int {
+        return R.layout.fragment_wx_article
     }
 
     override fun onClick(v: View?) {
@@ -57,10 +47,6 @@ class ProjectFragment :
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-    }
-
-    override fun zLazyVisible() {
-        super.zLazyVisible()
         mZStatusView?.config(
             ZStatusViewBuilder.Builder()
                 .setOnErrorRetryClickListener {
@@ -88,7 +74,7 @@ class ProjectFragment :
             }
 
             override fun createFragment(position: Int): Fragment {
-                return ProjectListFragment.newInstance(
+                return WxArticleListFragment.newInstance(
                     Bundle().apply {
                         putParcelable("tree", mTree?.get(position))
                     }
@@ -132,4 +118,5 @@ class ProjectFragment :
         super.onDestroy()
         mTabLayoutMediator?.detach()
     }
+
 }
