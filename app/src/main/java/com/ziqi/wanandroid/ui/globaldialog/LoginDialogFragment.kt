@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.DialogFragment
+import com.ziqi.wanandroid.ui.login.LoginParams
 import com.ziqi.wanandroid.util.StartUtil
 
 /**
@@ -36,7 +37,13 @@ class LoginDialogFragment : DialogFragment() {
                 .setMessage(content)
                 .setPositiveButton("我知道了", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
-                        StartUtil.startLoginFragment(it, this@LoginDialogFragment, -1, null)
+                        StartUtil.startLoginFragment(
+                            it,
+                            this@LoginDialogFragment,
+                            -1,
+                            LoginParams().apply {
+                                isInvalid = true
+                            })
                         it.finish()
                     }
                 })

@@ -92,6 +92,15 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             R.id.tvWenda -> {
 
             }
+            R.id.tvLoginInvalid -> {
+                LoginDialogActivity.start(ContextUtils.context, "重新登录")
+            }
+            R.id.tvSerialDialog -> {
+                mViewModel?.serialDialog()
+            }
+            R.id.tvParallelDialog -> {
+                mViewModel?.parallelDialog()
+            }
         }
     }
 

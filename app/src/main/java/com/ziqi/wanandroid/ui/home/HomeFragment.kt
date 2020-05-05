@@ -157,10 +157,10 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                     paddingRight,
                     paddingBottom
                 )
-                LogUtil.i(
-                    TAG,
-                    """${zGetClassName()}>>>addOnOffsetChangedListener->verticalOffset:${verticalOffset}->target:${target}"""
-                )
+//                LogUtil.i(
+//                    TAG,
+//                    """${zGetClassName()}>>>addOnOffsetChangedListener->verticalOffset:${verticalOffset}->target:${target}"""
+//                )
             }
 
 

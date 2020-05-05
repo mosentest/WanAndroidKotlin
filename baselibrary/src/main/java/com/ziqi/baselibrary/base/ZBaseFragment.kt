@@ -148,6 +148,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      */
     private var lazyLoad = false
 
+    @Volatile
     protected var mLoadingDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -543,53 +544,78 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     }
 
     override fun zToastLong(flag: Int, msg: String?) {
-        ToastUtil.showLongToast(msg)
+        activity?.runOnUiThread {
+            ToastUtil.showLongToast(msg)
+        }
     }
 
     override fun zToastShort(flag: Int, msg: String?) {
-        ToastUtil.showShortToast(msg)
+        activity?.runOnUiThread {
+            ToastUtil.showShortToast(msg)
+        }
     }
 
     override fun zConfirmDialog(flag: Int, msg: String?) {
-        try {
-            activity?.apply {
-                val dialog = AlertDialog.Builder(this)
-                    .setMessage(msg)
-                    .setTitle("温馨提示")
-                    .setPositiveButton("确认") { p0, p1 ->
-                        p0.dismiss()
-                    }
-                    .create()
-                dialog.show()
+        activity?.runOnUiThread {
+            try {
+                activity?.apply {
+                    val dialog = AlertDialog.Builder(this)
+                        .setMessage(msg)
+                        .setTitle("温馨提示")
+                        .setPositiveButton("确认") { p0, p1 ->
+                            p0.dismiss()
+                        }
+                        .create()
+                    dialog.show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
+    @Volatile
+    private var loadingCount = 0
+
     override fun zShowLoadDialog(flag: Int, msg: String?) {
-        try {
-            if (mLoadingDialog == null) {
-                mLoadingDialog = ProgressDialog(context)
+        activity?.runOnUiThread {
+            loadingCount++
+            LogUtil.i(TAG, "zShowLoadDialog.loadingCount:$loadingCount")
+            if (loadingCount > 1) {
+                return@runOnUiThread
             }
-            mLoadingDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mLoadingDialog?.setMessage(msg ?: "加载中...")
-            mLoadingDialog?.setCanceledOnTouchOutside(false)
-            mLoadingDialog?.setCancelable(false)
-            mLoadingDialog?.show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            zHideLoadDialog(flag)
+            try {
+                if (mLoadingDialog == null) {
+                    mLoadingDialog = ProgressDialog(context)
+                }
+                LogUtil.i(TAG, "zShowLoadDialog.mLoadingDialog:$mLoadingDialog")
+                mLoadingDialog?.setMessage(msg ?: "加载中...")
+                mLoadingDialog?.setCanceledOnTouchOutside(false)
+                mLoadingDialog?.setCancelable(false)
+                mLoadingDialog?.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                zHideLoadDialog(flag)
+            }
         }
+
     }
 
     override fun zHideLoadDialog(flag: Int) {
-        try {
-            mLoadingDialog?.dismiss()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            mLoadingDialog = null
+        activity?.runOnUiThread {
+            loadingCount--
+            LogUtil.i(TAG, "zHideLoadDialog.loadingCount:$loadingCount")
+            if (loadingCount > 0) {
+                return@runOnUiThread
+            }
+            try {
+                LogUtil.i(TAG, "zHideLoadDialog.after.mLoadingDialog:$mLoadingDialog")
+                mLoadingDialog?.dismiss()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                mLoadingDialog = null
+            }
         }
     }
 
