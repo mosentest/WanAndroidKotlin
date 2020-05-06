@@ -273,11 +273,21 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
      * 处理头部的逻辑
      */
     private fun initBaseView() {
-        mToolBar = findViewById(R.id.toolbar)
-        mLeftMenu = findViewById(R.id.leftMenu)
-        mRightOneMenu = findViewById(R.id.rightOneMenu)
-        mRightTwoMenu = findViewById(R.id.rightTwoMenu)
-        mTvTitle = findViewById(R.id.title)
+        if (mToolBar == null) {
+            mToolBar = findViewById(R.id.toolbar)
+        }
+        if (mLeftMenu == null) {
+            mLeftMenu = findViewById(R.id.leftMenu)
+        }
+        if (mRightOneMenu == null) {
+            mRightOneMenu = findViewById(R.id.rightOneMenu)
+        }
+        if (mRightTwoMenu == null) {
+            mRightTwoMenu = findViewById(R.id.rightTwoMenu)
+        }
+        if (mTvTitle == null) {
+            mTvTitle = findViewById(R.id.title)
+        }
         activity?.apply {
             (activity as AppCompatActivity).apply {
                 setSupportActionBar(mToolBar)
@@ -339,8 +349,14 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        LogUtil.i(TAG, """${zGetClassName()}.onDestroyView""")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        LogUtil.i(TAG, """${zGetClassName()}.onDestroy""")
         mZStatusView = null
         mLoadingDialog = null
         mSnackbar = null
@@ -349,7 +365,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         mViewDataBinding = null
 
         mToolBar = null
-        mRightTwoMenu = null
+        mRightOneMenu = null
         mRightTwoMenu = null
         mLeftMenu = null
 
