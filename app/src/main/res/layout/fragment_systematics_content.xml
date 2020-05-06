@@ -10,16 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.ziqi.wanandroid.view.SwipeRefreshLayoutX
+        <com.ziqi.wanandroid.commonlibrary.view.SwipeRefreshLayoutX
             android:id="@+id/myRootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.ziqi.wanandroid.view.RecyclerViewX
+            <com.ziqi.wanandroid.commonlibrary.view.RecyclerViewX
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.ziqi.wanandroid.view.SwipeRefreshLayoutX>
+        </com.ziqi.wanandroid.commonlibrary.view.SwipeRefreshLayoutX>
     </LinearLayout>
 
 </layout>

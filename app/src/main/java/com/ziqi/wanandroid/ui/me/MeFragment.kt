@@ -5,19 +5,16 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.florent37.fiftyshadesof.FiftyShadesOf
-import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.ContextUtils
-import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMeBinding
-import com.ziqi.wanandroid.ui.common.BaseFragment
-import com.ziqi.wanandroid.ui.globaldialog.LoginDialogActivity
-import com.ziqi.wanandroid.util.LoginManager
-import com.ziqi.wanandroid.util.StartUtil
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.LoginDialogActivity
+import com.ziqi.wanandroid.commonlibrary.util.LoginManager
+import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 
 /**
  * Copyright (C), 2018-2020
@@ -122,6 +119,9 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                 R.id.tvCollect,
                 R.id.tvUserArticle,
                 R.id.tvWenda,
+                R.id.tvLoginInvalid,
+                R.id.tvSerialDialog,
+                R.id.tvParallelDialog,
                 R.id.tvLogout
             )
             .start()

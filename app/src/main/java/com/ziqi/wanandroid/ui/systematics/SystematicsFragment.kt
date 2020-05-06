@@ -19,14 +19,14 @@ import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusView
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.bean.Article
-import com.ziqi.wanandroid.bean.Tree
-import com.ziqi.wanandroid.bean.WanList
+import com.ziqi.wanandroid.commonlibrary.bean.Article
+import com.ziqi.wanandroid.commonlibrary.bean.Tree
+import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.databinding.FragmentSystematicsBinding
 import com.ziqi.wanandroid.databinding.FragmentSystematicsContentBinding
 import com.ziqi.wanandroid.databinding.FragmentSystematicsContentMenuCategoryBinding
-import com.ziqi.wanandroid.ui.common.BaseFragment
-import com.ziqi.wanandroid.util.StartUtil
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
+import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 
 /**
  * Copyright (C), 2018-2020

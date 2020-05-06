@@ -2,12 +2,9 @@ package com.ziqi.wanandroid.ui.wxarticle
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.ziqi.baselibrary.mvvm.BaseViewModel
-import com.ziqi.wanandroid.bean.Tree
-import com.ziqi.wanandroid.net.NetRepository
-import com.ziqi.wanandroid.ui.common.UserViewModel
-import com.ziqi.wanandroid.ui.project.ProjectViewModel
+import com.ziqi.wanandroid.commonlibrary.bean.Tree
+import com.ziqi.wanandroid.commonlibrary.net.NetRepository
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 import kotlinx.coroutines.async
 
 class WxArticleViewModel(ctx: Application) : UserViewModel(ctx) {

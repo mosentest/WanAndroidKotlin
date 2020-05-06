@@ -16,14 +16,14 @@ import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.bean.ListProject
-import com.ziqi.wanandroid.bean.Tree
+import com.ziqi.wanandroid.commonlibrary.bean.ListProject
+import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.databinding.FragmentProjectListBinding
-import com.ziqi.wanandroid.ui.common.BaseFragment
-import com.ziqi.wanandroid.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.util.ImageLoad
-import com.ziqi.wanandroid.util.StartUtil
-import com.ziqi.wanandroid.view.ImageViewX
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
+import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
+import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 
 /**
  * Copyright (C), 2018-2020
@@ -123,7 +123,8 @@ class ProjectListFragment :
                     }
                     holder.getView<ImageViewX>(R.id.envelopePic).setOnClickListener {
                         activity?.let {
-                            val params = ImagePreviewParams()
+                            val params =
+                                ImagePreviewParams()
                             params.imgUrl = arrayListOf(item.envelopePic)
                             StartUtil.startImagePreviewFragment(
                                 it,

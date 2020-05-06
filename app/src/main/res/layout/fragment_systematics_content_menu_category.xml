@@ -12,7 +12,7 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <com.ziqi.wanandroid.view.RecyclerViewX
+        <com.ziqi.wanandroid.commonlibrary.view.RecyclerViewX
             android:id="@+id/recyclerViewFrist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:background="@color/color_999999" />
 
-        <com.ziqi.wanandroid.view.RecyclerViewX
+        <com.ziqi.wanandroid.commonlibrary.view.RecyclerViewX
             android:id="@+id/recyclerViewSecond"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

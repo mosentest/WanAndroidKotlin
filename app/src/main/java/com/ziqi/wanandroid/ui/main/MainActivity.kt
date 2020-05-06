@@ -1,7 +1,7 @@
 package com.ziqi.wanandroid.ui.main
 
 import androidx.fragment.app.Fragment
-import com.ziqi.wanandroid.ui.common.CommonActivity
+import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
 
 class MainActivity : CommonActivity() {
 

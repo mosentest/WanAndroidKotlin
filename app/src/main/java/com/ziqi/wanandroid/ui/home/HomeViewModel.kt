@@ -4,13 +4,9 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.baselibrary.util.LogUtil
-import com.ziqi.wanandroid.bean.Article
-import com.ziqi.wanandroid.bean.Banner
-import com.ziqi.wanandroid.bean.WanList
-import com.ziqi.wanandroid.net.NetRepository
-import kotlinx.coroutines.Dispatchers
+import com.ziqi.wanandroid.commonlibrary.bean.Banner
+import com.ziqi.wanandroid.commonlibrary.net.NetRepository
 import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
 
 /**
  * Copyright (C), 2018-2020

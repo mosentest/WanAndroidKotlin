@@ -154,10 +154,6 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        if (zIsEventBus()) {
-            //增加eventBus
-            EventBus.getDefault().register(this)
-        }
         arguments?.apply {
             mTitle = getString(StartActivityCompat.NEXT_TITLE)
             mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
@@ -299,6 +295,10 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         super.onStart()
         // 监听网络
         listenerNetwork()
+        if (zIsEventBus()) {
+            //增加eventBus
+            EventBus.getDefault().register(this)
+        }
     }
 
     override fun onResume() {
@@ -333,14 +333,14 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             // 注销 NetworkCallback
             unregisterNetworkCallback()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         if (zIsEventBus()) {
             //移除eventBus
             EventBus.getDefault().unregister(this)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         mZStatusView = null
         mLoadingDialog = null
         mSnackbar = null

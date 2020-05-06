@@ -15,19 +15,18 @@ import com.youth.banner.transformer.DepthPageTransformer
 import com.youth.banner.util.BannerUtils
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.ContextUtils
-import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.bean.Banner
+import com.ziqi.wanandroid.commonlibrary.bean.Banner
 import com.ziqi.wanandroid.databinding.FragmentHomeBinding
-import com.ziqi.wanandroid.ui.common.BaseFragment
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.recentblog.RecentBlogFragment
 import com.ziqi.wanandroid.ui.recentproject.RecentProjectFragment
-import com.ziqi.wanandroid.util.ImageLoad
-import com.ziqi.wanandroid.util.StartUtil
-import com.ziqi.wanandroid.view.banner.ImageAdapter
+import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.commonlibrary.view.banner.ImageAdapter
 
 
 /**

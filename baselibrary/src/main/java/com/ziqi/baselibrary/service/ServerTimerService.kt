@@ -36,9 +36,9 @@ class ServerTimerService : Service() {
 
             @Throws(RemoteException::class)
             override fun setTime(time: String?): Boolean {
-                MyHandler.post(Runnable {
+                MyHandler.post {
                     Toast.makeText(this@ServerTimerService, time, Toast.LENGTH_SHORT).show()
-                })
+                }
                 Log.i(TAG, time)
                 return false
             }

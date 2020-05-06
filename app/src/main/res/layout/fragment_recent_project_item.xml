@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
 
-            <com.ziqi.wanandroid.view.ImageViewX
+            <com.ziqi.wanandroid.commonlibrary.view.ImageViewX
                 android:id="@+id/envelopePic"
                 android:layout_width="@dimen/dp_75"
                 android:layout_height="match_parent"
@@ -101,7 +101,7 @@
                     tools:text="干货资源/干货资源" />
 
 
-                <com.ziqi.wanandroid.view.RecyclerViewX
+                <com.ziqi.wanandroid.commonlibrary.view.RecyclerViewX
                     android:id="@+id/tags"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

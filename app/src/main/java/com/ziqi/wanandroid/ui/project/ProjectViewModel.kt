@@ -3,8 +3,8 @@ package com.ziqi.wanandroid.ui.project
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.mvvm.BaseViewModel
-import com.ziqi.wanandroid.bean.Tree
-import com.ziqi.wanandroid.net.NetRepository
+import com.ziqi.wanandroid.commonlibrary.bean.Tree
+import com.ziqi.wanandroid.commonlibrary.net.NetRepository
 import kotlinx.coroutines.async
 
 /**

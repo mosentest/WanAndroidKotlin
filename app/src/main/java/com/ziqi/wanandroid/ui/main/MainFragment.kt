@@ -9,19 +9,17 @@ import android.os.IBinder
 import android.os.Parcelable
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.ziqi.baselibrary.ITimerManagerService
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMainBinding
-import com.ziqi.wanandroid.ui.common.BaseFragment
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.ui.home.HomeFragment
 import com.ziqi.wanandroid.ui.me.MeFragment
 import com.ziqi.wanandroid.ui.project.ProjectFragment
 import com.ziqi.wanandroid.ui.systematics.SystematicsFragment
-import com.ziqi.wanandroid.view.MyPageTransformer
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
