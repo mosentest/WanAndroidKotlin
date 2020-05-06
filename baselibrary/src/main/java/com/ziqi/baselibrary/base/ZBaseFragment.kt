@@ -253,25 +253,10 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         mConnectivityManager =
             activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         initBaseView()
+        initDataView()
         zVisibleToUser(false)
     }
 
-    /**
-     * 处理数据问题
-     */
-    override fun onNewIntent(bundle: Bundle?) {
-        bundle?.apply {
-            mTitle = getString(StartActivityCompat.NEXT_TITLE)
-            mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
-            mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
-        }
-        initBaseView()
-        zVisibleToUser(true)
-    }
-
-    /**
-     * 处理头部的逻辑
-     */
     private fun initBaseView() {
         if (mToolBar == null) {
             mToolBar = findViewById(R.id.toolbar)
@@ -288,6 +273,25 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         if (mTvTitle == null) {
             mTvTitle = findViewById(R.id.title)
         }
+    }
+
+    /**
+     * 处理数据问题
+     */
+    override fun onNewIntent(bundle: Bundle?) {
+        bundle?.apply {
+            mTitle = getString(StartActivityCompat.NEXT_TITLE)
+            mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
+            mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
+        }
+        initDataView()
+        zVisibleToUser(true)
+    }
+
+    /**
+     * 处理头部的逻辑
+     */
+    private fun initDataView() {
         activity?.apply {
             (activity as AppCompatActivity).apply {
                 setSupportActionBar(mToolBar)
