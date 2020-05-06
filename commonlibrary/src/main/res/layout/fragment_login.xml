@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".commonlibrary.ui.login.LoginFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_200"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_login_meinv" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_10">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="请输入账号"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/color_333333"
+                        android:textColorHint="@color/color_999999"
+                        android:textSize="@dimen/sp_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_10"
+                    app:passwordToggleDrawable="@drawable/selector_password"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="请输入密码"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="@color/color_333333"
+                        android:textColorHint="@color/color_999999"
+                        android:textSize="@dimen/sp_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@color/colorPrimary">
+
+                    <TextView
+                        android:id="@+id/tvLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{listener::onClick}"
+                        android:padding="@dimen/dp_16"
+                        android:text="登录"
+                        android:textColor="@color/white"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_10">
+
+                    <TextView
+                        android:id="@+id/tvRegister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{listener::onClick}"
+                        android:padding="@dimen/dp_16"
+                        android:text="注册"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tvForget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{listener::onClick}"
+                        android:padding="@dimen/dp_16"
+                        android:text="忘记密码？"
+                        android:textColor="@color/color_666666"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@id/myToolbar"
+                layout="@layout/layout_toolbar" />
+        </com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout>
+
+    </FrameLayout>
+
+
+</layout>
