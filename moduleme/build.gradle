@@ -1,21 +1,20 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
 
     defaultConfig {
-        applicationId "com.ziqi.wanandroid"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
 
         // 直接添加jar包不行
         renderscriptTargetApi 20
@@ -33,6 +32,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 
     /**
      * 这前用上面multiDexEnabled true时，
@@ -54,6 +54,9 @@ android {
 
     kapt {
         generateStubs = true
+        arguments {
+//            arg('eventBusIndex', 'com.ziqi.baselibrary.MyEventBusIndex')
+        }
     }
 
     androidExtensions {
@@ -62,16 +65,12 @@ android {
 }
 
 dependencies {
-
-    testImplementation 'junit:junit:4.12'
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation project(':modulecommon')
-    implementation project(':moduleme')
 
     //开启kotlin的dataBinding
     kapt "com.android.databinding:compiler:$rootProject.ext.gradle_version"
 
     kapt 'com.github.bumptech.glide:compiler:4.10.0'
-
 }

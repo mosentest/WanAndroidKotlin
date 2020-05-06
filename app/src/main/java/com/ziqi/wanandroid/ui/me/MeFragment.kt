@@ -61,7 +61,6 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                 })
             }
             R.id.tvSearch -> {
-                LoginDialogActivity.start(ContextUtils.context, "重新登录")
             }
             R.id.tvWxArticle -> {
                 activity?.apply {

@@ -1,0 +1,123 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.1"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        // 直接添加jar包不行
+        renderscriptTargetApi 20
+        renderscriptSupportModeEnabled true
+
+        // Enabling multidex support
+        multiDexEnabled true
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    /**
+     * 这前用上面multiDexEnabled true时，
+     * 突然在5.0以下的手机上跑不起来，
+     * 改成下面这种写法就可以了。
+     */
+    dexOptions {
+        jumboMode true
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kapt {
+        generateStubs = true
+        arguments {
+//            arg('eventBusIndex', 'com.ziqi.baselibrary.MyEventBusIndex')
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    def nav_version = "2.3.0-alpha06"
+
+    // Java language implementation
+    api "androidx.navigation:navigation-fragment:$nav_version"
+    api "androidx.navigation:navigation-ui:$nav_version"
+
+    // Kotlin
+    api "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    api "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //开启kotlin的dataBinding
+    kapt "com.android.databinding:compiler:$rootProject.ext.gradle_version"
+
+    //申请权限
+    //https://github.com/sagar-viradiya/eazypermissions
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugApi 'com.squareup.leakcanary:leakcanary-android:2.2'
+
+    api 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+
+    //https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout?hl=zh-cn
+    api "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    //banner广告图
+    //https://github.com/youth5201314/banner
+    api 'com.youth.banner:banner:2.0.6'
+
+    //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    //新版本的3.0.x用起来太复杂
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
+
+    //https://github.com/Bigkoo/Android-PickerView
+    api 'com.contrarywind:Android-PickerView:4.1.9'
+
+    //https://github.com/mcxtzhang/SwipeDelMenuLayout/blob/master/README-cn.md
+    api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+
+    //https://github.com/dongjunkun/DropDownMenu
+    api 'com.github.dongjunkun:DropDownMenu:1.0.4'
+
+    //https://github.com/florent37/FiftyShadesOf
+    api 'com.github.florent37:fiftyshadesof:1.0.0'
+
+    api project(':baselibrary')
+    
+}
