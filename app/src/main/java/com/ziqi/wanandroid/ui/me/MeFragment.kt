@@ -12,7 +12,8 @@ import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.databinding.FragmentMeBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.LoginDialogActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.util.LoginManager
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 
@@ -89,7 +90,13 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
 
             }
             R.id.tvLoginInvalid -> {
-                LoginDialogActivity.start(ContextUtils.context, "重新登录")
+                GlobalActivity.start(ContextUtils.context!!, GlobalParams().apply {
+                    this.content = "重新登录"
+                    this.title = "温馨提示"
+                    this.left = ""
+                    this.right = "确定"
+                    this.type = 1
+                })
             }
             R.id.tvSerialDialog -> {
                 mViewModel?.serialDialog()

@@ -2,7 +2,8 @@ package com.ziqi.wanandroid.commonlibrary.bean
 
 import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.util.ContextUtils
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.LoginDialogActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 
 /**
  * Copyright (C), 2018-2020
@@ -29,7 +30,13 @@ class WanResponse<T> {
             //errorCode = -1001 代表登录失效，需要重新登录。
             //errorCode = -1002 代表更新
             if (errorCode == -1001) {
-                LoginDialogActivity.start(ContextUtils.context, errMsg)
+                GlobalActivity.start(ContextUtils.context!!, GlobalParams().apply {
+                    this.content = "重新登录"
+                    this.title = "温馨提示"
+                    this.left = ""
+                    this.right = "确定"
+                    this.type = 1
+                })
             } else if (errorCode == -1002) {
                 //弹出检查更新全局对话框
             }

@@ -14,10 +14,10 @@ import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
 
 class ImagePreviewFragment :
-    BaseFragment<ImagePreviewViewModel, ImagePreviewParams, FragmentImagePreviewBinding>(),
-    SwipeRefreshLayout.OnRefreshListener {
+    BaseFragment<ImagePreviewViewModel, ImagePreviewParams, FragmentImagePreviewBinding>() {
 
     companion object {
+        @JvmStatic
         fun newInstance(bundle: Bundle?) = ImagePreviewFragment().apply {
             arguments = bundle
         }
