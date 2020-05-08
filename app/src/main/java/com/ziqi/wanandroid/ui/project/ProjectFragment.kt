@@ -11,8 +11,8 @@ import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.Tree
-import com.ziqi.wanandroid.databinding.FragmentProjectBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
+import com.ziqi.wanandroid.databinding.FragmentProjectBinding
 import com.ziqi.wanandroid.ui.projectlist.ProjectListFragment
 
 /**

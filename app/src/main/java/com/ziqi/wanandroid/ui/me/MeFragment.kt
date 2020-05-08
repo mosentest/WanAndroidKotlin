@@ -8,14 +8,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.florent37.fiftyshadesof.FiftyShadesOf
 import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.databinding.FragmentMeBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.util.LoginManager
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.databinding.FragmentMeBinding
 
 /**
  * Copyright (C), 2018-2020
@@ -90,13 +91,9 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
 
             }
             R.id.tvLoginInvalid -> {
-                GlobalActivity.start(ContextUtils.context!!, GlobalParams().apply {
-                    this.content = "重新登录"
-                    this.title = "温馨提示"
-                    this.left = ""
-                    this.right = "确定"
-                    this.type = 1
-                })
+                activity?.apply {
+                    mViewModel?.mToLogin?.value = Event(true)
+                }
             }
             R.id.tvSerialDialog -> {
                 mViewModel?.serialDialog()
@@ -133,7 +130,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             .start()
         mViewDataBinding?.tvNoLogin?.postDelayed({
             mFiftyShadesOf?.stop()
-        }, 1000)
+        }, 100)
     }
 
     override fun onResume() {

@@ -1,7 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.ui.login
 
 import android.app.Application
-import com.ziqi.baselibrary.mvvm.BaseViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 
-class LoginViewModel(ctx: Application) : BaseViewModel(ctx) {
+class LoginViewModel(ctx: Application) : UserViewModel(ctx) {
 }

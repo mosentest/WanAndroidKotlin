@@ -3,12 +3,12 @@ package com.ziqi.wanandroid.ui.systematics
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.livedata.Event
-import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Article
 import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
+class SystematicsViewModel(ctx: Application) : UserViewModel(ctx) {
 
     private val TAG: String = SystematicsViewModel::class.java.simpleName
 

@@ -1,16 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.ui.globaldialog
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.view.WindowManager
-import androidx.fragment.app.Fragment
-import com.ziqi.baselibrary.common.WebFragment
-import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
-import com.ziqi.wanandroid.commonlibrary.ui.common.WebActivity
-import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 
 /**
  * Copyright (C), 2018-2020
@@ -44,23 +35,5 @@ class GlobalActivity : CommonActivity() {
     override fun onBackPressed() {
         //不需要这个
 //        super.onBackPressed()
-    }
-
-    companion object {
-        /**
-         * 启动登录全局的对话框
-         */
-        fun start(context: Context, globalParams: GlobalParams) {
-            StartActivityCompat.startActivity(
-                context,
-                null,
-                GlobalFragment::class.java.name,
-                -1,
-                Intent(context, GlobalActivity::class.java),
-                "",
-                false,
-                globalParams
-            )
-        }
     }
 }

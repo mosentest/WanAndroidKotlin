@@ -14,8 +14,8 @@ import com.ziqi.baselibrary.ITimerManagerService
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
-import com.ziqi.wanandroid.databinding.FragmentMainBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
+import com.ziqi.wanandroid.databinding.FragmentMainBinding
 import com.ziqi.wanandroid.ui.home.HomeFragment
 import com.ziqi.wanandroid.ui.me.MeFragment
 import com.ziqi.wanandroid.ui.project.ProjectFragment

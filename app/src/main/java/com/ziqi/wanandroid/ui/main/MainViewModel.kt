@@ -1,8 +1,7 @@
 package com.ziqi.wanandroid.ui.main
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.ziqi.baselibrary.mvvm.BaseViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 
 /**
  * Copyright (C), 2018-2020
@@ -13,7 +12,7 @@ import com.ziqi.baselibrary.mvvm.BaseViewModel
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class MainViewModel(ctx: Application) : BaseViewModel(ctx) {
+class MainViewModel(ctx: Application) : UserViewModel(ctx) {
 
     private val TAG: String = MainViewModel::class.java.simpleName
 

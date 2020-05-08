@@ -1,7 +1,13 @@
 package com.ziqi.wanandroid.commonlibrary.ui.common
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
+import com.ziqi.baselibrary.http.error.ResponseThrowable
+import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.mvvm.BaseViewModel
+import com.ziqi.baselibrary.util.ContextUtils
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 
 /**
  * Copyright (C), 2018-2020
@@ -14,5 +20,29 @@ import com.ziqi.baselibrary.mvvm.BaseViewModel
  */
 open class UserViewModel(ctx: Application) : BaseViewModel(ctx) {
     //查询用户信息的viewModel
-    //xxx
+
+    /**
+     * 接口控制需要去登录
+     */
+    var mToLogin: MutableLiveData<Event<Boolean>> = MutableLiveData()
+
+    var mToUpdate: MutableLiveData<Event<Boolean>> = MutableLiveData()
+
+    fun errorInfo(rt: ResponseThrowable?): String? {
+        return rt?.let {
+            var msg = ""
+            //errorCode = -1001 代表登录失效，需要重新登录。
+            //errorCode = -1002 代表更新
+            if (it.code == -1001) {
+                mToLogin.value = Event(true)
+            } else if (it.code == -1002) {
+                //弹出检查更新全局对话框
+                mToUpdate.value = Event(true)
+            } else {
+                //其他情况才有msg
+                msg = """${it.errMsg}[${rt.code}]"""
+            }
+            msg
+        }
+    }
 }

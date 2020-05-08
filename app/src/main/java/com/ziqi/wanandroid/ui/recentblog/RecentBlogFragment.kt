@@ -16,9 +16,9 @@ import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.Article
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
-import com.ziqi.wanandroid.databinding.FragmentRecentBlogBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.databinding.FragmentRecentBlogBinding
 
 class RecentBlogFragment :
     BaseFragment<RecentBlogViewModel, Parcelable, FragmentRecentBlogBinding>() {

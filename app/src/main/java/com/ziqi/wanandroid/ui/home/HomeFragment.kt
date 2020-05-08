@@ -20,13 +20,13 @@ import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.Banner
-import com.ziqi.wanandroid.databinding.FragmentHomeBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.ui.recentblog.RecentBlogFragment
-import com.ziqi.wanandroid.ui.recentproject.RecentProjectFragment
 import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.banner.ImageAdapter
+import com.ziqi.wanandroid.databinding.FragmentHomeBinding
+import com.ziqi.wanandroid.ui.recentblog.RecentBlogFragment
+import com.ziqi.wanandroid.ui.recentproject.RecentProjectFragment
 
 
 /**

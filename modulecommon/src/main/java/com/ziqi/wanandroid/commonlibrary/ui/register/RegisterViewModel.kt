@@ -1,7 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.ui.register
 
 import android.app.Application
-import com.ziqi.baselibrary.mvvm.BaseViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 
-class RegisterViewModel(ctx: Application) : BaseViewModel(ctx) {
+class RegisterViewModel(ctx: Application) : UserViewModel(ctx) {
 }

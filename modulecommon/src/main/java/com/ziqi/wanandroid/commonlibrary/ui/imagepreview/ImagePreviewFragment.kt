@@ -1,9 +1,9 @@
 package com.ziqi.wanandroid.commonlibrary.ui.imagepreview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -40,6 +40,7 @@ class ImagePreviewFragment :
         onRefresh()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         mAdapter = object : BaseQuickAdapter<String, BaseViewHolder>(
             R.layout.fragment_image_preview_item,
@@ -62,6 +63,7 @@ class ImagePreviewFragment :
         )
         mViewDataBinding?.viewpager2?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
+            @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 mTvTitle?.text = """${position.plus(1)}/${mBundleData?.imgUrl?.size}"""

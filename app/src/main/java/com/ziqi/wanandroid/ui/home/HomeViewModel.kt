@@ -2,10 +2,10 @@ package com.ziqi.wanandroid.ui.home
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Banner
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 import kotlinx.coroutines.async
 
 /**
@@ -17,7 +17,7 @@ import kotlinx.coroutines.async
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
+class HomeViewModel(ctx: Application) : UserViewModel(ctx) {
 
     private val TAG: String = HomeViewModel::class.java.simpleName
 

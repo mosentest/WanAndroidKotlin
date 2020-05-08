@@ -26,7 +26,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="colorPrimary">@android:color/transparent</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item  name="colorPrimaryDark">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 

@@ -16,12 +16,12 @@ import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
-import com.ziqi.wanandroid.databinding.FragmentRecentProjectBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
+import com.ziqi.wanandroid.databinding.FragmentRecentProjectBinding
 
 class RecentProjectFragment :
     BaseFragment<RecentProjectViewModel, Parcelable, FragmentRecentProjectBinding>() {

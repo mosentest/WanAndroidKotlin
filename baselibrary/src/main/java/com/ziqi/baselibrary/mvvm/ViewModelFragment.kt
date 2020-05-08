@@ -66,5 +66,11 @@ abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, B
                 zConfirmDialog(-1, getContentIfNotHandled())
             }
         })
+        initViewModel()
     }
+
+    /**
+     * 初始化其他的ViewModel
+     */
+    abstract fun initViewModel()
 }

@@ -18,12 +18,12 @@ import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.bean.Tree
-import com.ziqi.wanandroid.databinding.FragmentProjectListBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
+import com.ziqi.wanandroid.databinding.FragmentProjectListBinding
 
 /**
  * Copyright (C), 2018-2020

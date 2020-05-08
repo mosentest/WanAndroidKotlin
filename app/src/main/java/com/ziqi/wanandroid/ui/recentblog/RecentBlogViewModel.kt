@@ -2,16 +2,16 @@ package com.ziqi.wanandroid.ui.recentblog
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Article
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
+import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
+class RecentBlogViewModel(ctx: Application) : UserViewModel(ctx) {
 
     private val TAG: String = RecentBlogViewModel::class.java.simpleName
 

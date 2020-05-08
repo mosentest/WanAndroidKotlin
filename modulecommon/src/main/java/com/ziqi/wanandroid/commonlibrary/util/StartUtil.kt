@@ -9,6 +9,9 @@ import com.ziqi.baselibrary.common.WebFragment
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalFragment
+import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewActivity
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
@@ -105,6 +108,27 @@ class StartUtil {
                 Intent(context, CommonActivity::class.java),
                 "注册",
                 true,
+                info
+            )
+        }
+
+        /**
+         * 启动全局的对话框
+         */
+        fun startGlobalFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            info: GlobalParams
+        ) {
+            StartActivityCompat.startActivity(
+                context,
+                fragment,
+                GlobalFragment::class.java.name,
+                requestCode,
+                Intent(context, GlobalActivity::class.java),
+                "",
+                false,
                 info
             )
         }

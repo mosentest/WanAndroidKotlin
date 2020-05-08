@@ -46,7 +46,7 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
         when (v?.id) {
             R.id.tvLogin -> {
                 activity?.setResult(Activity.RESULT_OK)
-                activity?.onBackPressed()
+                activity?.finish()
             }
         }
     }
