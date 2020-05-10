@@ -57,5 +57,7 @@ interface WanAndroidApi {
     @POST("user/login")
     suspend fun login(@FieldMap map: Map<String, String>): WanResponse<Any>
 
+    @FormUrlEncoded
+    @POST("user/login")
     suspend fun login(@Field("username") username: String, @Field("password") password: String): WanResponse<Any>
 }

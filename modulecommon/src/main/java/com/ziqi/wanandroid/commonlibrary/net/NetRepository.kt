@@ -14,10 +14,6 @@ import kotlinx.coroutines.Deferred
  */
 object NetRepository {
 
-    suspend fun login(): Deferred<Any> {
-        return RetrofitUtils.get().wanAndroidApi.login()
-    }
-
     suspend fun banner(): WanResponse<MutableList<Banner>> {
         return RetrofitUtils.get().wanAndroidApi.banner()
     }
