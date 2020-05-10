@@ -26,13 +26,15 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="colorPrimary">@android:color/transparent</item>
-        <item  name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="BaseTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/bg_web_splash</item>
         <!--https://blog.csdn.net/u010218170/article/details/92437667-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">false</item>-->
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
+
+    <style name="FullscreenTheme" parent="BaseTheme" />
 </resources>

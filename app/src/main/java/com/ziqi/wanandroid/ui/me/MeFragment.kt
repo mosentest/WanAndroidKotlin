@@ -70,19 +70,15 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                 }
             }
             R.id.tvCollect -> {
-                if (LoginManager.isNoLogin()) {
-                    toLogin(object : LoginListener {
-                        override fun onSuccess() {
-                            zToastShort(-1, "登录成功")
-                        }
+                toLogin(object : LoginListener {
+                    override fun onSuccess() {
+                        zToastShort(-1, "登录成功")
+                    }
 
-                        override fun onCancel() {
-                        }
+                    override fun onCancel() {
+                    }
 
-                    }, null)
-                } else {
-
-                }
+                }, null)
             }
             R.id.tvUserArticle -> {
 

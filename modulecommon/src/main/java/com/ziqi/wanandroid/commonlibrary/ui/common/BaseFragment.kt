@@ -9,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ziqi.baselibrary.mvvm.ZViewModelFragment
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.ui.login.LoginParams
+import com.ziqi.wanandroid.commonlibrary.util.LoginManager
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 
 /**
@@ -47,14 +48,15 @@ abstract class BaseFragment<VM : BaseViewModel, StartParams : Parcelable, Bindin
          */
         mViewModel?.mToLogin?.observe(viewLifecycleOwner, Observer {
             it?.apply {
-                if (getContentIfNotHandled() == true) {
+                val contentIfNotHandled = getContentIfNotHandled()
+                contentIfNotHandled?.apply {
                     activity?.apply {
                         StartUtil.startGlobalFragment(
                             this,
                             this@BaseFragment,
                             REQUEST_GLOBAL,
                             GlobalParams().apply {
-                                this.content = "重新登录"
+                                this.content = errMsg
                                 this.title = "温馨提示"
                                 this.left = ""
                                 this.right = "确定"
@@ -92,6 +94,10 @@ abstract class BaseFragment<VM : BaseViewModel, StartParams : Parcelable, Bindin
     }
 
     fun toLogin(loginListener: LoginListener, loginParams: LoginParams?) {
+        if (LoginManager.isLogin()) {
+            loginListener.onSuccess()
+            return
+        }
         activity?.apply {
             StartUtil.startLoginFragment(this, this@BaseFragment, REQUEST_LOGIN, loginParams)
         }

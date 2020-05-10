@@ -15,27 +15,27 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:launchMode="singleTask"
             android:theme="@style/MainTheme">
 
         </activity>
         <activity
             android:name=".commonlibrary.ui.imagepreview.ImagePreviewActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:launchMode="singleTop" />
         <activity
             android:name=".commonlibrary.ui.common.WebActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:launchMode="singleTop" />
         <activity
             android:name=".commonlibrary.ui.login.LoginActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".commonlibrary.ui.start.StartActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
-            android:theme="@style/BaseTheme">
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,12 +44,22 @@
         </activity>
         <activity
             android:name=".commonlibrary.ui.common.CommonActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation" />
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation" />
         <activity
             android:name=".commonlibrary.ui.globaldialog.GlobalActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:launchMode="singleTop"
             android:theme="@style/LoginDialogTheme" />
+
+        <!-- 全面屏适配 -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
+        <!-- 华为适配 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
     </application>
 
 </manifest>

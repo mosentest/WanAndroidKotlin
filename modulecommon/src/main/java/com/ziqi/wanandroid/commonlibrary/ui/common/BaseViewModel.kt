@@ -16,12 +16,13 @@ import com.ziqi.baselibrary.mvvm.ZBaseViewModel
  * 作者姓名 修改时间 版本号 描述
  */
 open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
+
     //查询用户信息的viewModel
 
     /**
      * 接口控制需要去登录
      */
-    var mToLogin: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    var mToLogin: MutableLiveData<Event<ResponseThrowable>> = MutableLiveData()
 
     var mToUpdate: MutableLiveData<Event<Boolean>> = MutableLiveData()
 
@@ -31,7 +32,7 @@ open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
             //errorCode = -1001 代表登录失效，需要重新登录。
             //errorCode = -1002 代表更新，假设
             if (it.code == -1001) {
-                mToLogin.value = Event(true)
+                mToLogin.value = Event(rt)
             } else if (it.code == -1002) {
                 //弹出检查更新全局对话框
                 mToUpdate.value = Event(true)

@@ -47,7 +47,8 @@ public class StatusBarHeightLinearLayout extends LinearLayout {
                 if (getContext() instanceof Activity) {
                     boolean inMultiWindowMode = ((Activity) getContext()).isInMultiWindowMode();
                     if (inMultiWindowMode) {
-                        statusBarHeight = 0;
+                        //效果不是特别理想注释算了
+                        //statusBarHeight = 0;
                     }
                 }
             }

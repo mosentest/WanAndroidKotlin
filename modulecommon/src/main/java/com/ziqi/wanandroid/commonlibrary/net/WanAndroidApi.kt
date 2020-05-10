@@ -2,9 +2,7 @@ package com.ziqi.wanandroid.commonlibrary.net
 
 import com.ziqi.wanandroid.commonlibrary.bean.*
 import kotlinx.coroutines.Deferred
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Copyright (C), 2018-2020
@@ -20,7 +18,7 @@ interface WanAndroidApi {
     /**
      * 旧方式
      */
-    fun login(): Deferred<Any>
+//    fun login(): Deferred<Any>
 
     /**
      * 2.6.0 新方式
@@ -55,4 +53,9 @@ interface WanAndroidApi {
     @GET("wxarticle/list/{cid}/{pos}/json")
     suspend fun wxArticleList(@Path("cid") cid: Int, @Path("pos") pos: Int): WanResponse<ListProject>
 
+    @FormUrlEncoded
+    @POST("user/login")
+    suspend fun login(@FieldMap map: Map<String, String>): WanResponse<Any>
+
+    suspend fun login(@Field("username") username: String, @Field("password") password: String): WanResponse<Any>
 }

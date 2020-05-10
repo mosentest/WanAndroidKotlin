@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_50"
-        android:background="@drawable/shape_corner20_color_2000000"
+        android:background="@drawable/shape_corner16_color_888888"
         android:gravity="center"
         android:padding="@dimen/dp_16">
 

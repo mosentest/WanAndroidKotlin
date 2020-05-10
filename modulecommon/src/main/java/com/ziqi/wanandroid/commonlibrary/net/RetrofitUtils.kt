@@ -35,7 +35,7 @@ class RetrofitUtils {
             // Please migrate to Retrofit 2.6.0 or newer and its built-in suspend support
             //https://github.com/square/retrofit/blob/master/CHANGELOG.md#version-260-2019-06-05
             //.addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(OkHttpUtils.instance.okHttpClient)
+            .client(WanOkHttpUtils.instance.okHttpClient)
             .build()
         wanAndroidApi = retrofit.create(WanAndroidApi::class.java)
     }

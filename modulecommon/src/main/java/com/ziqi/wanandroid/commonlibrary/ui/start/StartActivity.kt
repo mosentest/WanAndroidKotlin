@@ -3,6 +3,7 @@ package com.ziqi.wanandroid.commonlibrary.ui.start
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.ziqi.baselibrary.util.MyHandler
+import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
 import com.ziqi.wanandroid.commonlibrary.util.route.StartPage
 
@@ -26,6 +27,8 @@ class StartActivity : CommonActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StatusBarUtil.setTranslucentStatus(this)
+        StatusBarUtil.setStatusBarDarkTheme(this, true)
         myHandler = MyHandler(lifecycle)
         myHandler?.postDelayed({
             StartPage.toMain(this)

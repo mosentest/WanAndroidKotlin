@@ -155,11 +155,12 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                 if (target < -verticalOffset) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         //如果是分屏状态下的话，状态栏高度改为0
+                        //效果不好，还是注释算了
                         activity?.apply {
                             val inMultiWindowMode =
                                 (context as Activity).isInMultiWindowMode
                             if (inMultiWindowMode) {
-                                statusBarHeight = 0
+                                //statusBarHeight = 0
                             }
                         }
                     }

@@ -134,6 +134,18 @@ class ProjectListFragment :
                             )
                         }
                     }
+                    holder.getView<ImageView>(R.id.btnCollect).isSelected = "true" == item.collect
+                    holder.getView<ImageView>(R.id.btnCollect).setOnClickListener {
+                        toLogin(object : LoginListener {
+                            override fun onSuccess() {
+
+                            }
+
+                            override fun onCancel() {
+                            }
+
+                        }, null)
+                    }
                 }
             }
 

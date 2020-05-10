@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -260,6 +261,18 @@ class SystematicsFragment :
                             webInfo.url = item.link
                             StartUtil.startWebFragment(it, this@SystematicsFragment, -1, webInfo)
                         }
+                    }
+                    holder.getView<ImageView>(R.id.btnCollect).isSelected = "true" == item.collect
+                    holder.getView<ImageView>(R.id.btnCollect).setOnClickListener {
+                        toLogin(object : LoginListener {
+                            override fun onSuccess() {
+
+                            }
+
+                            override fun onCancel() {
+                            }
+
+                        }, null)
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.ziqi.wanandroid.ui.recentblog
 import android.os.Parcelable
 import android.text.Html
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -92,6 +93,18 @@ class RecentBlogFragment :
                             webInfo.url = item.link
                             StartUtil.startWebFragment(it, this@RecentBlogFragment, -1, webInfo)
                         }
+                    }
+                    holder.getView<ImageView>(R.id.btnCollect).isSelected = "true" == item.collect
+                    holder.getView<ImageView>(R.id.btnCollect).setOnClickListener {
+                        toLogin(object : LoginListener {
+                            override fun onSuccess() {
+
+                            }
+
+                            override fun onCancel() {
+                            }
+
+                        }, null)
                     }
                 }
             }
