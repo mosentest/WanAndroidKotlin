@@ -33,7 +33,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-        if (mBundleData == null) {
+        if (mStartParams == null) {
             activity?.finish()
             return
         }
@@ -91,7 +91,7 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
                 )
             }
         }
-        mBundleData?.url?.apply {
+        mStartParams?.url?.apply {
             mViewDataBinding?.touchView?.loadURL(this)
             mViewDataBinding?.progress?.visibility = View.VISIBLE
         }

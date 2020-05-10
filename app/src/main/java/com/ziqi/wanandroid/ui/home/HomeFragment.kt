@@ -1,5 +1,7 @@
 package com.ziqi.wanandroid.ui.home
 
+import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -147,15 +149,40 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
         mTabLayoutMediator?.attach()
 
         mViewDataBinding?.appBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val statusBarHeight = StatusBarUtil.getStatusBarHeight(ContextUtils.context)
+            var statusBarHeight = StatusBarUtil.getStatusBarHeight(ContextUtils.context)
             mViewDataBinding?.tabLayout?.apply {
                 val target = mViewDataBinding?.tabLayout?.top!! - statusBarHeight
-                setPadding(
-                    paddingLeft,
-                    if (target < -verticalOffset) statusBarHeight else 0,
-                    paddingRight,
-                    paddingBottom
-                )
+                if (target < -verticalOffset) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        //如果是分屏状态下的话，状态栏高度改为0
+                        activity?.apply {
+                            val inMultiWindowMode =
+                                (context as Activity).isInMultiWindowMode
+                            if (inMultiWindowMode) {
+                                statusBarHeight = 0
+                            }
+                        }
+                    }
+                    setPadding(
+                        paddingLeft,
+                        statusBarHeight,
+                        paddingRight,
+                        paddingBottom
+                    )
+                    activity?.apply {
+                        StatusBarUtil.setStatusBarDarkTheme(this, true)
+                    }
+                } else {
+                    setPadding(
+                        paddingLeft,
+                        0,
+                        paddingRight,
+                        paddingBottom
+                    )
+                    activity?.apply {
+                        StatusBarUtil.setStatusBarDarkTheme(this, false)
+                    }
+                }
 //                LogUtil.i(
 //                    TAG,
 //                    """${zGetClassName()}>>>addOnOffsetChangedListener->verticalOffset:${verticalOffset}->target:${target}"""

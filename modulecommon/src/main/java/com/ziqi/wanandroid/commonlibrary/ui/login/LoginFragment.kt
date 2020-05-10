@@ -1,8 +1,6 @@
 package com.ziqi.wanandroid.commonlibrary.ui.login
 
 import android.app.Activity
-import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.ziqi.wanandroid.commonlibrary.R
@@ -32,7 +30,7 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
     }
 
     override fun onInterceptBackPressed(): Boolean {
-        if (mBundleData != null && mBundleData!!.isInvalid) {
+        if (mStartParams != null && mStartParams!!.isInvalid) {
             activity?.apply {
                 StartPage.toMain(this)
                 finish()
@@ -45,8 +43,9 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tvLogin -> {
+                zToastShort(-1, "登陆成功")
                 activity?.setResult(Activity.RESULT_OK)
-                activity?.finish()
+                activity?.onBackPressed()
             }
         }
     }

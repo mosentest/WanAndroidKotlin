@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.arch.core.executor.ArchTaskExecutor
 import com.ziqi.baselibrary.util.LogUtil
-import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -18,7 +18,7 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class MeViewModel(ctx: Application) : UserViewModel(ctx) {
+class MeViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = MeViewModel::class.java.simpleName
 

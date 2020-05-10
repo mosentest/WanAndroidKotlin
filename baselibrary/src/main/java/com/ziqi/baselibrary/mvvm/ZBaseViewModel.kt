@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-open class BaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
+open class ZBaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
 
     var mStatusView: MutableLiveData<Event<Int>> = MutableLiveData()
 

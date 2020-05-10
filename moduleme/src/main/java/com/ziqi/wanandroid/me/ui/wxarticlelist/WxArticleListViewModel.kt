@@ -2,13 +2,12 @@ package com.ziqi.wanandroid.me.ui.wxarticlelist
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.ziqi.baselibrary.mvvm.BaseViewModel
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
-import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
 import kotlinx.coroutines.async
 
-class WxArticleListViewModel(ctx: Application) : UserViewModel(ctx) {
+class WxArticleListViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = WxArticleListViewModel::class.java.simpleName
 

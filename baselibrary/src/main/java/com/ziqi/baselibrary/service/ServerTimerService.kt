@@ -23,6 +23,8 @@ class ServerTimerService : Service() {
 
     private val TAG = ServerTimerService::class.java.simpleName
 
+
+    private var myHandler: MyHandler? = null
     private val timerManagerServiceStub: ITimerManagerService.Stub =
         object : ITimerManagerService.Stub() {
 
@@ -36,7 +38,7 @@ class ServerTimerService : Service() {
 
             @Throws(RemoteException::class)
             override fun setTime(time: String?): Boolean {
-                MyHandler.post {
+                myHandler?.post {
                     Toast.makeText(this@ServerTimerService, time, Toast.LENGTH_SHORT).show()
                 }
                 Log.i(TAG, time)
@@ -57,6 +59,7 @@ class ServerTimerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        myHandler = MyHandler(null)
     }
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -65,5 +68,6 @@ class ServerTimerService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        myHandler?.removeCallbacksAndMessages(null)
     }
 }

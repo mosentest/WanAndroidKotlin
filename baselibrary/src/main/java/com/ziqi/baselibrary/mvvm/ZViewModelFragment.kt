@@ -17,7 +17,7 @@ import java.lang.reflect.ParameterizedType
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, Binding : ViewDataBinding> :
+abstract class ZViewModelFragment<VM : ZBaseViewModel, StartParams : Parcelable, Binding : ViewDataBinding> :
     ZBaseFragment<StartParams, Binding>() {
 
     protected var mViewModel: VM? = null
@@ -32,7 +32,7 @@ abstract class ViewModelFragment<VM : BaseViewModel, StartParams : Parcelable, B
         val type = javaClass.genericSuperclass
         if (type is ParameterizedType) {
             val tp = type.actualTypeArguments[0]
-            val tClass = tp as? Class<VM> ?: BaseViewModel::class.java
+            val tClass = tp as? Class<VM> ?: ZBaseViewModel::class.java
             mViewModel = ViewModelProvider(this).get(tClass) as VM
         }
         mViewModel?.mStatusView?.observe(viewLifecycleOwner, Observer {

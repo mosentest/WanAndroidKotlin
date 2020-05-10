@@ -56,7 +56,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     /**
      * 上个页面带过来的数据
      */
-    protected var mBundleData: StartParams? = null
+    protected var mStartParams: StartParams? = null
 
     /**
      * 标题
@@ -157,12 +157,12 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         arguments?.apply {
             mTitle = getString(StartActivityCompat.NEXT_TITLE)
             mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
-            mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
+            mStartParams = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
         }
         savedInstanceState?.apply {
             mTitle = getString(StartActivityCompat.NEXT_TITLE)
             mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
-            mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
+            mStartParams = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
         }
     }
 
@@ -178,7 +178,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(StartActivityCompat.NEXT_TITLE, mTitle)
         outState.putBoolean(StartActivityCompat.NEXT_SHOW_BACK, mShowBack)
-        outState.putParcelable(StartActivityCompat.NEXT_PARCELABLE, mBundleData)
+        outState.putParcelable(StartActivityCompat.NEXT_PARCELABLE, mStartParams)
         super.onSaveInstanceState(outState)
     }
 
@@ -282,7 +282,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         bundle?.apply {
             mTitle = getString(StartActivityCompat.NEXT_TITLE)
             mShowBack = getBoolean(StartActivityCompat.NEXT_SHOW_BACK, false)
-            mBundleData = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
+            mStartParams = getParcelable(StartActivityCompat.NEXT_PARCELABLE)
         }
         initDataView()
         zVisibleToUser(true)
@@ -373,7 +373,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
         mRightTwoMenu = null
         mLeftMenu = null
 
-        mBundleData = null
+        mStartParams = null
         mTvTitle = null
 
         mConnectivityManager = null

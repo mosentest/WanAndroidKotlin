@@ -9,7 +9,7 @@ import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.databinding.FragmentGlobalBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
 import com.ziqi.wanandroid.commonlibrary.ui.login.LoginParams
 
 /**
@@ -21,7 +21,7 @@ import com.ziqi.wanandroid.commonlibrary.ui.login.LoginParams
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class GlobalFragment : BaseFragment<UserViewModel, GlobalParams, FragmentGlobalBinding>() {
+class GlobalFragment : BaseFragment<BaseViewModel, GlobalParams, FragmentGlobalBinding>() {
 
     companion object {
         @JvmStatic
@@ -50,7 +50,7 @@ class GlobalFragment : BaseFragment<UserViewModel, GlobalParams, FragmentGlobalB
                 }
             }
             R.id.right -> {
-                mBundleData?.apply {
+                mStartParams?.apply {
                     when (type) {
                         1 -> {
                             //1是去登录
@@ -58,13 +58,7 @@ class GlobalFragment : BaseFragment<UserViewModel, GlobalParams, FragmentGlobalB
                                 override fun onSuccess() {
                                     activity?.apply {
                                         //把启动的参数返回给上一个页面
-                                        setResult(
-                                            Activity.RESULT_OK,
-                                            Intent().putExtra(
-                                                StartActivityCompat.NEXT_PARCELABLE,
-                                                mBundleData
-                                            )
-                                        )
+                                        setResult(Activity.RESULT_OK)
                                         finish()
                                     }
                                 }
@@ -79,6 +73,9 @@ class GlobalFragment : BaseFragment<UserViewModel, GlobalParams, FragmentGlobalB
                         2 -> {
                             //2是检查更新
                         }
+                        3 -> {
+
+                        }
                     }
                 }
             }
@@ -90,7 +87,7 @@ class GlobalFragment : BaseFragment<UserViewModel, GlobalParams, FragmentGlobalB
 
         mViewDataBinding?.listener = this
 
-        mBundleData?.apply {
+        mStartParams?.apply {
 
             mViewDataBinding?.content?.text = content
             mViewDataBinding?.title?.text = title

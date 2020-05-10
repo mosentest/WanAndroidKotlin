@@ -1,5 +1,6 @@
 package com.ziqi.baselibrary.util.statusbar.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -43,6 +44,14 @@ public class StatusBarHeightRelativeLayout extends RelativeLayout {
     private void init() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             statusBarHeight = StatusBarUtil.getStatusBarHeight(getContext());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (getContext() instanceof Activity) {
+                    boolean inMultiWindowMode = ((Activity) getContext()).isInMultiWindowMode();
+                    if (inMultiWindowMode) {
+                        statusBarHeight = 0;
+                    }
+                }
+            }
         } else {
             //低版本 直接设置0
             statusBarHeight = 0;

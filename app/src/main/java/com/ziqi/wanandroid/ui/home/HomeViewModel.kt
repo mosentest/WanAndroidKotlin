@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Banner
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
-import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
 import kotlinx.coroutines.async
 
 /**
@@ -17,13 +17,13 @@ import kotlinx.coroutines.async
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeViewModel(ctx: Application) : UserViewModel(ctx) {
+class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = HomeViewModel::class.java.simpleName
 
     var mBanner: MutableLiveData<MutableList<Banner>> = MutableLiveData()
 
-    public fun loadBanner() = asyncExt({
+    fun loadBanner() = asyncExt({
         mBanner.value = async { NetRepository.banner().preProcessData() }.await()
         zContentView()
     }, {

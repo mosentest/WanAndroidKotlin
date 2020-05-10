@@ -66,12 +66,12 @@ class ImagePreviewFragment :
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                mTvTitle?.text = """${position.plus(1)}/${mBundleData?.imgUrl?.size}"""
+                mTvTitle?.text = """${position.plus(1)}/${mStartParams?.imgUrl?.size}"""
             }
         })
-        mAdapter.setNewData(mBundleData?.imgUrl)
-        mTvTitle?.text = """${mBundleData?.currentPos?.plus(1)}/${mBundleData?.imgUrl?.size}"""
-        mViewDataBinding?.viewpager2?.setCurrentItem(mBundleData?.currentPos ?: 0, false)
+        mAdapter.setNewData(mStartParams?.imgUrl)
+        mTvTitle?.text = """${mStartParams?.currentPos?.plus(1)}/${mStartParams?.imgUrl?.size}"""
+        mViewDataBinding?.viewpager2?.setCurrentItem(mStartParams?.currentPos ?: 0, false)
     }
 
 

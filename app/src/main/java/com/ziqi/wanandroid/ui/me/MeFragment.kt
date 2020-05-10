@@ -60,7 +60,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                     override fun onCancel() {
                     }
 
-                })
+                }, null)
             }
             R.id.tvSearch -> {
             }
@@ -79,7 +79,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
                         override fun onCancel() {
                         }
 
-                    })
+                    }, null)
                 } else {
 
                 }

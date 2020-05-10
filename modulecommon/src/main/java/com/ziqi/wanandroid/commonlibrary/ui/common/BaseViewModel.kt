@@ -4,10 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.livedata.Event
-import com.ziqi.baselibrary.mvvm.BaseViewModel
-import com.ziqi.baselibrary.util.ContextUtils
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
+import com.ziqi.baselibrary.mvvm.ZBaseViewModel
 
 /**
  * Copyright (C), 2018-2020
@@ -18,7 +15,7 @@ import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-open class UserViewModel(ctx: Application) : BaseViewModel(ctx) {
+open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
     //查询用户信息的viewModel
 
     /**
@@ -30,9 +27,9 @@ open class UserViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     fun errorInfo(rt: ResponseThrowable?): String? {
         return rt?.let {
-            var msg = ""
+            var msg: String? = null
             //errorCode = -1001 代表登录失效，需要重新登录。
-            //errorCode = -1002 代表更新
+            //errorCode = -1002 代表更新，假设
             if (it.code == -1001) {
                 mToLogin.value = Event(true)
             } else if (it.code == -1002) {

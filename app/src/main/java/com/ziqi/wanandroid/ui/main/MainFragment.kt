@@ -145,9 +145,9 @@ class MainFragment : BaseFragment<MainViewModel, Parcelable, FragmentMainBinding
                 activity?.apply {
                     StatusBarUtil.setStatusBarColor(
                         this,
-                        resources.getColor(R.color.colorPrimaryDark)
+                        resources.getColor(R.color.color_FFFFFF)
                     )
-                    StatusBarUtil.setStatusBarDarkTheme(this, false)
+                    StatusBarUtil.setStatusBarDarkTheme(this, true)
                 }
             }
             2 -> {
@@ -158,9 +158,9 @@ class MainFragment : BaseFragment<MainViewModel, Parcelable, FragmentMainBinding
                 activity?.apply {
                     StatusBarUtil.setStatusBarColor(
                         this,
-                        resources.getColor(R.color.colorPrimaryDark)
+                        resources.getColor(R.color.color_FFFFFF)
                     )
-                    StatusBarUtil.setStatusBarDarkTheme(this, false)
+                    StatusBarUtil.setStatusBarDarkTheme(this, true)
                 }
             }
             3 -> {

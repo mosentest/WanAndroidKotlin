@@ -6,12 +6,12 @@ import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Article
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
-import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class RecentBlogViewModel(ctx: Application) : UserViewModel(ctx) {
+class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = RecentBlogViewModel::class.java.simpleName
 

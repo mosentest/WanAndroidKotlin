@@ -29,6 +29,8 @@ public class StatusBarUtil {
     public final static int TYPE_FLYME = 1;
     public final static int TYPE_M = 3;//6.0
 
+    private static int systemUiVisibility;
+
     @IntDef({TYPE_MIUI,
             TYPE_FLYME,
             TYPE_M})
@@ -94,6 +96,20 @@ public class StatusBarUtil {
                 if (rootView != null) {
                     rootView.setFitsSystemWindows(fitSystemWindows);
                 }
+            }
+        }
+    }
+
+    /**
+     * 代码实现android:fitsSystemWindows
+     *
+     * @param view
+     * @param fitSystemWindows
+     */
+    public static void setViewFitsSystemWindows(View view, boolean fitSystemWindows) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (view != null) {
+                view.setFitsSystemWindows(fitSystemWindows);
             }
         }
     }

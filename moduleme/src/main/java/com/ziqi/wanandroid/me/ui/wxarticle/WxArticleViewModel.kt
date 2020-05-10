@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
-import com.ziqi.wanandroid.commonlibrary.ui.common.UserViewModel
+import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
 import kotlinx.coroutines.async
 
-class WxArticleViewModel(ctx: Application) : UserViewModel(ctx) {
+class WxArticleViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = WxArticleViewModel::class.java.simpleName
 
