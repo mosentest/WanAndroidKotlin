@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.florent37.fiftyshadesof.FiftyShadesOf
 import com.ziqi.baselibrary.common.WebInfo
+import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.wanandroid.R
@@ -88,7 +89,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             }
             R.id.tvLoginInvalid -> {
                 activity?.apply {
-                    mViewModel?.mToLogin?.value = Event(true)
+                    mViewModel?.mToLogin?.value = Event(ResponseThrowable(-1000, "gg了"))
                 }
             }
             R.id.tvSerialDialog -> {
