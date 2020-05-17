@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.ui.common
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.livedata.Event
@@ -22,9 +23,14 @@ open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
     /**
      * 接口控制需要去登录
      */
-    var mToLogin: MutableLiveData<Event<ResponseThrowable>> = MutableLiveData()
+    private val _mToLogin: MutableLiveData<Event<ResponseThrowable>> = MutableLiveData()
+    val mToLogin: LiveData<Event<ResponseThrowable>>
+        get() = _mToLogin
 
-    var mToUpdate: MutableLiveData<Event<Boolean>> = MutableLiveData()
+
+    private val _mToUpdate: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val mToUpdate: LiveData<Event<Boolean>>
+        get() = _mToUpdate
 
     fun errorInfo(rt: ResponseThrowable?): String? {
         return rt?.let {
@@ -32,15 +38,20 @@ open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
             //errorCode = -1001 代表登录失效，需要重新登录。
             //errorCode = -1002 代表更新，假设
             if (it.code == -1001) {
-                mToLogin.value = Event(rt)
+                _mToLogin.value = Event(rt)
             } else if (it.code == -1002) {
                 //弹出检查更新全局对话框
-                mToUpdate.value = Event(true)
+                _mToUpdate.value = Event(true)
             } else {
                 //其他情况才有msg
                 msg = """${it.errMsg}[${rt.code}]"""
             }
             msg
         }
+    }
+
+
+    fun toLogin(msg: String) {
+        _mToLogin.value = Event(ResponseThrowable(-1000, msg))
     }
 }

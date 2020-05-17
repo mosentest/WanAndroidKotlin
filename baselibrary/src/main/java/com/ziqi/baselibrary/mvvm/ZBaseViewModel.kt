@@ -2,6 +2,7 @@ package com.ziqi.baselibrary.mvvm
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ziqi.baselibrary.http.error.ExceptionHandle
@@ -22,66 +23,78 @@ import kotlinx.coroutines.launch
  */
 open class ZBaseViewModel(ctx: Application) : AndroidViewModel(ctx) {
 
-    var mStatusView: MutableLiveData<Event<Int>> = MutableLiveData()
+    private val _mStatusView: MutableLiveData<Event<Int>> = MutableLiveData()
+    val mStatusView: LiveData<Event<Int>>
+        get() = _mStatusView
 
-    var mLoading: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    private val _mLoading: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val mLoading: LiveData<Event<Boolean>>
+        get() = _mLoading
 
-    var mToast: MutableLiveData<Event<String>> = MutableLiveData()
+    private val _mToast: MutableLiveData<Event<String>> = MutableLiveData()
+    val mToast: LiveData<Event<String>>
+        get() = _mToast
 
-    var mConfirmDialog: MutableLiveData<Event<String>> = MutableLiveData()
+    private val _mConfirmDialog: MutableLiveData<Event<String>> = MutableLiveData()
+    val mConfirmDialog: LiveData<Event<String>>
+        get() = _mConfirmDialog
 
-    var mRefresh: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    private val _mRefresh: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val mRefresh: LiveData<Event<Boolean>>
+        get() = _mRefresh
 
-    var mLoadMore: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    private val _mLoadMore: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val mLoadMore: LiveData<Event<Boolean>>
+        get() = _mLoadMore
 
     /**
      * 展示loading
      */
     fun zShowLoadingDialog() {
-        mLoading.value = Event(true)
+        _mLoading.value = Event(true)
     }
 
     /**
      * 隐藏loading
      */
     fun zHideLoadingDialog() {
-        mLoading.value = Event(false)
+        _mLoading.value = Event(false)
     }
 
     /**
      * 内容布局
      */
     fun zContentView() {
-        mStatusView.value = Event(1)
+        _mStatusView.value = Event(1)
     }
 
     /**
      * 错误布局
      */
     fun zErrorView() {
-        mStatusView.value = Event(2)
+        _mStatusView.value = Event(2)
     }
 
     /**
      * toast提示
      */
     fun zToast(msg: String?) {
-        mToast.value = Event(msg ?: "")
+        _mToast.value = Event(msg ?: "")
     }
 
     fun zRefresh(success: Boolean) {
-        mRefresh.value = Event(success)
+        _mRefresh.value = Event(success)
     }
 
     fun zLoadMore(success: Boolean) {
-        mLoadMore.value = Event(success)
+        _mLoadMore.value = Event(success)
     }
 
     /**
      * 对话框提示
      */
     fun zConfirmDialog(msg: String?) {
-        mConfirmDialog.value = Event(msg ?: "")
+        _mConfirmDialog.value = Event(msg ?: "")
     }
 
     fun asyncExt(

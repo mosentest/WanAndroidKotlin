@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.ui.projectlist
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
@@ -20,10 +21,12 @@ class ProjectListViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = ProjectListViewModel::class.java.simpleName
 
-    var mListProject: MutableLiveData<ListProject> = MutableLiveData()
+    private var _mListProject: MutableLiveData<ListProject> = MutableLiveData()
+    var mListProject: LiveData<ListProject>? = null
+        get() = _mListProject
 
     fun loadListProject(pos: Int, cid: Int) = asyncExt({
-        mListProject.value = async { NetRepository.project(pos, cid).preProcessData() }.await()
+        _mListProject.value = async { NetRepository.project(pos, cid).preProcessData() }.await()
         zContentView()
         if (pos == 0) {
             zRefresh(true)

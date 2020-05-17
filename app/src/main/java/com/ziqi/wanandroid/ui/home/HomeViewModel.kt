@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.ui.home
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Banner
@@ -21,10 +22,12 @@ class HomeViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = HomeViewModel::class.java.simpleName
 
-    var mBanner: MutableLiveData<MutableList<Banner>> = MutableLiveData()
+    private val _mBanner: MutableLiveData<MutableList<Banner>> = MutableLiveData()
+    val mBanner: LiveData<MutableList<Banner>>
+        get() = _mBanner
 
     fun loadBanner() = asyncExt({
-        mBanner.value = async { NetRepository.banner().preProcessData() }.await()
+        _mBanner.value = async { NetRepository.banner().preProcessData() }.await()
         zContentView()
     }, {
         LogUtil.e(TAG, "loadBanner.Error..", it)

@@ -91,13 +91,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llCollect"
             android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
             android:background="@color/color_eeeeee"
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/btnCollect"
+                android:id="@+id/ivCollect"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:background="?android:selectableItemBackground"

@@ -89,7 +89,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             }
             R.id.tvLoginInvalid -> {
                 activity?.apply {
-                    mViewModel?.mToLogin?.value = Event(ResponseThrowable(-1000, "gg了"))
+                    mViewModel?.toLogin("需要重新登陆")
                 }
             }
             R.id.tvSerialDialog -> {
