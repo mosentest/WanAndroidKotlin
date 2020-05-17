@@ -12,6 +12,8 @@ import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.ziqi.baselibrary.util.LogUtil
+import com.ziqi.wanandroid.commonlibrary.util.glide.OnProgressListener
+import com.ziqi.wanandroid.commonlibrary.util.glide.ProgressManager
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 import java.io.File
 import java.util.concurrent.ExecutionException
@@ -55,6 +57,16 @@ object ImageLoad {
             if (imageViewX == null) {
                 return
             }
+            ProgressManager.addListener(url, object : OnProgressListener {
+                override fun onProgress(
+                    isComplete: Boolean,
+                    percentage: Int,
+                    bytesRead: Long,
+                    totalBytes: Long
+                ) {
+                    imageViewX.setProgress(percentage)
+                }
+            })
             //点我重试
             imageViewX.setRetryTip("点我重试")
             //先设置默认的占位模式
@@ -82,6 +94,9 @@ object ImageLoad {
                         isFirstResource: Boolean
                     ): Boolean {
                         imageViewX.showRetry(true)
+                        imageViewX.setProgress(100)
+                        //删除map的缓存
+                        ProgressManager.removeListener(url)
                         return false
                     }
 
@@ -92,8 +107,12 @@ object ImageLoad {
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
+                        //调整这个为scaleType
                         imageViewX.getTarget().scaleType = scaleType
                         imageViewX.showRetry(false)
+                        imageViewX.setProgress(100)
+                        //删除map的缓存
+                        ProgressManager.removeListener(url)
                         return false
                     }
                 })

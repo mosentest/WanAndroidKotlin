@@ -22,12 +22,18 @@ class ImageViewX : FrameLayout {
 
 
     private var imageView: ImageView
+    private var dstOutView: DstOutView
 
     private var textView: TextView
 
     var mRetryListener: RetryListener? = null
+        set(value) {
+            field = null
+            field = value
+        }
 
     constructor(context: Context) : this(context, null)
+
     constructor(context: Context, attributes: AttributeSet?) : super(context, attributes) {
         imageView = ImageView(context)
         imageView.layoutParams = LayoutParams(
@@ -40,9 +46,16 @@ class ImageViewX : FrameLayout {
         textView.visibility = View.GONE
         textView.setTextColor(resources.getColor(R.color.color_FFFFFF))
         textView.textSize = 16.0F
+        //===
+        dstOutView = DstOutView(context)
+        dstOutView.layoutParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT
+        )
         //====
         addView(imageView)
         addView(textView)
+        addView(dstOutView)
         //增加回调
         textView.setOnClickListener {
             mRetryListener?.onRetry()
@@ -60,6 +73,11 @@ class ImageViewX : FrameLayout {
 
     fun getTarget(): ImageView {
         return imageView
+    }
+
+    fun setProgress(progress: Int) {
+        dstOutView.setProgress(progress)
+        dstOutView.visibility = if (progress >= 100) View.GONE else View.VISIBLE
     }
 
     interface RetryListener {
