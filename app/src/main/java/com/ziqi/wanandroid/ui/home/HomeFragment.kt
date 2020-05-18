@@ -181,7 +181,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                         paddingBottom
                     )
                     activity?.apply {
-                        StatusBarUtil.setStatusBarDarkTheme(this, false)
+                        StatusBarUtil.setStatusBarDarkTheme(this, true)
                     }
                 }
 //                LogUtil.i(
