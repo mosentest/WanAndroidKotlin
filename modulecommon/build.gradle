@@ -118,6 +118,13 @@ dependencies {
     //https://github.com/florent37/FiftyShadesOf
     api 'com.github.florent37:fiftyshadesof:1.0.0'
 
+    //https://juejin.im/post/5d3fdc3af265da03c02bdbde
+    //https://github.com/luckybilly/SmartSwipe
+    api 'com.billy.android:smart-swipe:1.1.0'
+    //compat for android x
+    api 'com.billy.android:smart-swipe-x:1.1.0'
+
+
     api project(':baselibrary')
     
 }

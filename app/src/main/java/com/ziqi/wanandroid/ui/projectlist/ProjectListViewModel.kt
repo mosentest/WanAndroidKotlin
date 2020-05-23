@@ -22,7 +22,7 @@ class ProjectListViewModel(ctx: Application) : BaseViewModel(ctx) {
     private val TAG: String = ProjectListViewModel::class.java.simpleName
 
     private var _mListProject: MutableLiveData<ListProject> = MutableLiveData()
-    var mListProject: LiveData<ListProject>? = null
+    val mListProject: LiveData<ListProject>
         get() = _mListProject
 
     fun loadListProject(pos: Int, cid: Int) = asyncExt({

@@ -37,6 +37,7 @@
                     android:padding="@dimen/dp_10">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUserName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="请输入账号"
@@ -55,6 +56,7 @@
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="请输入密码"

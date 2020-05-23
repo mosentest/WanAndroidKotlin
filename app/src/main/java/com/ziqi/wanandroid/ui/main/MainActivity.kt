@@ -9,5 +9,7 @@ class MainActivity : CommonActivity() {
         return MainFragment.newInstance(intent?.extras)
     }
 
-
+    override fun zEnableSwipe(): Boolean {
+        return false
+    }
 }

@@ -2,6 +2,7 @@ package com.ziqi.wanandroid.commonlibrary.net
 
 import com.ziqi.wanandroid.commonlibrary.bean.*
 import kotlinx.coroutines.Deferred
+import retrofit2.http.FieldMap
 
 /**
  * Copyright (C), 2018-2020
@@ -52,5 +53,9 @@ object NetRepository {
 
     suspend fun wxArticleList(pos: Int, cid: Int): WanResponse<ListProject> {
         return RetrofitUtils.get().wanAndroidApi.wxArticleList(cid, pos)
+    }
+
+    suspend fun login(@FieldMap map: Map<String, String>): WanResponse<User> {
+        return RetrofitUtils.get().wanAndroidApi.login(map)
     }
 }

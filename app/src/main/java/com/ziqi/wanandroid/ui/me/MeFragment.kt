@@ -6,6 +6,9 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.consumer.SpaceConsumer
+import com.billy.android.swipe.consumer.StretchConsumer
 import com.github.florent37.fiftyshadesof.FiftyShadesOf
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.http.error.ResponseThrowable
@@ -107,6 +110,11 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
 
     override fun zLazyVisible() {
         super.zLazyVisible()
+
+        SmartSwipe.wrap(mViewDataBinding?.nsv)
+            .addConsumer(SpaceConsumer())
+            .enableVertical() //工作方向：纵向
+
         mViewDataBinding?.listener = this
         handleToolBar()
         handleDrawer()

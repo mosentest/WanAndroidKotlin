@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout
+        <LinearLayout
             android:id="@+id/myRootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -30,7 +30,7 @@
                 app:ddtextUnselectedColor="@color/color_999999"
                 app:ddunderlineColor="@color/gray" />
 
-        </com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

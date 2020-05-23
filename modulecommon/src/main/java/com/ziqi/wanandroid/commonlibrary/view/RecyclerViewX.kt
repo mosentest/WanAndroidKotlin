@@ -26,4 +26,5 @@ class RecyclerViewX : RecyclerView {
     fun init() {
 
     }
+    
 }

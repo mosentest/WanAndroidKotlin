@@ -28,6 +28,10 @@ class GlobalActivity : CommonActivity() {
 //        window.attributes = params
     }
 
+    override fun zEnableSwipe(): Boolean {
+        return false
+    }
+
     override fun onDestroy() {
         super.onDestroy()
     }

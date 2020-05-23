@@ -3,6 +3,10 @@ package com.ziqi.wanandroid.commonlibrary.ui.login
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.consumer.StretchConsumer
+import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.databinding.FragmentLoginBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
@@ -22,11 +26,19 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
     }
 
     override fun initView() {
-
+        //仿MIUI的弹性拉伸效果：
+        //侧滑时表现为弹性拉伸效果，结束后自动恢复
+        SmartSwipe.wrap(view)
+            .addConsumer(StretchConsumer())
+            .enableVertical(); //工作方向：纵向
     }
 
     override fun dealViewModel() {
-
+        mViewModel?.mLogin?.observe(viewLifecycleOwner, Observer {
+            zToastShort(-1, "登陆成功")
+            activity?.setResult(Activity.RESULT_OK)
+            activity?.onBackPressed()
+        })
     }
 
     override fun onInterceptBackPressed(): Boolean {
@@ -43,15 +55,28 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tvLogin -> {
-                zToastShort(-1, "登陆成功")
-                activity?.setResult(Activity.RESULT_OK)
-                activity?.onBackPressed()
+                mViewDataBinding?.apply {
+                    val userName = etUserName.text.toString().trim()
+                    val password = etPassword.text.toString().trim()
+                    if (StringUtil.isEmpty(userName)) {
+                        zToastShort(-1, "请输入账号")
+                        return
+                    }
+                    if (StringUtil.isEmpty(password)) {
+                        zToastShort(-1, "请输入密码")
+                        return
+                    }
+                    mViewModel?.login(userName, password)
+                }
             }
         }
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
         mViewDataBinding?.listener = this
+        initView()
+        dealViewModel()
+        onRefresh()
     }
 
     override fun onRefresh() {

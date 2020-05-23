@@ -2,11 +2,13 @@ package com.ziqi.wanandroid.commonlibrary.ui.common
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.os.Parcelable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ziqi.baselibrary.mvvm.ZViewModelFragment
+import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.ui.login.LoginParams
 import com.ziqi.wanandroid.commonlibrary.util.LoginManager
@@ -41,6 +43,7 @@ abstract class BaseFragment<VM : BaseViewModel, StartParams : Parcelable, Bindin
     abstract fun initView()
 
     abstract fun dealViewModel()
+
 
     override fun initViewModel() {
         /**

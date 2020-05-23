@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.ui.recentproject
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
@@ -12,10 +13,12 @@ class RecentProjectViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = RecentBlogViewModel::class.java.simpleName
 
-    var mListProject: MutableLiveData<ListProject> = MutableLiveData()
+    private val _mListProject: MutableLiveData<ListProject> = MutableLiveData()
+    val mListProject: LiveData<ListProject>
+        get() = _mListProject
 
     fun loadListProject(pos: Int) = asyncExt({
-        mListProject.value = async { NetRepository.listproject(pos).preProcessData() }.await()
+        _mListProject.value = async { NetRepository.listproject(pos).preProcessData() }.await()
         zContentView()
         if (pos == 0) {
             zRefresh(true)

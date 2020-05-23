@@ -21,6 +21,10 @@ class WebActivity : CommonActivity() {
         return WebFragment.newInstance(intent?.extras)
     }
 
+    override fun zEnableSwipe(): Boolean {
+        return false
+    }
+
     override fun onClick(v: View?) {
 
     }

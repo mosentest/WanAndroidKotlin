@@ -2,6 +2,8 @@ package com.ziqi.wanandroid.commonlibrary.ui.start
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.consumer.ActivitySlidingBackConsumer
 import com.ziqi.baselibrary.util.MyHandler
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
@@ -34,6 +36,16 @@ class StartActivity : CommonActivity() {
             StartPage.toMain(this)
             finish()
         }, 2000)
+    }
+
+
+    override fun zEnableSwipe(): Boolean {
+        //activity侧滑返回
+        SmartSwipe.wrap(this)
+            .addConsumer(ActivitySlidingBackConsumer(this))
+            .setRelativeMoveFactor(0.5F)
+            .enableAllDirections()
+        return false
     }
 
     override fun onBackPressed() {

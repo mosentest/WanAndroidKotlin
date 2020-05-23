@@ -1,9 +1,11 @@
 package com.ziqi.wanandroid.ui.recentblog
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Article
+import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
@@ -15,13 +17,17 @@ class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = RecentBlogViewModel::class.java.simpleName
 
-    var mArticleTop: MutableLiveData<MutableList<Article>> = MutableLiveData()
+    private val _mArticleTop: MutableLiveData<MutableList<Article>> = MutableLiveData()
+    val mArticleTop: LiveData<MutableList<Article>>
+        get() = _mArticleTop
 
-    var mArticleList: MutableLiveData<WanList<Article>> = MutableLiveData()
+    private val _mArticleList: MutableLiveData<WanList<Article>> = MutableLiveData()
+    val mArticleList: LiveData<WanList<Article>>
+        get() = _mArticleList
 
     fun loadArticleTop(showLoading: Boolean) = asyncExt(
         {
-            mArticleTop.value = async { NetRepository.articleTop().preProcessData() }.await()
+            _mArticleTop.value = async { NetRepository.articleTop().preProcessData() }.await()
             zContentView()
             loadOther()
             zRefresh(true)
@@ -41,7 +47,7 @@ class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     fun loadArticleList(pos: Int) = asyncExt(
         {
-            mArticleList.value =
+            _mArticleList.value =
                 withContext(Dispatchers.IO) { NetRepository.articleList(pos).preProcessData() }
             zLoadMore(true)
         },

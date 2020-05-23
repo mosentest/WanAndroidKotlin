@@ -170,9 +170,6 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                         paddingRight,
                         paddingBottom
                     )
-                    activity?.apply {
-                        StatusBarUtil.setStatusBarDarkTheme(this, true)
-                    }
                 } else {
                     setPadding(
                         paddingLeft,
@@ -180,9 +177,6 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                         paddingRight,
                         paddingBottom
                     )
-                    activity?.apply {
-                        StatusBarUtil.setStatusBarDarkTheme(this, true)
-                    }
                 }
 //                LogUtil.i(
 //                    TAG,

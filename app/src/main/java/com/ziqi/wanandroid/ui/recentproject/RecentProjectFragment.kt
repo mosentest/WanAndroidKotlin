@@ -21,6 +21,7 @@ import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
+import com.ziqi.wanandroid.commonlibrary.view.LinearLayoutManagerX
 import com.ziqi.wanandroid.databinding.FragmentRecentProjectBinding
 
 class RecentProjectFragment :
@@ -80,7 +81,7 @@ class RecentProjectFragment :
                     )
                     holder.setText(
                         R.id.desc,
-                        StringUtil.emptyTip(item.desc, "暂无介绍")
+                        StringUtil.emptyTip(Html.fromHtml(item.desc).toString(), "暂无介绍")
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
                     holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
@@ -132,7 +133,7 @@ class RecentProjectFragment :
         mAdapter?.openLoadAnimation(AlphaInAnimation())
         mViewDataBinding?.recyclerview?.adapter = mAdapter
         //=================================================================================
-        mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
+        mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManagerX(context)
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )

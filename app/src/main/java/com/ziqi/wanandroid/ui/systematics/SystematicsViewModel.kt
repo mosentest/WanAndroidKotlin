@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.ui.systematics
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.util.LogUtil
@@ -26,15 +27,21 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = SystematicsViewModel::class.java.simpleName
 
-    var mTree: MutableLiveData<MutableList<Tree>> = MutableLiveData()
+    private val _mTree: MutableLiveData<MutableList<Tree>> = MutableLiveData()
+    val mTree: LiveData<MutableList<Tree>>
+        get() = _mTree
 
-    var mArticleList: MutableLiveData<WanList<Article>> = MutableLiveData()
+    private val _mArticleList: MutableLiveData<WanList<Article>> = MutableLiveData()
+    val mArticleList: LiveData<WanList<Article>>
+        get() = _mArticleList
 
-    var mContentStatusView: MutableLiveData<Event<Int>> = MutableLiveData()
+    private val _mContentStatusView: MutableLiveData<Event<Int>> = MutableLiveData()
+    val mContentStatusView: LiveData<Event<Int>>
+        get() = _mContentStatusView
 
     fun loadTree() = asyncExt(
         {
-            mTree.value = async { NetRepository.tree().preProcessData() }.await()
+            _mTree.value = async { NetRepository.tree().preProcessData() }.await()
             zContentView()
         },
         {
@@ -45,7 +52,7 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     fun loadArticleList(showLoading: Boolean, pos: Int, cid: Int) = asyncExt(
         {
-            mArticleList.value =
+            _mArticleList.value =
                 withContext(Dispatchers.IO) {
                     NetRepository.articleList(
                         pos,
@@ -54,7 +61,7 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
                 }
             if (pos == 0) {
                 zRefresh(true)
-                mContentStatusView.value = Event(1)
+                _mContentStatusView.value = Event(1)
             } else {
                 zLoadMore(true)
             }
@@ -64,7 +71,7 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
             zToast(errorInfo(it))
             if (pos == 0) {
                 zRefresh(false)
-                mContentStatusView.value = Event(2)
+                _mContentStatusView.value = Event(2)
             } else {
                 zLoadMore(false)
             }

@@ -55,9 +55,15 @@ interface WanAndroidApi {
 
     @FormUrlEncoded
     @POST("user/login")
-    suspend fun login(@FieldMap map: Map<String, String>): WanResponse<Any>
+    suspend fun login(@FieldMap map: Map<String, String>): WanResponse<User>
 
+    /**
+     * 直接暴露username和password关键字，不安全
+     */
     @FormUrlEncoded
     @POST("user/login")
-    suspend fun login(@Field("username") username: String, @Field("password") password: String): WanResponse<Any>
+    suspend fun login(@Field("username") username: String, @Field("password") password: String): WanResponse<User>
+
+    @GET("lg/collect/list/{cid}/json")
+    suspend fun lgCollect(@Path("cid") cid: Int): WanResponse<ListProject>
 }

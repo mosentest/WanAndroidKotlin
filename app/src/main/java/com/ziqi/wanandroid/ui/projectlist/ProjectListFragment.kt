@@ -100,7 +100,7 @@ class ProjectListFragment :
                     )
                     holder.setText(
                         R.id.desc,
-                        StringUtil.emptyTip(item.desc, "暂无介绍")
+                        StringUtil.emptyTip(Html.fromHtml(item.desc).toString(), "暂无介绍")
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
                     holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")

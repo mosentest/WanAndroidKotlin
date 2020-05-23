@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.consumer.StretchConsumer
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
@@ -19,6 +21,7 @@ import com.ziqi.wanandroid.commonlibrary.bean.Article
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.commonlibrary.view.LinearLayoutManagerX
 import com.ziqi.wanandroid.databinding.FragmentRecentBlogBinding
 
 class RecentBlogFragment :
@@ -112,7 +115,7 @@ class RecentBlogFragment :
         mAdapter?.openLoadAnimation(AlphaInAnimation())
         mViewDataBinding?.recyclerview?.adapter = mAdapter
         //=================================================================================
-        mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManager(context)
+        mViewDataBinding?.recyclerview?.layoutManager = LinearLayoutManagerX(context)
         mViewDataBinding?.recyclerview?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )

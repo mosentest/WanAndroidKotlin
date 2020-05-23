@@ -1,11 +1,14 @@
 package com.ziqi.wanandroid.commonlibrary.ui.common
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.consumer.ActivitySlidingBackConsumer
 import com.ziqi.baselibrary.base.ZBaseActivity
 import com.ziqi.baselibrary.util.StartActivityCompat
 
@@ -19,6 +22,29 @@ import com.ziqi.baselibrary.util.StartActivityCompat
  * 作者姓名 修改时间 版本号 描述
  */
 open class CommonActivity : ZBaseActivity<Parcelable, ViewDataBinding>() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /**
+         * https://juejin.im/post/5d3fdc3af265da03c02bdbde
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (zEnableSwipe()) {
+                //activity侧滑返回
+                SmartSwipe.wrap(this)
+                    .addConsumer(ActivitySlidingBackConsumer(this))
+                    //设置联动系数
+                    .setRelativeMoveFactor(0.5F)
+                    //指定可侧滑返回的方向，如：enableLeft() 仅左侧可侧滑返回
+                    .enableLeft()
+            }
+        }
+    }
+
+    open fun zEnableSwipe(): Boolean {
+        return true
+    }
+
     override fun createFragment(): Fragment? {
         var newFragment: Fragment? = null
         try {
