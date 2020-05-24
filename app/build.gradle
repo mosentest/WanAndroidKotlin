@@ -27,10 +27,39 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs { //配置签名信息，注意，要放在buildTypes之前
+        release {
+            storeFile file("../keys/s20191127.jks") //签名文件位置，【.】代表当前目录，【..】代表父目录
+            storePassword "s20191127.jks"
+            keyAlias "s20191127.jks"
+            keyPassword "s20191127.jks"
+            v2SigningEnabled true
+            v1SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
+            //buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            zipAlignEnabled true
+            pseudoLocalesEnabled true
+            signingConfig signingConfigs.release //签名文件
+        }
+        debug {
+            //buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            zipAlignEnabled false
+            pseudoLocalesEnabled false
+            debuggable true//是否支持断点调试
+            jniDebuggable true //是否可以调试NDK代码
+//            applicationIdSuffix '.debug'//在 applicationId 中添加了一个后缀，一般使用的不多
+//            versionNameSuffix 'debug'//在 versionNameSuffix 中添加了一个后缀，一般使用的不多
+            signingConfig signingConfigs.release //签名文件
         }
     }
 
@@ -58,6 +87,12 @@ android {
 
     androidExtensions {
         experimental = true
+    }
+
+    sourceSets {//目录指向配置
+        main {
+            jniLibs.srcDirs = ['libs']//指定lib库目录
+        }
     }
 }
 

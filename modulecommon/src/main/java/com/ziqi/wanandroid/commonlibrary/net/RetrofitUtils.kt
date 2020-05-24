@@ -3,6 +3,7 @@ package com.ziqi.wanandroid.commonlibrary.net
 import com.ziqi.baselibrary.http.OkHttpUtils
 import com.ziqi.baselibrary.http.retrofit.StringConverterFactory
 import com.ziqi.baselibrary.util.GsonUtil
+import com.ziqi.wanandroid.commonlibrary.BuildConfig
 import com.ziqi.wanandroid.commonlibrary.constant.UrlConstant
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,7 +26,7 @@ class RetrofitUtils {
         //val contentType = "application/json".toMediaType()
         //var contentType = MediaType.parse("application/json; charset=utf-8")
         val retrofit = Retrofit.Builder()
-            .baseUrl(UrlConstant.host)
+            .baseUrl(BuildConfig.URL_PERFIX)
             .addConverterFactory(StringConverterFactory())
             //retrofit2-kotlinx-serialization-converter 暂时不知道干嘛用
             //.addConverterFactory(Json.asConverterFactory(contentType!!))

@@ -56,13 +56,14 @@ class WanOkHttpUtils {
         }
         val httpCacheDirectory = File(context!!.getCacheDir(), "okhttpCache")
         okHttpClient = OkHttpClient().newBuilder()
+            .addNetworkInterceptor(WanAndroidInterceptor())
             .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addNetworkInterceptor(netCacheInterceptor)
             .addInterceptor(offlineCacheInterceptor)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .cookieJar(MyCookieJarImpl(context))
-            .retryOnConnectionFailure(true)
+            .retryOnConnectionFailure(false)
             .cache(Cache(httpCacheDirectory, 1 * 1024 * 1024))
             .build()
     }

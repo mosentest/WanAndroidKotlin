@@ -29,8 +29,12 @@ android {
 
     buildTypes {
         release {
+            buildConfigField("String", "URL_PERFIX", "\"https://www.wanandroid.com/\"")// 配置URL前缀
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField("String", "URL_PERFIX", "\"https://www.wanandroid.com/\"")// 配置URL前缀
         }
     }
 
@@ -126,5 +130,5 @@ dependencies {
 
 
     api project(':baselibrary')
-    
+
 }
