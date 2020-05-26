@@ -7,6 +7,7 @@ import com.ziqi.baselibrary.R
 import com.ziqi.baselibrary.base.ZBaseFragment
 import com.ziqi.baselibrary.databinding.FragmentWebBinding
 import com.ziqi.baselibrary.util.ShareUtil
+import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.webview.SimulationListener
 
@@ -91,8 +92,18 @@ class WebFragment : ZBaseFragment<WebInfo, FragmentWebBinding>() {
                 )
             }
         }
-        mStartParams?.url?.apply {
-            mViewDataBinding?.touchView?.loadURL(this)
+        mStartParams?.apply {
+            if (!StringUtil.isEmpty(url)) {
+                mViewDataBinding?.touchView?.loadURL(url)
+            } else {
+                mViewDataBinding?.touchView?.loadDataWithBaseURL(
+                    null,
+                    webContent,
+                    "text/html",
+                    "utf-8",
+                    null
+                )
+            }
             mViewDataBinding?.progress?.visibility = View.VISIBLE
         }
     }

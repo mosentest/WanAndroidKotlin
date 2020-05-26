@@ -17,6 +17,7 @@ import com.youth.banner.transformer.DepthPageTransformer
 import com.youth.banner.util.BannerUtils
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.ContextUtils
+import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
@@ -178,10 +179,10 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                         paddingBottom
                     )
                 }
-//                LogUtil.i(
-//                    TAG,
-//                    """${zGetClassName()}>>>addOnOffsetChangedListener->verticalOffset:${verticalOffset}->target:${target}"""
-//                )
+                LogUtil.i(
+                    TAG,
+                    """${zGetClassName()}>>>addOnOffsetChangedListener->verticalOffset:${verticalOffset}->target:${target}"""
+                )
             }
 
 

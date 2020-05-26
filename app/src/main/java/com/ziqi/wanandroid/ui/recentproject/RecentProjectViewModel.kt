@@ -26,9 +26,11 @@ class RecentProjectViewModel(ctx: Application) : BaseViewModel(ctx) {
             zLoadMore(true)
         }
     }, {
-        zErrorView()
         zToast(errorInfo(it))
         if (pos == 0) {
+            if (_mListProject.value == null) {
+                zErrorView()
+            }
             zRefresh(false)
         } else {
             zLoadMore(false)
