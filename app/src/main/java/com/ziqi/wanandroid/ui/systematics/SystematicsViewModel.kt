@@ -70,8 +70,10 @@ class SystematicsViewModel(ctx: Application) : BaseViewModel(ctx) {
             LogUtil.e(TAG, "loadArticleList.Error..", it)
             zToast(errorInfo(it))
             if (pos == 0) {
+                if (_mArticleList.value == null) {
+                    _mContentStatusView.value = Event(2)
+                }
                 zRefresh(false)
-                _mContentStatusView.value = Event(2)
             } else {
                 zLoadMore(false)
             }

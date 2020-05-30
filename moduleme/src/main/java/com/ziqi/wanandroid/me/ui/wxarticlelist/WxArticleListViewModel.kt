@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.me.ui.wxarticlelist
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
@@ -11,10 +12,12 @@ class WxArticleListViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = WxArticleListViewModel::class.java.simpleName
 
-    var mListProject: MutableLiveData<ListProject> = MutableLiveData()
+    private val _mListProject: MutableLiveData<ListProject> = MutableLiveData()
+    val mListProject: LiveData<ListProject>
+        get() = _mListProject
 
     fun wxArticleList(pos: Int, cid: Int) = asyncExt({
-        mListProject.value =
+        _mListProject.value =
             async { NetRepository.wxArticleList(pos, cid).preProcessData() }.await()
         zContentView()
         if (pos == 0) {
@@ -23,9 +26,11 @@ class WxArticleListViewModel(ctx: Application) : BaseViewModel(ctx) {
             zLoadMore(true)
         }
     }, {
-        zErrorView()
         zToast(errorInfo(it))
         if (pos == 0) {
+            if (_mListProject.value == null) {
+                zErrorView()
+            }
             zRefresh(false)
         } else {
             zLoadMore(false)

@@ -267,7 +267,7 @@ class TouchWebView : WebView {
      *
      * @param url
      */
-    fun loadURL(url: String) {
+    fun loadURL(url: String?) {
         loadURLInner(url)
         isFinish = false
     }
@@ -277,7 +277,7 @@ class TouchWebView : WebView {
      *
      * @param url
      */
-    private fun loadURLInner(url: String) {
+    private fun loadURLInner(url: String?) {
         if (TextUtils.isEmpty(packageName)) {
             loadUrl(url)
         } else {
@@ -359,7 +359,7 @@ class TouchWebView : WebView {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            val absolutePath = webView.context.filesDir.parentFile.absolutePath
+            val absolutePath = webView.context?.filesDir?.parentFile?.absolutePath
             val WebViewChromiumPrefs =
                 absolutePath + File.separator + "shared_prefs" + File.separator + "WebViewChromiumPrefs.xml"
             val app_webview = absolutePath + File.separator + "app_webview"

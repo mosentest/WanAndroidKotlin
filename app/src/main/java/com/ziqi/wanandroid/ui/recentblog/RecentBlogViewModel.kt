@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.bean.Article
-import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.commonlibrary.bean.WanList
 import com.ziqi.wanandroid.commonlibrary.net.NetRepository
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
@@ -34,7 +33,10 @@ class RecentBlogViewModel(ctx: Application) : BaseViewModel(ctx) {
         },
         {
             LogUtil.e(TAG, "loadArticleTop.Error..", it)
-            zErrorView()
+            if (_mArticleTop.value == null) {
+                //如果这个数据为空才展示
+                zErrorView()
+            }
             zRefresh(false)
             zToast(errorInfo(it))
         }, showLoading

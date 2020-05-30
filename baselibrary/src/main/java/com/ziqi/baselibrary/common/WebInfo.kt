@@ -16,15 +16,18 @@ import kotlinx.android.parcel.Parcelize
 //@Parcelize
 class WebInfo() : Parcelable {
     var url: String? = null
+    var webContent: String? = null
     var title: String? = null
 
     constructor(parcel: Parcel) : this() {
         url = parcel.readString()
+        webContent = parcel.readString()
         title = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(url)
+        parcel.writeString(webContent)
         parcel.writeString(title)
     }
 
