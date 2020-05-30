@@ -7,9 +7,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.billy.android.swipe.SmartSwipe
-import com.billy.android.swipe.consumer.StretchConsumer
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
@@ -34,7 +31,7 @@ class RecentBlogFragment :
 
     private var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>? = null
 
-    var mData: WanList<Article>? = null
+    private var mCurrentData: WanList<Article>? = null
 
 
     override fun zSetLayoutId(): Int {
@@ -83,10 +80,20 @@ class RecentBlogFragment :
                 override fun convert(holder: BaseViewHolder, item: Article) {
                     holder.setText(
                         R.id.author,
-                        StringUtil.emptyTip(item.author, item.shareUser ?: "暂无")
+                        StringUtil.emptyTip(
+                            item.author,
+                            item.shareUser ?: getString(R.string.common_no_info)
+                        )
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
+                    holder.setText(
+                        R.id.niceDate, String.format(
+                            getString(
+                                R.string.common_with_time_tip,
+                                item.niceDate?.trim()
+                            )
+                        )
+                    )
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
@@ -124,8 +131,8 @@ class RecentBlogFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
-            val curPage = mData?.curPage ?: 1
-            val pageCount = mData?.pageCount ?: 1
+            val curPage = mCurrentData?.curPage ?: 1
+            val pageCount = mCurrentData?.pageCount ?: 1
             if (curPage >= pageCount) {
                 mAdapter?.loadMoreEnd()
             } else {
@@ -158,13 +165,17 @@ class RecentBlogFragment :
             it?.apply {
                 datas?.apply {
                     if (curPage <= 1) {
-                        mAdapter?.setNewData(this)
+                        if (isEmpty()) {
+                            mZStatusView?.showEmptyView()
+                        } else {
+                            mAdapter?.setNewData(this)
+                        }
                     } else {
                         mAdapter?.addData(this)
                     }
                 }
                 mAdapter?.setEnableLoadMore(pageCount > 1)
-                mData = this
+                mCurrentData = this
             }
         })
     }

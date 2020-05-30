@@ -55,7 +55,11 @@ object NetRepository {
         return RetrofitUtils.get().wanAndroidApi.wxArticleList(cid, pos)
     }
 
-    suspend fun login(@FieldMap map: Map<String, String>): WanResponse<User> {
+    suspend fun login(map: Map<String, String>): WanResponse<User> {
         return RetrofitUtils.get().wanAndroidApi.login(map)
+    }
+
+    suspend fun <T> post(url: String, map: Map<String, String>): WanResponse<T> {
+        return RetrofitUtils.get().wanAndroidApi.post(url, map)
     }
 }

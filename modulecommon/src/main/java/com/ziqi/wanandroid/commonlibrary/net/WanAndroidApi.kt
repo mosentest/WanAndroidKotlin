@@ -2,6 +2,8 @@ package com.ziqi.wanandroid.commonlibrary.net
 
 import com.ziqi.wanandroid.commonlibrary.bean.*
 import kotlinx.coroutines.Deferred
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -56,6 +58,10 @@ interface WanAndroidApi {
     @FormUrlEncoded
     @POST("user/login")
     suspend fun login(@FieldMap map: Map<String, String>): WanResponse<User>
+
+    @FormUrlEncoded
+    @POST
+    suspend fun <T> post(@Url url: String, @FieldMap maps: Map<String, String>): WanResponse<T>
 
     /**
      * 直接暴露username和password关键字，不安全

@@ -66,7 +66,6 @@ class SystematicsFragment :
 
     private var mSecondAdapter: BaseQuickAdapter<Tree.ChildrenBean, BaseViewHolder>? = null
 
-    private var tabTexts = arrayListOf("体系分类")
 
     private var mMenuCategoryBinding: FragmentSystematicsContentMenuCategoryBinding? = null
 
@@ -123,6 +122,7 @@ class SystematicsFragment :
         val contentView = LayoutInflater
             .from(activity)
             .inflate(R.layout.fragment_systematics_content, null)
+        val tabTexts = arrayListOf(getString(R.string.app_systematics_class))
         //==================================================================
         mViewDataBinding?.dropDownMenu?.setDropDownMenu(tabTexts, popupViews, contentView)
         mViewDataBinding?.dropDownMenu?.apply {
@@ -382,7 +382,11 @@ class SystematicsFragment :
             it?.apply {
                 datas?.apply {
                     if (curPage <= 1) {
-                        mContentAdapter?.setNewData(this)
+                        if (isEmpty()) {
+                            mZStatusView?.showEmptyView()
+                        } else {
+                            mContentAdapter?.setNewData(this)
+                        }
                     } else {
                         mContentAdapter?.addData(this)
                     }

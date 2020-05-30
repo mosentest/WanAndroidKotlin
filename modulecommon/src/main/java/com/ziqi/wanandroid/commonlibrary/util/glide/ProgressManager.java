@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -12,7 +13,7 @@ import okhttp3.Response;
 
 public class ProgressManager {
 
-    private static Map<String, OnProgressListener> listenersMap = Collections.synchronizedMap(new HashMap<>());
+    private final static WeakHashMap<String, OnProgressListener> LISTENERS_MAP = new WeakHashMap<>();
 
     private volatile static OkHttpClient okHttpClient;
 
@@ -50,24 +51,24 @@ public class ProgressManager {
         }
     };
 
-    public static void addListener(String url, OnProgressListener listener) {
+    public synchronized static void addListener(String url, OnProgressListener listener) {
         if (!TextUtils.isEmpty(url) && listener != null) {
-            listenersMap.put(url, listener);
+            LISTENERS_MAP.put(url, listener);
             listener.onProgress(false, 1, 0, 0);
         }
     }
 
-    public static void removeListener(String url) {
+    public synchronized static void removeListener(String url) {
         if (!TextUtils.isEmpty(url)) {
-            listenersMap.remove(url);
+            LISTENERS_MAP.remove(url);
         }
     }
 
-    public static OnProgressListener getProgressListener(String url) {
-        if (TextUtils.isEmpty(url) || listenersMap == null || listenersMap.size() == 0) {
+    public synchronized static OnProgressListener getProgressListener(String url) {
+        if (TextUtils.isEmpty(url) || LISTENERS_MAP.size() == 0) {
             return null;
         }
-        OnProgressListener listenerWeakReference = listenersMap.get(url);
+        OnProgressListener listenerWeakReference = LISTENERS_MAP.get(url);
         if (listenerWeakReference != null) {
             return listenerWeakReference;
         }

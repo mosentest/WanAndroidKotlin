@@ -8,6 +8,7 @@ import com.ziqi.wanandroid.commonlibrary.ui.common.WebActivity
 import com.ziqi.baselibrary.common.WebFragment
 import com.ziqi.baselibrary.common.WebInfo
 import com.ziqi.baselibrary.util.StartActivityCompat
+import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalFragment
@@ -88,7 +89,7 @@ class StartUtil {
                 LoginFragment::class.java.name,
                 requestCode,
                 Intent(context, LoginActivity::class.java),
-                "登录",
+                context.getString(R.string.common_text_login),
                 true,
                 info
             )
@@ -106,7 +107,7 @@ class StartUtil {
                 RegisterFragment::class.java.name,
                 requestCode,
                 Intent(context, CommonActivity::class.java),
-                "注册",
+                context.getString(R.string.common_text_register),
                 true,
                 info
             )

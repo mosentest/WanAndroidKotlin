@@ -98,7 +98,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="搜索"
+                            android:text="@string/app_search"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -116,7 +116,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="公众号"
+                            android:text="@string/common_public_mark"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -133,7 +133,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="收藏"
+                            android:text="@string/common_collect"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -150,7 +150,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="广场"
+                            android:text="@string/app_user_article"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -167,7 +167,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="问答"
+                            android:text="@string/app_q_a"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -184,7 +184,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="登录失效"
+                            android:text="@string/app_login_invalid"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -201,7 +201,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="串行线程dialog处理"
+                            android:text="@string/app_test_thread_dialog"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
 
@@ -218,7 +218,7 @@
                             android:gravity="start"
                             android:onClick="@{listener::onClick}"
                             android:padding="@dimen/dp_16"
-                            android:text="并行线程dialog处理"
+                            android:text="@string/app_test_thread_dialog2"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
                     </LinearLayout>
@@ -234,7 +234,7 @@
                         android:gravity="center"
                         android:onClick="@{listener::onClick}"
                         android:padding="@dimen/dp_16"
-                        android:text="退出"
+                        android:text="@string/app_logout"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/sp_16"
                         android:visibility="gone"
@@ -242,13 +242,13 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
-            <com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightRelativeLayout
+            <com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <include layout="@layout/layout_toolbar" />
 
-            </com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightRelativeLayout>
+            </com.ziqi.baselibrary.util.statusbar.view.StatusBarHeightLinearLayout>
 
 
         </FrameLayout>

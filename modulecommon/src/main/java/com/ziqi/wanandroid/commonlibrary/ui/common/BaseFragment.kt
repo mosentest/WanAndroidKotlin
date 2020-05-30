@@ -44,7 +44,6 @@ abstract class BaseFragment<VM : BaseViewModel, StartParams : Parcelable, Bindin
 
     abstract fun dealViewModel()
 
-
     override fun initViewModel() {
         /**
          * 弹全局登陆的对话框

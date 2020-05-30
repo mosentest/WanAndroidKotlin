@@ -1,7 +1,6 @@
 package com.ziqi.wanandroid.me.ui.wxarticlelist
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
@@ -17,16 +16,15 @@ import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.me.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
-import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.me.databinding.FragmentWxArticleListBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoad
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 
 class WxArticleListFragment :
-    BaseFragment<WxArticleListViewModel, Parcelable, FragmentWxArticleListBinding>() {
+    BaseFragment<WxArticleListViewModel, WxArticleListParams, FragmentWxArticleListBinding>() {
 
     companion object {
         @JvmStatic
@@ -36,11 +34,9 @@ class WxArticleListFragment :
     }
 
 
-    private var mTree: Tree? = null
-
     private var mAdapter: BaseQuickAdapter<ListProject.DatasBean, BaseViewHolder>? = null
 
-    var mData: ListProject? = null
+    private var mCurrentData: ListProject? = null
 
 
     override fun zContentViewId(): Int {
@@ -56,7 +52,6 @@ class WxArticleListFragment :
     }
 
     override fun zVisibleToUser(isNewIntent: Boolean) {
-        mTree = arguments?.getParcelable("tree")
     }
 
     override fun zLazyVisible() {
@@ -86,14 +81,26 @@ class WxArticleListFragment :
                 override fun convert(holder: BaseViewHolder, item: ListProject.DatasBean) {
                     holder.setText(
                         R.id.author,
-                        StringUtil.emptyTip(item.author, item.shareUser ?: "暂无")
+                        StringUtil.emptyTip(
+                            item.author,
+                            item.shareUser ?: getString(R.string.common_no_info)
+                        )
                     )
                     holder.setText(
                         R.id.desc,
-                        StringUtil.emptyTip(Html.fromHtml(item.desc).toString(), "暂无介绍")
+                        StringUtil.emptyTip(
+                            Html.fromHtml(item.desc).toString(),
+                            getString(R.string.common_no_introduction)
+                        )
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
+                    holder.setText(
+                        R.id.niceDate,
+                        String.format(
+                            getString(R.string.common_with_time_tip),
+                            item.niceDate?.trim()
+                        )
+                    )
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
@@ -157,13 +164,13 @@ class WxArticleListFragment :
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
-            val curPage = mData?.curPage ?: 1
-            val pageCount = mData?.pageCount ?: 1
+            val curPage = mCurrentData?.curPage ?: 1
+            val pageCount = mCurrentData?.pageCount ?: 1
             if (curPage >= pageCount) {
                 mAdapter?.loadMoreEnd()
             } else {
                 //这从0开始，只能加1
-                mViewModel?.wxArticleList(curPage + 1, mTree?.id ?: 0)
+                mViewModel?.wxArticleList(curPage + 1, mStartParams?.tree?.id ?: 0)
             }
         }, mViewDataBinding?.recyclerview)
         mViewDataBinding?.myRootView?.setOnRefreshListener(this)
@@ -195,14 +202,14 @@ class WxArticleListFragment :
                     }
                 }
                 mAdapter?.setEnableLoadMore(pageCount > 1)
-                mData = this
+                mCurrentData = this
             }
         })
     }
 
 
     override fun onRefresh() {
-        mViewModel?.wxArticleList(0, mTree?.id ?: 0)
+        mViewModel?.wxArticleList(0, mStartParams?.tree?.id ?: 0)
     }
 
 

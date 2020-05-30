@@ -8,16 +8,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.billy.android.swipe.SmartSwipe
 import com.billy.android.swipe.consumer.SpaceConsumer
-import com.billy.android.swipe.consumer.StretchConsumer
 import com.github.florent37.fiftyshadesof.FiftyShadesOf
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.http.error.ResponseThrowable
-import com.ziqi.baselibrary.livedata.Event
-import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.util.LoginManager
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.databinding.FragmentMeBinding
@@ -58,7 +52,6 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             R.id.tvNoLogin -> {
                 toLogin(object : LoginListener {
                     override fun onSuccess() {
-                        zToastShort(-1, "登录成功")
                     }
 
                     override fun onCancel() {
@@ -76,7 +69,6 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             R.id.tvCollect -> {
                 toLogin(object : LoginListener {
                     override fun onSuccess() {
-                        zToastShort(-1, "登录成功")
                     }
 
                     override fun onCancel() {
@@ -92,7 +84,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             }
             R.id.tvLoginInvalid -> {
                 activity?.apply {
-                    mViewModel?.toLogin("需要重新登陆")
+                    mViewModel?.toLogin(getString(R.string.app_need_to_login))
                 }
             }
             R.id.tvSerialDialog -> {
@@ -162,8 +154,18 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
     }
 
     private fun handleToolBar() {
-        mTvTitle?.text = "我的"
-        mRightTwoMenu?.text = "搜索"
+        mTvTitle?.text = getString(R.string.app_me)
+        //第一个菜单
+        mRightOneMenu?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        mRightOneMenu?.visibility = View.VISIBLE
+        mRightOneMenu?.setOnClickListener {
+            zShowLoadDialog(-1, null)
+            mToolBar?.postDelayed({
+                zHideLoadDialog(-1)
+            }, 1000)
+        }
+        //第二个菜单
+        mRightTwoMenu?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         mRightTwoMenu?.visibility = View.VISIBLE
         mRightTwoMenu?.setOnClickListener {
             zShowLoadDialog(-1, null)

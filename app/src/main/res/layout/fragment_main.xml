@@ -71,7 +71,7 @@
                     android:id="@+id/tvHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="首页"
+                    android:text="@string/app_home"
                     android:textColor="@color/tv_selector_main"
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>
@@ -98,7 +98,7 @@
                     android:id="@+id/tvSystematics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="体系"
+                    android:text="@string/app_systematics"
                     android:textColor="@color/tv_selector_main"
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>
@@ -125,7 +125,7 @@
                     android:id="@+id/tvProject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="项目"
+                    android:text="@string/app_project"
                     android:textColor="@color/tv_selector_main"
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>
@@ -153,7 +153,7 @@
                     android:id="@+id/tvMe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的"
+                    android:text="@string/app_me"
                     android:textColor="@color/tv_selector_main"
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>

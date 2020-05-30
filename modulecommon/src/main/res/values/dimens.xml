@@ -95,6 +95,8 @@
     <dimen name="dp_78">78dp</dimen>
     <dimen name="dp_79">79dp</dimen>
 
+    <dimen name="dp_150">150dp</dimen>
+
     <dimen name="dp_175">175dp</dimen>
 
     <dimen name="dp_250">250dp</dimen>

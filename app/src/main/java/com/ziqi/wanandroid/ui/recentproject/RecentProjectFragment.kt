@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
@@ -18,7 +17,7 @@ import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoad
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 import com.ziqi.wanandroid.commonlibrary.view.LinearLayoutManagerX
@@ -77,14 +76,28 @@ class RecentProjectFragment :
                 override fun convert(holder: BaseViewHolder, item: ListProject.DatasBean) {
                     holder.setText(
                         R.id.author,
-                        StringUtil.emptyTip(item.author, item.shareUser ?: "暂无")
+                        StringUtil.emptyTip(
+                            item.author,
+                            item.shareUser ?: getString(R.string.common_no_info)
+                        )
                     )
                     holder.setText(
                         R.id.desc,
-                        StringUtil.emptyTip(Html.fromHtml(item.desc).toString(), "暂无介绍")
+                        StringUtil.emptyTip(
+                            Html.fromHtml(item.desc).toString(),
+                            getString(R.string.common_no_introduction)
+                        )
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
+                    holder.setText(
+                        R.id.niceDate,
+                        String.format(
+                            getString(
+                                R.string.common_with_time_tip,
+                                item.niceDate?.trim()
+                            )
+                        )
+                    )
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )

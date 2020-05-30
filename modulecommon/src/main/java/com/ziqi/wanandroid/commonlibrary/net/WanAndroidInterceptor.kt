@@ -27,8 +27,10 @@ class WanAndroidInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         val method = request.method()
+        var response: Response? = null
         if ("POST" == method) {
             val body = request.body()
+            //处理请求
             if (body is FormBody) {
                 //https://blog.csdn.net/wenyingzhi/article/details/80510249
                 val builder = FormBody.Builder()
@@ -45,38 +47,45 @@ class WanAndroidInterceptor : Interceptor {
                 builder.add("time", SystemClock.elapsedRealtime().toString())
                 //构造新的请求体,覆盖之前的body
                 val newRequestBody = builder.build()
-                request = request.newBuilder().post(newRequestBody).build()
+                //构建新的request
+                val newRequest = request.newBuilder().post(newRequestBody).build()
+                //proceed
+                response = chain.proceed(newRequest)
             } else if (body is MultipartBody) {
                 //后面再考虑
-                var builder = MultipartBody.Builder()
+                //var builder = MultipartBody.Builder()
+                //proceed
+                response = chain.proceed(request)
             }
-        }
-        var response = chain.proceed(request)
-        if (HttpHeaders.hasBody(response)) {
-            val responseBody = response.body()
-            responseBody?.apply {
-                val source: BufferedSource = source()
-                source.request(Long.MAX_VALUE) // Buffer the entire body.
-                val buffer: Buffer = source.buffer()
-                val charset = Charset.forName("UTF-8")
-                val content = buffer.clone().readString(charset)
+            //处理返回
+            if (HttpHeaders.hasBody(response)) {
+                val responseBody = response?.body()
+                responseBody?.apply {
+                    val source: BufferedSource = source()
+                    source.request(Long.MAX_VALUE) // Buffer the entire body.
+                    val buffer: Buffer = source.buffer()
+                    val charset = Charset.forName("UTF-8")
+                    val content = buffer.clone().readString(charset)
 
-                //===打印返回内容，如果解密之类操作，也可以在这里操作
-                LogUtil.i(
-                    TAG,
-                    Thread.currentThread().name + ">>content:" + content
-                )
-                //===打印返回内容，如果解密之类操作，也可以在这里操作
+                    //===打印返回内容，如果解密之类操作，也可以在这里操作
+                    LogUtil.i(
+                        TAG,
+                        Thread.currentThread().name + ">>content:" + content
+                    )
+                    //===打印返回内容，如果解密之类操作，也可以在这里操作
 
-                val obj = GsonUtil.gson.fromJson<WanResponse<Any>>(content, WanResponse::class.java)
-                if (obj.errorCode != 0) {
-                    throw ResponseThrowable(obj.errorCode + 1, obj.errorMsg)
+                    val obj =
+                        GsonUtil.gson.fromJson<WanResponse<Any>>(content, WanResponse::class.java)
+                    if (obj.errorCode != 0) {
+                        throw ResponseThrowable(obj.errorCode + 1, obj.errorMsg)
+                    }
+                    val newResponseBody = ResponseBody.create(contentType(), content)
+                    response = response?.newBuilder()?.body(newResponseBody)?.build()
                 }
-                val newResponseBody = ResponseBody.create(contentType(), content)
-                response = response.newBuilder().body(newResponseBody).build()
             }
-
+        } else {
+            response = chain.proceed(request)
         }
-        return response
+        return response!!
     }
 }

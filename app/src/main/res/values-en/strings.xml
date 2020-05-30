@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">WanAndroidKotlin</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="app_new_blog">New blog</string>
+    <string name="app_new_projcet">New project</string>
+    <string name="app_home">Home</string>
+    <string name="app_systematics">Systematics</string>
+    <string name="app_project">Project</string>
+    <string name="app_me">Me</string>
+    <string name="app_need_to_login">need re-login</string>
+    <string name="app_systematics_class">Systematics class</string>
+    <string name="app_search">搜索</string>
+    <string name="app_user_article">广场</string>
+    <string name="app_q_a">问答</string>
+    <string name="app_login_invalid">登录失效</string>
+    <string name="app_test_thread_dialog">串行线程dialog处理</string>
+    <string name="app_test_thread_dialog2">并行线程dialog处理</string>
+    <string name="app_logout">退出</string>
+</resources>

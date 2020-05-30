@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">commonLibrary</string>
+
+    <string name="common_text_register">register</string>
+    <string name="common_hint_input_password">please input password</string>
+    <string name="common_hint_input_repassword">please input password again</string>
+    <string name="common_hint_input_account">please input account</string>
+    <string name="common_text_login">login</string>
+    <string name="common_forget_password">forget password？</string>
+    <string name="common_dialog_title">Tips</string>
+    <string name="common_text_cancel">Cancel</string>
+    <string name="common_text_ok">OK</string>
+    <string name="common_login_success">login success</string>
+    <string name="common_with_time_tip">time:%s</string>
+    <string name="common_no_introduction">No introduction</string>
+    <string name="common_no_info">Empty</string>
+    <string name="common_collect">Collect</string>
+    <string name="common_public_mark">Public mark</string>
+</resources>

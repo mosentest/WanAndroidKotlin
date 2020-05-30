@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.util.StringUtil
+import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewViewModel
 import java.lang.reflect.Method
@@ -42,7 +43,7 @@ object StartPage {
     ) {
         method(
             "toWxArticle",
-            "公众号",
+            context.getString(R.string.common_public_mark),
             true,
             context,
             fragment,
@@ -59,7 +60,7 @@ object StartPage {
     ) {
         method(
             "toCollect",
-            "收藏",
+            context.getString(R.string.common_collect),
             true,
             context,
             fragment,
