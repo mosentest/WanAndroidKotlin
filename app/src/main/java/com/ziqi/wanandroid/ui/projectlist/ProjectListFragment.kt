@@ -1,7 +1,6 @@
 package com.ziqi.wanandroid.ui.projectlist
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
@@ -17,10 +16,9 @@ import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
-import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 import com.ziqi.wanandroid.databinding.FragmentProjectListBinding
@@ -119,7 +117,7 @@ class ProjectListFragment :
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
-                    ImageLoad.loadUrl(
+                    ImageLoadUtils.loadUrl(
                         this@ProjectListFragment,
                         item.envelopePic,
                         holder.getView(R.id.envelopePic),

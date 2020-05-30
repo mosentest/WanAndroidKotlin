@@ -24,7 +24,7 @@ import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.Banner
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.banner.ImageAdapter
 import com.ziqi.wanandroid.databinding.FragmentHomeBinding
@@ -99,7 +99,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
     override fun initView() {
         mBannerAdapter = object : ImageAdapter(null) {
             override fun convert(holder: BannerViewHolder, data: Banner?, position: Int) {
-                ImageLoad.loadUrl(
+                ImageLoadUtils.loadUrl(
                     this@HomeFragment,
                     data?.imagePath,
                     holder.imageViewX,

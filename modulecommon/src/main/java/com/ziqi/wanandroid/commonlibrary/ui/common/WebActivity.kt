@@ -16,7 +16,7 @@ import com.ziqi.baselibrary.common.WebFragment
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class WebActivity : CommonActivity() {
+class WebActivity : CommonActivity<Parcelable>() {
     override fun createFragment(): Fragment? {
         return WebFragment.newInstance(intent?.extras)
     }

@@ -2,6 +2,8 @@ package com.ziqi.wanandroid.commonlibrary
 
 import android.app.Application
 import com.ziqi.baselibrary.util.ContextUtils
+import com.ziqi.wanandroid.commonlibrary.util.io.KVUtils
+
 
 /**
  * Copyright (C), 2018-2020
@@ -17,5 +19,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ContextUtils.context = this
+        KVUtils.instance.init(this)
     }
 }

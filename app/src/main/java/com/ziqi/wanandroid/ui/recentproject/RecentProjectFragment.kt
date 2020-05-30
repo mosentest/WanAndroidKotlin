@@ -17,7 +17,7 @@ import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 import com.ziqi.wanandroid.commonlibrary.view.LinearLayoutManagerX
@@ -101,7 +101,7 @@ class RecentProjectFragment :
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
-                    ImageLoad.loadUrl(
+                    ImageLoadUtils.loadUrl(
                         this@RecentProjectFragment,
                         item.envelopePic,
                         holder.getView(R.id.envelopePic),

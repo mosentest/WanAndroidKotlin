@@ -69,6 +69,7 @@ class WanOkHttpUtils {
     }
 
     companion object {
+        //https://www.jb51.net/article/145255.htm
         val instance: WanOkHttpUtils by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             WanOkHttpUtils(context = ContextUtils.context)
         }

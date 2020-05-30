@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.ui.globaldialog
 
 import android.os.Bundle
+import android.os.Parcelable
 import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
 
 /**
@@ -12,7 +13,7 @@ import com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class GlobalActivity : CommonActivity() {
+class GlobalActivity : CommonActivity<Parcelable>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -19,7 +19,7 @@ import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.me.databinding.FragmentWxArticleListBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 
@@ -109,7 +109,7 @@ class WxArticleListFragment :
                     holder.getView<ImageViewX>(R.id.envelopePic).visibility =
                         if (StringUtil.isEmpty(item.envelopePic)) View.GONE else View.VISIBLE
 
-                    ImageLoad.loadUrl(
+                    ImageLoadUtils.loadUrl(
                         this@WxArticleListFragment,
                         item.envelopePic,
                         holder.getView(R.id.envelopePic),

@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object ImageLoad : IImageLoad {
+object ImageLoadUtils : IImageLoad {
 
     override fun loadUrl(context: Context, url: String?, imageView: ImageView?) {
         try {
