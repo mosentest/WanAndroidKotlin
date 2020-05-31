@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid.commonlibrary.util.io
+package com.ziqi.baselibrary.util.io
 
 import android.content.Context
 import android.os.Parcelable
@@ -30,7 +30,7 @@ class MMKVUtils : IKV {
         Log.i("MMKVUtils", "mmkv root: " + rootDir)
     }
 
-    override fun put(context: Context, key: String?, `object`: Any) {
+    override fun put(key: String?, `object`: Any) {
         val kv = MMKV.defaultMMKV()
         if (`object` is String) {
             kv.encode(key, `object`)
@@ -49,7 +49,7 @@ class MMKVUtils : IKV {
         }
     }
 
-    override fun <T> get(context: Context, key: String?, defaultObject: T): T? {
+    override fun <T> get(key: String?, defaultObject: T): T? {
         val kv = MMKV.defaultMMKV()
         if (defaultObject is String) {
             return kv.decodeString(key, defaultObject as String) as T?
@@ -66,15 +66,20 @@ class MMKVUtils : IKV {
             val aLong = kv.decodeLong(key, (defaultObject as Long))
             return aLong as T
         } else if (defaultObject is Parcelable) {
-            val parcelable = kv.decodeParcelable(key, (defaultObject as Parcelable).javaClass)
+            val parcelable =
+                kv.decodeParcelable(
+                    key,
+                    (defaultObject as Parcelable).javaClass,
+                    defaultObject as Parcelable
+                )
             return parcelable as T
         }
         return null
     }
 
-    override fun remove(context: Context, key: String?) {
+    override fun remove(key: String?) {
         val kv = MMKV.defaultMMKV()
-        kv.reKey(key)
+        kv.removeValueForKey(key)
     }
 
 }

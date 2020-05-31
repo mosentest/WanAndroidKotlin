@@ -39,8 +39,7 @@ abstract class MaxLifecyclePagerAdapter(fm: FragmentManager) :
      * @return
      */
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val fragment =
-            super.instantiateItem(container, position) as Fragment
+        val fragment = super.instantiateItem(container, position) as Fragment
         registeredFragments.put(position, fragment)
         return fragment
     }

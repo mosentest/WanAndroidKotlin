@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid.commonlibrary.util.io
+package com.ziqi.baselibrary.util.io
 
 import android.content.Context
 
@@ -13,8 +13,11 @@ import android.content.Context
  */
 class KVUtils : IKV {
 
+
     companion object {
         val instance = SingletonHolder.holder
+
+        const val KEY_USER_INFO: String = "key_user_info"
     }
 
     private object SingletonHolder {
@@ -25,16 +28,16 @@ class KVUtils : IKV {
         MMKVUtils.instance.init(context)
     }
 
-    override fun put(context: Context, key: String?, `object`: Any) {
-        MMKVUtils.instance.put(context, key, `object`)
+    override fun put(key: String?, `object`: Any) {
+        MMKVUtils.instance.put(key, `object`)
     }
 
-    override fun <T> get(context: Context, key: String?, defaultObject: T): T? {
-        return MMKVUtils.instance.get(context, key, defaultObject)
+    override fun <T> get(key: String?, defaultObject: T): T? {
+        return MMKVUtils.instance.get(key, defaultObject)
     }
 
-    override fun remove(context: Context, key: String?) {
-        MMKVUtils.instance.remove(context, key)
+    override fun remove(key: String?) {
+        MMKVUtils.instance.remove(key)
     }
 
 }

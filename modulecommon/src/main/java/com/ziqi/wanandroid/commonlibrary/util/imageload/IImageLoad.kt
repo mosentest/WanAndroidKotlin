@@ -27,4 +27,6 @@ interface IImageLoad {
         imageViewX: ImageViewX?, @DrawableRes resourceId: Int,
         scaleType: ImageView.ScaleType
     )
+
+    fun loadUrl2Circle(fragment: Fragment, url: String?, imageView: ImageView?)
 }

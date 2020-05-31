@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ziqi.baselibrary.mvvm.ZViewModelFragment
 import com.ziqi.baselibrary.util.statusbar.StatusBarUtil
+import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.ui.login.LoginParams
 import com.ziqi.wanandroid.commonlibrary.util.LoginManager
@@ -59,9 +60,9 @@ abstract class BaseFragment<VM : BaseViewModel, StartParams : Parcelable, Bindin
                             REQUEST_GLOBAL,
                             GlobalParams().apply {
                                 this.content = errMsg
-                                this.title = "温馨提示"
+                                this.title = getString(R.string.common_dialog_title)
                                 this.left = ""
-                                this.right = "确定"
+                                this.right = getString(R.string.common_text_ok)
                                 this.type = 1
                             })
                     }

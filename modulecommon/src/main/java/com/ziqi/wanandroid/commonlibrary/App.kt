@@ -2,7 +2,7 @@ package com.ziqi.wanandroid.commonlibrary
 
 import android.app.Application
 import com.ziqi.baselibrary.util.ContextUtils
-import com.ziqi.wanandroid.commonlibrary.util.io.KVUtils
+import com.ziqi.baselibrary.util.io.KVUtils
 
 
 /**

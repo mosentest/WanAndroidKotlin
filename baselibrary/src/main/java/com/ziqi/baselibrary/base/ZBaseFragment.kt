@@ -254,6 +254,7 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
             activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         initBaseView()
         initDataView()
+        zVisibleToUser(false)
     }
 
     private fun initBaseView() {
@@ -323,13 +324,11 @@ abstract class ZBaseFragment<StartParams : Parcelable, Binding : ViewDataBinding
     private fun tryLoad() {
         if (!lazyLoad) {
             LogUtil.i(TAG, """${zGetClassName()}>>>tryLoad""")
-            zVisibleToUser(false)
             zLazyVisible()
             lazyLoad = true
         }
     }
 
-    @Deprecated(message = "统一使用zVisibleToUser")
     open fun zLazyVisible() {
     }
 

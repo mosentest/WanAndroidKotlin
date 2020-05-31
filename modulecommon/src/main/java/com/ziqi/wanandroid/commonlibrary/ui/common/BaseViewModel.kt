@@ -6,6 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.livedata.Event
 import com.ziqi.baselibrary.mvvm.ZBaseViewModel
+import com.ziqi.wanandroid.commonlibrary.bean.User
+import com.ziqi.wanandroid.commonlibrary.net.NetRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Copyright (C), 2018-2020
@@ -28,10 +32,64 @@ open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
         get() = _mToLogin
 
 
+    /**
+     * 控制去更新
+     */
     private val _mToUpdate: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val mToUpdate: LiveData<Event<Boolean>>
         get() = _mToUpdate
 
+
+    private val _mLgCollect = MutableLiveData<Int>()
+    val mLgCollect: LiveData<Int>
+        get() = _mLgCollect
+
+
+    private val _mLgUncollectOriginId = MutableLiveData<Int>()
+    val mLgUncollectOriginId: LiveData<Int>
+        get() = _mLgUncollectOriginId
+
+
+    /**
+     * 添加收藏
+     */
+    fun lgCollect(cid: Int?, pos: Int) {
+        asyncExt(
+            {
+                _mLgCollect.value =
+                    withContext(Dispatchers.IO) {
+                        NetRepository.lgCollect(cid).preProcessData()
+                        pos
+                    }
+            },
+            {
+                zToast(errorInfo(it))
+            }, true
+        )
+    }
+
+
+    /**
+     * 取消收藏
+     */
+    fun lgUncollectOriginId(cid: Int?, pos: Int) {
+        asyncExt(
+            {
+                _mLgUncollectOriginId.value =
+                    withContext(Dispatchers.IO) {
+                        NetRepository.lgUncollectOriginId(cid).preProcessData()
+                        pos
+                    }
+            },
+            {
+                zToast(errorInfo(it))
+            }, true
+        )
+    }
+
+    /**
+     * 统一错误信息处理
+     */
     fun errorInfo(rt: ResponseThrowable?): String? {
         return rt?.let {
             var msg: String? = null
@@ -51,7 +109,10 @@ open class BaseViewModel(ctx: Application) : ZBaseViewModel(ctx) {
     }
 
 
-    fun toLogin(msg: String) {
+    /**
+     * 模拟需要重登陆
+     */
+    fun simulateLogin(msg: String) {
         _mToLogin.value = Event(ResponseThrowable(-1000, msg))
     }
 }

@@ -96,7 +96,7 @@
                     android:background="@color/colorPrimary">
 
                     <TextView
-                        android:id="@+id/tvLogin"
+                        android:id="@+id/tvRegister"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

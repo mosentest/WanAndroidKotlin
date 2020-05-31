@@ -18,6 +18,7 @@ import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
 import com.ziqi.wanandroid.commonlibrary.ui.login.LoginActivity
 import com.ziqi.wanandroid.commonlibrary.ui.login.LoginFragment
+import com.ziqi.wanandroid.commonlibrary.ui.register.RegisterActivity
 import com.ziqi.wanandroid.commonlibrary.ui.register.RegisterFragment
 import com.ziqi.wanandroid.commonlibrary.util.route.StartPage
 
@@ -32,6 +33,8 @@ import com.ziqi.wanandroid.commonlibrary.util.route.StartPage
  */
 class StartUtil {
     companion object {
+
+        @JvmStatic
         fun startWebFragment(
             context: Context,
             fragment: Fragment?,
@@ -50,6 +53,7 @@ class StartUtil {
             )
         }
 
+        @JvmStatic
         fun startImagePreviewFragment(
             context: Context,
             fragment: Fragment?,
@@ -68,6 +72,7 @@ class StartUtil {
             )
         }
 
+        @JvmStatic
         fun startWxArticleFragment(
             context: Context,
             fragment: Fragment?,
@@ -77,6 +82,18 @@ class StartUtil {
             StartPage.toWxArticle(context, fragment, requestCode, info)
         }
 
+
+        @JvmStatic
+        fun startCollectFragment(
+            context: Context,
+            fragment: Fragment?,
+            requestCode: Int = -1,
+            info: Parcelable?
+        ) {
+            StartPage.toCollect(context, fragment, requestCode, info)
+        }
+
+        @JvmStatic
         fun startLoginFragment(
             context: Context,
             fragment: Fragment?,
@@ -95,18 +112,19 @@ class StartUtil {
             )
         }
 
+        @JvmStatic
         fun startRegisterFragment(
             context: Context,
             fragment: Fragment?,
             requestCode: Int = -1,
-            info: Parcelable
+            info: Parcelable?
         ) {
             StartActivityCompat.startActivity(
                 context,
                 fragment,
                 RegisterFragment::class.java.name,
                 requestCode,
-                Intent(context, CommonActivity::class.java),
+                Intent(context, RegisterActivity::class.java),
                 context.getString(R.string.common_text_register),
                 true,
                 info
@@ -116,6 +134,7 @@ class StartUtil {
         /**
          * 启动全局的对话框
          */
+        @JvmStatic
         fun startGlobalFragment(
             context: Context,
             fragment: Fragment?,

@@ -3,8 +3,12 @@ package com.ziqi.wanandroid.ui.me
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.ziqi.baselibrary.util.LogUtil
+import com.ziqi.wanandroid.commonlibrary.net.NetRepository
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseViewModel
+import com.ziqi.wanandroid.commonlibrary.util.LoginManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -21,6 +25,23 @@ import java.util.*
 class MeViewModel(ctx: Application) : BaseViewModel(ctx) {
 
     private val TAG: String = MeViewModel::class.java.simpleName
+
+    private val _mLogout: MutableLiveData<Any> = MutableLiveData()
+    val mLogout: LiveData<Any>
+        get() = _mLogout
+
+
+    fun logout() {
+        asyncExt({
+            _mLogout.value =
+                withContext(Dispatchers.IO) {
+                    NetRepository.logout().preProcessData()
+                    LoginManager.logout()
+                }
+        }, {
+            zToast(errorInfo(it))
+        }, true)
+    }
 
     @SuppressLint("RestrictedApi")
     fun parallelDialog() {
@@ -55,7 +76,7 @@ class MeViewModel(ctx: Application) : BaseViewModel(ctx) {
         }
     }
 
-    suspend fun sss() {
+    private fun sss() {
         try {
             Thread.sleep(Random().nextInt(3) * 1000L)
         } catch (e: Exception) {

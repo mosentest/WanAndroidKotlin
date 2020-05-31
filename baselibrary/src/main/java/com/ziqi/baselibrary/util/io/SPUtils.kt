@@ -1,6 +1,7 @@
-package com.ziqi.wanandroid.commonlibrary.util.io
+package com.ziqi.baselibrary.util.io
 
 import android.content.Context
+import android.content.SharedPreferences
 
 /**
  * https://blog.csdn.net/zy517863543/article/details/53783659?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase
@@ -19,8 +20,13 @@ class SPUtils : IKV {
         val holder = SPUtils()
     }
 
-    override fun init(context: Context?) {
+    private var mContext: Context? = null
 
+    private var sp: SharedPreferences? = null
+
+    override fun init(context: Context?) {
+        mContext = context
+        sp = mContext?.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
     }
 
     /**
@@ -31,27 +37,24 @@ class SPUtils : IKV {
      * @param object
      */
     override fun put(
-        context: Context,
         key: String?,
         `object`: Any
     ) {
-        val sp =
-            context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
-        val editor = sp.edit()
+        val editor = sp?.edit()
         if (`object` is String) {
-            editor.putString(key, `object`)
+            editor?.putString(key, `object`)
         } else if (`object` is Int) {
-            editor.putInt(key, `object`)
+            editor?.putInt(key, `object`)
         } else if (`object` is Boolean) {
-            editor.putBoolean(key, `object`)
+            editor?.putBoolean(key, `object`)
         } else if (`object` is Float) {
-            editor.putFloat(key, `object`)
+            editor?.putFloat(key, `object`)
         } else if (`object` is Long) {
-            editor.putLong(key, `object`)
+            editor?.putLong(key, `object`)
         } else {
-            editor.putString(key, `object`.toString())
+            editor?.putString(key, `object`.toString())
         }
-        editor.apply()
+        editor?.apply()
     }
 
     /**
@@ -63,22 +66,20 @@ class SPUtils : IKV {
      * 需要注意的是，如果没有保存获取的值，则返回输入的默认类型的值，比如get(this,"pwd",0);如果没有pwd对应的值，则返回0
      * @return
      */
-    override fun <T> get(context: Context, key: String?, defaultObject: T): T? {
-        val sp =
-            context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
+    override fun <T> get(key: String?, defaultObject: T): T? {
         if (defaultObject is String) {
-            return sp.getString(key, defaultObject as String) as T?
+            return sp?.getString(key, defaultObject as String) as T?
         } else if (defaultObject is Int) {
-            val anInt = sp.getInt(key, (defaultObject as Int))
+            val anInt = sp?.getInt(key, (defaultObject as Int))
             return anInt as T
         } else if (defaultObject is Boolean) {
-            val aBoolean = sp.getBoolean(key, (defaultObject as Boolean))
+            val aBoolean = sp?.getBoolean(key, (defaultObject as Boolean))
             return aBoolean as T
         } else if (defaultObject is Float) {
-            val aFloat = sp.getFloat(key, (defaultObject as Float))
+            val aFloat = sp?.getFloat(key, (defaultObject as Float))
             return aFloat as T
         } else if (defaultObject is Long) {
-            val aLong = sp.getLong(key, (defaultObject as Long))
+            val aLong = sp?.getLong(key, (defaultObject as Long))
             return aLong as T
         }
         return null
@@ -90,9 +91,8 @@ class SPUtils : IKV {
      * @param context
      * @param key
      */
-    override fun remove(context: Context, key: String?) {
-        val sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
-        val editor = sp.edit()
-        editor.remove(key).apply()
+    override fun remove(key: String?) {
+        val editor = sp?.edit()
+        editor?.remove(key)?.apply()
     }
 }

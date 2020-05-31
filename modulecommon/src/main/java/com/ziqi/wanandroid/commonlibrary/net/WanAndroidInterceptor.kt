@@ -4,6 +4,7 @@ import android.os.SystemClock
 import com.ziqi.baselibrary.http.error.ResponseThrowable
 import com.ziqi.baselibrary.util.GsonUtil
 import com.ziqi.baselibrary.util.LogUtil
+import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.commonlibrary.bean.WanResponse
 import okhttp3.*
 import okhttp3.internal.http.HttpHeaders
@@ -35,10 +36,11 @@ class WanAndroidInterceptor : Interceptor {
                 //https://blog.csdn.net/wenyingzhi/article/details/80510249
                 val builder = FormBody.Builder()
                 for (i in 0 until body.size()) {
-                    builder.add(body.encodedName(i), body.encodedValue(i))
+                    //这里改为addEncoded
+                    builder.addEncoded(body.encodedName(i), body.encodedValue(i))
                     LogUtil.i(
                         TAG,
-                        Thread.currentThread().name + ">>key:" + body.encodedName(i) + ",value:" + body.encodedValue(
+                        "WanAndroidInterceptor>>key:" + body.encodedName(i) + ",value:" + body.encodedValue(
                             i
                         )
                     )
@@ -56,10 +58,12 @@ class WanAndroidInterceptor : Interceptor {
                 //var builder = MultipartBody.Builder()
                 //proceed
                 response = chain.proceed(request)
+            } else {
+                response = chain.proceed(request)
             }
             //处理返回
-            if (HttpHeaders.hasBody(response)) {
-                val responseBody = response?.body()
+            if (response != null && HttpHeaders.hasBody(response)) {
+                val responseBody = response.body()
                 responseBody?.apply {
                     val source: BufferedSource = source()
                     source.request(Long.MAX_VALUE) // Buffer the entire body.
@@ -70,20 +74,30 @@ class WanAndroidInterceptor : Interceptor {
                     //===打印返回内容，如果解密之类操作，也可以在这里操作
                     LogUtil.i(
                         TAG,
-                        Thread.currentThread().name + ">>content:" + content
+                        "WanAndroidInterceptor>>>>content:$content"
                     )
                     //===打印返回内容，如果解密之类操作，也可以在这里操作
 
-                    val obj =
-                        GsonUtil.gson.fromJson<WanResponse<Any>>(content, WanResponse::class.java)
-                    if (obj.errorCode != 0) {
-                        throw ResponseThrowable(obj.errorCode + 1, obj.errorMsg)
+                    if (!StringUtil.isEmpty(content)) {
+                        val obj =
+                            GsonUtil.gson.fromJson<WanResponse<Any>>(
+                                content,
+                                WanResponse::class.java
+                            )
+                        if (obj.errorCode != 0) {
+                            LogUtil.i(
+                                TAG,
+                                "WanAndroidInterceptor>>errorCode:" + obj.errorCode
+                            )
+                            throw ResponseThrowable(obj.errorCode + 1, obj.errorMsg)
+                        }
                     }
                     val newResponseBody = ResponseBody.create(contentType(), content)
                     response = response?.newBuilder()?.body(newResponseBody)?.build()
                 }
             }
-        } else {
+        }
+        if (response == null) {
             response = chain.proceed(request)
         }
         return response!!

@@ -70,6 +70,109 @@ interface WanAndroidApi {
     @POST("user/login")
     suspend fun login(@Field("username") username: String, @Field("password") password: String): WanResponse<User>
 
-    @GET("lg/collect/list/{cid}/json")
-    suspend fun lgCollect(@Path("cid") cid: Int): WanResponse<ListProject>
+    @GET("user/logout/json")
+    suspend fun logout(): WanResponse<Any>
+
+
+    /**
+     * 收藏文章列表
+     */
+    @POST("lg/collect/list/{pos}/json")
+    suspend fun lgCollectList(@Path("pos") pos: Int): WanResponse<ListProject>
+
+
+    /**
+     *收藏站内文章
+     */
+    @POST("lg/collect/{cid}/json")
+    suspend fun lgCollect(@Path("cid") cid: Int?): WanResponse<Any>
+
+
+    /**
+     * 收藏站外文章
+     */
+    @FormUrlEncoded
+    @POST("lg/collect/add/json")
+    suspend fun lgCollectAdd(
+        @Field("title") title: String?,
+        @Field("author") author: String?,
+        @Field("link") link: String?
+    ): WanResponse<Any>
+
+
+    /**
+     *取消收藏
+     *
+     *
+     */
+    @POST("lg/uncollect_originId/{cid}/json")
+    suspend fun lgUncollectOriginId(@Path("cid") cid: Int?): WanResponse<Any>
+
+    /**
+     * 我的收藏页面（该页面包含自己录入的内容）
+     *
+     * originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId则为-1
+     */
+    @POST("lg/uncollect/{cid}/json")
+    suspend fun lgUncollect(@Path("cid") cid: Int, @Field("originId") originId: String): WanResponse<Any>
+
+    /**
+     * 收藏文章列表
+     */
+    @POST("lg/collect/usertools/json")
+    suspend fun lgCollectUsertools(): WanResponse<ListProject>
+
+    /**
+     * 收藏网址
+     */
+    @POST("lg/collect/addtool/json")
+    suspend fun lgCollectAddtool(@Field("name") name: String, @Field("link") link: String): WanResponse<Any>
+
+    /**
+     * 编辑收藏网站
+     */
+    @POST("lg/collect/updatetool/json")
+    suspend fun lgCollectUpdatetool(
+        @Field("id") id: String,
+        @Field("name") name: String,
+        @Field("link") link: String
+    ): WanResponse<Any>
+
+    /**
+     * 删除收藏网站
+     */
+    @POST("lg/collect/deletetool/json")
+    suspend fun lgCollectdeletetool(
+        @Field("id") id: String
+    ): WanResponse<Any>
+
+    /**
+     * 搜索
+     */
+    @POST("article/query/{pos}/json")
+    suspend fun articleQuery(
+        @Path("pos") pos: Int,
+        @Field("k") k: String
+    ): WanResponse<ListProject>
+
+    /**
+     * 获取个人积分，需要登录后访问
+     */
+    @POST("lg/coin/userinfo/json")
+    suspend fun userinfo(): WanResponse<Any>
+
+    /**
+     * 广场列表数据
+     */
+    @POST("user_article/list/{pos}/json")
+    suspend fun userArticleList(@Path("pos") pos: Int): WanResponse<ListProject>
+
+
+    /**
+     *  问答
+     */
+    @POST("wenda/list/{pos}/json")
+    suspend fun wenda(@Path("pos") pos: Int): WanResponse<ListProject>
+
+
 }

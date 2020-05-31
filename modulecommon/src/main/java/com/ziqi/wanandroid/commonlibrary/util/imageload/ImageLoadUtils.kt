@@ -7,9 +7,11 @@ import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.wanandroid.commonlibrary.util.glide.OnProgressListener
@@ -118,6 +120,19 @@ object ImageLoadUtils : IImageLoad {
             }
         } catch (e: Exception) {
             LogUtil.e("fragment.loadUrl", e)
+        }
+    }
+
+    override fun loadUrl2Circle(fragment: Fragment, url: String?, imageView: ImageView?) {
+        try {
+            imageView?.apply {
+                Glide.with(fragment)
+                    .load(url)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(this)
+            }
+        } catch (e: Exception) {
+            LogUtil.e("fragment.loadUrl2Circle", e)
         }
     }
 

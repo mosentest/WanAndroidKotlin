@@ -17,4 +17,5 @@
     <string name="app_test_thread_dialog">串行线程dialog处理</string>
     <string name="app_test_thread_dialog2">并行线程dialog处理</string>
     <string name="app_logout">退出</string>
+    <string name="app_share_article">分享列表</string>
 </resources>

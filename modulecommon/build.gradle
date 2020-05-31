@@ -128,8 +128,6 @@ dependencies {
     //compat for android x
     api 'com.billy.android:smart-swipe-x:1.1.0'
 
-    api 'com.tencent:mmkv-static:1.1.2'
-
     api project(':baselibrary')
 
 }

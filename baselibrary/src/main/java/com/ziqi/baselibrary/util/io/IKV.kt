@@ -1,4 +1,4 @@
-package com.ziqi.wanandroid.commonlibrary.util.io
+package com.ziqi.baselibrary.util.io
 
 import android.content.Context
 
@@ -16,12 +16,11 @@ interface IKV {
     fun init(context: Context?)
 
     fun put(
-        context: Context,
         key: String?,
         `object`: Any
     )
 
-    fun <T> get(context: Context, key: String?, defaultObject: T): T?
+    fun <T> get(key: String?, defaultObject: T): T?
 
-    fun remove(context: Context, key: String?)
+    fun remove(key: String?)
 }

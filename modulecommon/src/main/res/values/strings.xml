@@ -3,6 +3,7 @@
 
     <string name="common_text_register">注册</string>
     <string name="common_hint_input_password">请输入密码</string>
+    <string name="common_hint_input_password_error">2次输入的密码不一致</string>
     <string name="common_hint_input_repassword">请再次输入密码</string>
     <string name="common_hint_input_account">请输入账号</string>
     <string name="common_text_login">登录</string>
@@ -16,4 +17,5 @@
     <string name="common_no_info">暂无</string>
     <string name="common_collect">收藏</string>
     <string name="common_public_mark">公众号</string>
+    <string name="common_register_success">注册成功</string>
 </resources>

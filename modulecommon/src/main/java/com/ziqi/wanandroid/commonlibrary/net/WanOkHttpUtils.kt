@@ -24,7 +24,7 @@ class WanOkHttpUtils {
 
     var okHttpClient: OkHttpClient
 
-    private constructor(context: Context?) {
+    private constructor(context: Context) {
         /**
          * https://www.jianshu.com/p/dbda0bb8d541
          * 有网时候的缓存
@@ -54,7 +54,7 @@ class WanOkHttpUtils {
             }
             chain.proceed(request)
         }
-        val httpCacheDirectory = File(context!!.getCacheDir(), "okhttpCache")
+        val httpCacheDirectory = File(context.getCacheDir(), "okhttpCache")
         okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(WanAndroidInterceptor())
             .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -71,7 +71,7 @@ class WanOkHttpUtils {
     companion object {
         //https://www.jb51.net/article/145255.htm
         val instance: WanOkHttpUtils by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-            WanOkHttpUtils(context = ContextUtils.context)
+            WanOkHttpUtils(context = ContextUtils.context!!)
         }
     }
 }
