@@ -2,6 +2,17 @@
 
 基于kotlin实现玩安卓app,目前还继续在开发中，主要是练手kotlin和jetpack
 
+
+app部分截图效果，图片不分先后
+
+![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161210@2x.png)
+![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161304@2x.png)
+![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161318@2x.png)
+![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161416@2x.png)
+![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161450@2x.png)
+![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161533@2x.png）
+
+
 开发环境 macbook、android studio
 
 基于Androidx，使用recyclerview和viewpager2实现页面交互
@@ -282,3 +293,10 @@ public class DstOutView extends View {
 https://www.iconfont.cn/collections/index?spm=a313x.7781069.1998910419.4&type=1
 
 Kotlin FP, Coroutine/Flow
+
+最后感谢hongyang提供的api接口
+
+转载请标明来自：
+https://github.com/moz1q1/WanAndroidKotlin
+
+联系方式qq#709847739
