@@ -2,22 +2,6 @@
 
 基于kotlin实现玩安卓app,目前还继续在开发中，主要是练手kotlin和jetpack
 
-
-app部分截图效果，图片不分先后
-
-![Image](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161210@2x.png)
-
-![Image](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161304@2x.png)
-
-![Image](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161318@2x.png)
-
-![Image](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161416@2x.png)
-
-![Image](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161450@2x.png)
-
-![Image](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161533@2x.png）
-
-
 开发环境 macbook、android studio
 
 基于Androidx，使用recyclerview和viewpager2实现页面交互
