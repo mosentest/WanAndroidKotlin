@@ -6,10 +6,15 @@
 app部分截图效果，图片不分先后
 
 ![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161210@2x.png)
+
 ![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161304@2x.png)
+
 ![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161318@2x.png)
+
 ![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161416@2x.png)
+
 ![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161450@2x.png)
+
 ![Image text](https://github.com/moz1q1/WanAndroidKotlin/blob/master/img/WX20200531-161533@2x.png）
 
 
