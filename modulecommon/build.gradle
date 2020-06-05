@@ -128,7 +128,6 @@ dependencies {
     //compat for android x
     api 'com.billy.android:smart-swipe-x:1.1.0'
 
-
     api project(':baselibrary')
 
 }

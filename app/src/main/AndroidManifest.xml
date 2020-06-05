@@ -33,6 +33,10 @@
             android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:theme="@style/LoginTheme" />
         <activity
+            android:name=".commonlibrary.ui.register.RegisterActivity"
+            android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
+            android:theme="@style/LoginTheme" />
+        <activity
             android:name=".commonlibrary.ui.start.StartActivity"
             android:configChanges="screenLayout|keyboard|keyboardHidden|screenSize|smallestScreenSize|orientation"
             android:theme="@style/FullscreenTheme">

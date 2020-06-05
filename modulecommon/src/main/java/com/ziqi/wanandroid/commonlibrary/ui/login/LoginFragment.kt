@@ -10,6 +10,8 @@ import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.databinding.FragmentLoginBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
+import com.ziqi.wanandroid.commonlibrary.util.LoginManager
+import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.util.route.StartPage
 
 class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBinding>() {
@@ -35,9 +37,12 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
 
     override fun dealViewModel() {
         mViewModel?.mLogin?.observe(viewLifecycleOwner, Observer {
-            zToastShort(-1, "登陆成功")
-            activity?.setResult(Activity.RESULT_OK)
-            activity?.onBackPressed()
+            LoginManager.saveUser(it)
+            if (LoginManager.isLogin()) {
+                zToastShort(-1, getString(R.string.common_login_success))
+                activity?.setResult(Activity.RESULT_OK)
+                activity?.onBackPressed()
+            }
         })
     }
 
@@ -59,14 +64,19 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginParams, FragmentLoginBin
                     val userName = etUserName.text.toString().trim()
                     val password = etPassword.text.toString().trim()
                     if (StringUtil.isEmpty(userName)) {
-                        zToastShort(-1, "请输入账号")
+                        zToastShort(-1, getString(R.string.common_hint_input_account))
                         return
                     }
                     if (StringUtil.isEmpty(password)) {
-                        zToastShort(-1, "请输入密码")
+                        zToastShort(-1, getString(R.string.common_hint_input_password))
                         return
                     }
                     mViewModel?.login(userName, password)
+                }
+            }
+            R.id.tvRegister -> {
+                activity?.apply {
+                    StartUtil.startRegisterFragment(this, this@LoginFragment, -1, null)
                 }
             }
         }

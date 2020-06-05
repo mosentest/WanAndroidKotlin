@@ -66,7 +66,6 @@ class SystematicsFragment :
 
     private var mSecondAdapter: BaseQuickAdapter<Tree.ChildrenBean, BaseViewHolder>? = null
 
-    private var tabTexts = arrayListOf("体系分类")
 
     private var mMenuCategoryBinding: FragmentSystematicsContentMenuCategoryBinding? = null
 
@@ -123,28 +122,34 @@ class SystematicsFragment :
         val contentView = LayoutInflater
             .from(activity)
             .inflate(R.layout.fragment_systematics_content, null)
+        val tabTexts = arrayListOf(getString(R.string.app_systematics_class))
         //==================================================================
         mViewDataBinding?.dropDownMenu?.setDropDownMenu(tabTexts, popupViews, contentView)
         mViewDataBinding?.dropDownMenu?.apply {
-            //通过反射获取原本的位置
-            val maskViewField = javaClass.getDeclaredField("maskView")
-            maskViewField.isAccessible = true
-            val maskView: View = maskViewField.get(this) as View
-            maskView.setOnClickListener {
-                if (mTempFirstPosition != mFirstPosition) {
-                    mFirstAdapter?.data?.apply {
-                        for (tree in this) {
-                            tree.userControlSetTop = false
+            try {
+                //混淆这里就出问题了，估计混淆把成员变量混淆了，后面看看怎么处理下
+                //通过反射获取原本的位置
+                val maskViewField = javaClass.getDeclaredField("maskView")
+                maskViewField.isAccessible = true
+                val maskView: View = maskViewField.get(this) as View
+                maskView.setOnClickListener {
+                    if (mTempFirstPosition != mFirstPosition) {
+                        mFirstAdapter?.data?.apply {
+                            for (tree in this) {
+                                tree.userControlSetTop = false
+                            }
+                            mCurrentTree = get(mFirstPosition)
+                            mCurrentTree?.userControlSetTop = true
+                            //刷新数据
+                            mFirstAdapter?.notifyDataSetChanged()
+                            mSecondAdapter?.setNewData(mCurrentTree?.children)
                         }
-                        mCurrentTree = get(mFirstPosition)
-                        mCurrentTree?.userControlSetTop = true
-                        //刷新数据
-                        mFirstAdapter?.notifyDataSetChanged()
-                        mSecondAdapter?.setNewData(mCurrentTree?.children)
                     }
+                    mMenuCategoryBinding?.recyclerViewFrist?.scrollToPosition(mFirstPosition)
+                    closeMenu()
                 }
-                mMenuCategoryBinding?.recyclerViewFrist?.scrollToPosition(mFirstPosition)
-                closeMenu()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         //==================================================================
@@ -382,7 +387,11 @@ class SystematicsFragment :
             it?.apply {
                 datas?.apply {
                     if (curPage <= 1) {
-                        mContentAdapter?.setNewData(this)
+                        if (isEmpty()) {
+                            mZStatusView?.showEmptyView()
+                        } else {
+                            mContentAdapter?.setNewData(this)
+                        }
                     } else {
                         mContentAdapter?.addData(this)
                     }

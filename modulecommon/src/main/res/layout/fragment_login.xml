@@ -17,8 +17,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".commonlibrary.ui.login.LoginFragment">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,7 +39,7 @@
                         android:id="@+id/etUserName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="请输入账号"
+                        android:hint="@string/common_hint_input_account"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="@color/color_333333"
@@ -59,7 +58,7 @@
                         android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="请输入密码"
+                        android:hint="@string/common_hint_input_password"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:singleLine="true"
@@ -85,7 +84,7 @@
                         android:gravity="center"
                         android:onClick="@{listener::onClick}"
                         android:padding="@dimen/dp_16"
-                        android:text="登录"
+                        android:text="@string/common_text_login"
                         android:textColor="@color/white"
                         android:visibility="visible"
                         tools:visibility="visible" />
@@ -104,7 +103,7 @@
                         android:gravity="center"
                         android:onClick="@{listener::onClick}"
                         android:padding="@dimen/dp_16"
-                        android:text="注册"
+                        android:text="@string/common_text_register"
                         android:textColor="@color/colorPrimary"
                         android:visibility="visible"
                         tools:visibility="visible" />
@@ -118,7 +117,7 @@
                         android:gravity="center"
                         android:onClick="@{listener::onClick}"
                         android:padding="@dimen/dp_16"
-                        android:text="忘记密码？"
+                        android:text="@string/common_forget_password"
                         android:textColor="@color/color_666666"
                         android:visibility="visible"
                         tools:visibility="visible" />

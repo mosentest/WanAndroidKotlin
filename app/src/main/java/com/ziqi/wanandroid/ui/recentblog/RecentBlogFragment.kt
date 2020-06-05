@@ -7,9 +7,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.billy.android.swipe.SmartSwipe
-import com.billy.android.swipe.consumer.StretchConsumer
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
@@ -34,7 +31,7 @@ class RecentBlogFragment :
 
     private var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>? = null
 
-    var mData: WanList<Article>? = null
+    private var mCurrentData: WanList<Article>? = null
 
 
     override fun zSetLayoutId(): Int {
@@ -83,32 +80,27 @@ class RecentBlogFragment :
                 override fun convert(holder: BaseViewHolder, item: Article) {
                     holder.setText(
                         R.id.author,
-                        StringUtil.emptyTip(item.author, item.shareUser ?: "暂无")
+                        StringUtil.emptyTip(
+                            item.author,
+                            item.shareUser ?: getString(R.string.common_no_info)
+                        )
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
+                    holder.setText(
+                        R.id.niceDate, String.format(
+                            getString(
+                                R.string.common_with_time_tip,
+                                item.niceDate?.trim()
+                            )
+                        )
+                    )
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
-                    holder.getView<LinearLayout>(R.id.content).setOnClickListener {
-                        activity?.let {
-                            val webInfo = WebInfo()
-                            webInfo.url = item.link
-                            StartUtil.startWebFragment(it, this@RecentBlogFragment, -1, webInfo)
-                        }
-                    }
-                    holder.getView<ImageView>(R.id.ivCollect).isSelected = "true" == item.collect
-                    holder.getView<LinearLayout>(R.id.llCollect).setOnClickListener {
-                        toLogin(object : LoginListener {
-                            override fun onSuccess() {
 
-                            }
+                    holder.getView<ImageView>(R.id.ivCollect).isSelected = ("true" == item.collect)
 
-                            override fun onCancel() {
-                            }
-
-                        }, null)
-                    }
+                    holder.addOnClickListener(R.id.llCollect, R.id.content)
                 }
             }
 
@@ -122,10 +114,39 @@ class RecentBlogFragment :
         mAdapter?.setOnItemClickListener { _, _, _ ->
 
         }
+        mAdapter?.setOnItemChildClickListener { adapter, view, position ->
+            val cData = mAdapter?.data?.get(position)
+            when (view.id) {
+                R.id.llCollect -> {
+                    toLogin(object : LoginListener {
+                        override fun onSuccess() {
+                            if (cData?.collect == "true") {
+                                mViewModel?.lgUncollectOriginId(cData.id?.toInt(), position)
+                            } else {
+                                mViewModel?.lgCollect(cData?.id?.toInt(), position)
+                            }
+                        }
+
+                        override fun onCancel() {
+                        }
+
+                    }, null)
+                }
+                R.id.content -> {
+                    activity?.let {
+                        val webInfo = WebInfo()
+                        webInfo.url = cData?.link
+                        StartUtil.startWebFragment(it, this, -1, webInfo)
+                    }
+                }
+                else -> {
+                }
+            }
+        }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
-            val curPage = mData?.curPage ?: 1
-            val pageCount = mData?.pageCount ?: 1
+            val curPage = mCurrentData?.curPage ?: 1
+            val pageCount = mCurrentData?.pageCount ?: 1
             if (curPage >= pageCount) {
                 mAdapter?.loadMoreEnd()
             } else {
@@ -158,14 +179,26 @@ class RecentBlogFragment :
             it?.apply {
                 datas?.apply {
                     if (curPage <= 1) {
-                        mAdapter?.setNewData(this)
+                        if (isEmpty()) {
+                            mZStatusView?.showEmptyView()
+                        } else {
+                            mAdapter?.setNewData(this)
+                        }
                     } else {
                         mAdapter?.addData(this)
                     }
                 }
                 mAdapter?.setEnableLoadMore(pageCount > 1)
-                mData = this
+                mCurrentData = this
             }
+        })
+        mViewModel?.mLgCollect?.observe(viewLifecycleOwner, Observer {
+            mAdapter?.data?.get(it)?.collect = "true"
+            mAdapter?.notifyItemChanged(it)
+        })
+        mViewModel?.mLgUncollectOriginId?.observe(viewLifecycleOwner, Observer {
+            mAdapter?.data?.get(it)?.collect = "false"
+            mAdapter?.notifyItemChanged(it)
         })
     }
 }

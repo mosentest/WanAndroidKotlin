@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.ui.start
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import com.billy.android.swipe.SmartSwipe
 import com.billy.android.swipe.consumer.ActivitySlidingBackConsumer
@@ -18,7 +19,7 @@ import com.ziqi.wanandroid.commonlibrary.util.route.StartPage
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class StartActivity : CommonActivity() {
+class StartActivity : CommonActivity<Parcelable>() {
 
     private var myHandler: MyHandler? = null
 

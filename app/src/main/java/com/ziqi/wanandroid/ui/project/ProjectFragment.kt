@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
@@ -14,6 +15,7 @@ import com.ziqi.wanandroid.commonlibrary.bean.Tree
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.databinding.FragmentProjectBinding
 import com.ziqi.wanandroid.ui.projectlist.ProjectListFragment
+import com.ziqi.wanandroid.ui.projectlist.ProjectListParams
 
 /**
  * Copyright (C), 2018-2020
@@ -90,7 +92,11 @@ class ProjectFragment :
             override fun createFragment(position: Int): Fragment {
                 return ProjectListFragment.newInstance(
                     Bundle().apply {
-                        putParcelable("tree", mTree?.get(position))
+                        putParcelable(
+                            StartActivityCompat.NEXT_PARCELABLE,
+                            ProjectListParams().apply {
+                                tree = mTree?.get(position)
+                            })
                     }
                 )
             }

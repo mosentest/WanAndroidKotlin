@@ -6,20 +6,18 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import com.billy.android.swipe.SmartSwipe
 import com.billy.android.swipe.consumer.SpaceConsumer
-import com.billy.android.swipe.consumer.StretchConsumer
 import com.github.florent37.fiftyshadesof.FiftyShadesOf
 import com.ziqi.baselibrary.common.WebInfo
-import com.ziqi.baselibrary.http.error.ResponseThrowable
-import com.ziqi.baselibrary.livedata.Event
-import com.ziqi.baselibrary.util.ContextUtils
+import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalActivity
-import com.ziqi.wanandroid.commonlibrary.ui.globaldialog.GlobalParams
 import com.ziqi.wanandroid.commonlibrary.util.LoginManager
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
+import com.ziqi.wanandroid.commonlibrary.util.route.StartPage
 import com.ziqi.wanandroid.databinding.FragmentMeBinding
 
 /**
@@ -58,13 +56,15 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             R.id.tvNoLogin -> {
                 toLogin(object : LoginListener {
                     override fun onSuccess() {
-                        zToastShort(-1, "登录成功")
                     }
 
                     override fun onCancel() {
                     }
 
                 }, null)
+            }
+            R.id.tvLogout -> {
+                mViewModel?.logout()
             }
             R.id.tvSearch -> {
             }
@@ -76,7 +76,9 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             R.id.tvCollect -> {
                 toLogin(object : LoginListener {
                     override fun onSuccess() {
-                        zToastShort(-1, "登录成功")
+                        activity?.apply {
+                            StartUtil.startCollectFragment(this, this@MeFragment, -1, null)
+                        }
                     }
 
                     override fun onCancel() {
@@ -92,7 +94,7 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
             }
             R.id.tvLoginInvalid -> {
                 activity?.apply {
-                    mViewModel?.toLogin("需要重新登陆")
+                    mViewModel?.simulateLogin(getString(R.string.app_need_to_login))
                 }
             }
             R.id.tvSerialDialog -> {
@@ -111,20 +113,61 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
     override fun zLazyVisible() {
         super.zLazyVisible()
 
+        mViewDataBinding?.listener = this
+
+        handleToolBar()
+        handleDrawer()
+        initView()
+        dealViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showByUser()
+    }
+
+    private fun showByUser() {
+        mViewDataBinding?.tvNoLogin?.visibility =
+            if (LoginManager.isNoLogin()) View.VISIBLE else View.GONE
+        mViewDataBinding?.llLogin?.visibility =
+            if (LoginManager.isLogin()) View.VISIBLE else View.GONE
+        mViewDataBinding?.tvLogout?.visibility =
+            if (LoginManager.isLogin()) View.VISIBLE else View.GONE
+
+        if (LoginManager.isLogin()) {
+            ImageLoadUtils.loadUrl2Circle(
+                this,
+                "https://www.wanandroid.com/resources/image/pc/logo.png",
+                mViewDataBinding?.icon
+            )
+            val user = LoginManager.getUser()
+            mViewDataBinding?.tvUserName?.setText(
+                StringUtil.emptyTip(
+                    user?.nickname,
+                    user?.username ?: ""
+                )
+            )
+        }
+    }
+
+    override fun onRefresh() {
+
+    }
+
+
+    override fun initView() {
+
         SmartSwipe.wrap(mViewDataBinding?.nsv)
             .addConsumer(SpaceConsumer())
             .enableVertical() //工作方向：纵向
 
-        mViewDataBinding?.listener = this
-        handleToolBar()
-        handleDrawer()
         mFiftyShadesOf = FiftyShadesOf.with(context)
             .on(
                 R.id.tvNoLogin,
-                R.id.llLogin,
                 R.id.tvSearch,
                 R.id.tvWxArticle,
                 R.id.tvCollect,
+                R.id.tvPrivateArticles,
                 R.id.tvUserArticle,
                 R.id.tvWenda,
                 R.id.tvLoginInvalid,
@@ -138,32 +181,28 @@ class MeFragment : BaseFragment<MeViewModel, Parcelable, FragmentMeBinding>() {
         }, 100)
     }
 
-    override fun onResume() {
-        super.onResume()
-        mViewDataBinding?.tvNoLogin?.visibility =
-            if (LoginManager.isNoLogin()) View.VISIBLE else View.GONE
-        mViewDataBinding?.llLogin?.visibility =
-            if (LoginManager.isLogin()) View.VISIBLE else View.GONE
-        mViewDataBinding?.tvLogout?.visibility =
-            if (LoginManager.isLogin()) View.VISIBLE else View.GONE
-    }
-
-    override fun onRefresh() {
-
-    }
-
-
-    override fun initView() {
-
-    }
-
     override fun dealViewModel() {
+        mViewModel?.mLogout?.observe(this, Observer {
+            activity?.apply {
+                StartPage.toMain(this)
+            }
+        })
 
     }
 
     private fun handleToolBar() {
-        mTvTitle?.text = "我的"
-        mRightTwoMenu?.text = "搜索"
+        mTvTitle?.text = getString(R.string.app_me)
+        //第一个菜单
+        mRightOneMenu?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        mRightOneMenu?.visibility = View.VISIBLE
+        mRightOneMenu?.setOnClickListener {
+            zShowLoadDialog(-1, null)
+            mToolBar?.postDelayed({
+                zHideLoadDialog(-1)
+            }, 1000)
+        }
+        //第二个菜单
+        mRightTwoMenu?.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         mRightTwoMenu?.visibility = View.VISIBLE
         mRightTwoMenu?.setOnClickListener {
             zShowLoadDialog(-1, null)

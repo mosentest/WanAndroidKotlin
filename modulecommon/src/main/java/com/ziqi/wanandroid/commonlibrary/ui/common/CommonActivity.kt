@@ -8,7 +8,11 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.billy.android.swipe.SmartSwipe
+import com.billy.android.swipe.SmartSwipeWrapper
+import com.billy.android.swipe.SwipeConsumer
 import com.billy.android.swipe.consumer.ActivitySlidingBackConsumer
+import com.billy.android.swipe.listener.SimpleSwipeListener
+import com.billy.android.swipe.listener.SwipeListener
 import com.ziqi.baselibrary.base.ZBaseActivity
 import com.ziqi.baselibrary.util.StartActivityCompat
 
@@ -21,7 +25,7 @@ import com.ziqi.baselibrary.util.StartActivityCompat
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-open class CommonActivity : ZBaseActivity<Parcelable, ViewDataBinding>() {
+open class CommonActivity<T : Parcelable> : ZBaseActivity<T, ViewDataBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

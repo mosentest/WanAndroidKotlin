@@ -24,7 +24,7 @@ import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
 import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.Banner
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.banner.ImageAdapter
 import com.ziqi.wanandroid.databinding.FragmentHomeBinding
@@ -99,7 +99,7 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
     override fun initView() {
         mBannerAdapter = object : ImageAdapter(null) {
             override fun convert(holder: BannerViewHolder, data: Banner?, position: Int) {
-                ImageLoad.loadUrl(
+                ImageLoadUtils.loadUrl(
                     this@HomeFragment,
                     data?.imagePath,
                     holder.imageViewX,
@@ -142,8 +142,12 @@ class HomeFragment : BaseFragment<HomeViewModel, Parcelable, FragmentHomeBinding
                 mViewDataBinding?.viewPager2!!,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                     when (position) {
-                        0 -> tab.text = "最新博客"
-                        else -> tab.text = "最新项目"
+                        0 -> {
+                            tab.text = getString(R.string.app_new_blog)
+                        }
+                        else -> {
+                            tab.text = getString(R.string.app_new_projcet)
+                        }
                     }
                 })
         }

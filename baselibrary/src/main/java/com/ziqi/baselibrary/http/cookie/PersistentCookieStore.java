@@ -28,7 +28,7 @@ import okhttp3.HttpUrl;
  */
 public class PersistentCookieStore {
     private static final String LOG_TAG = "PersistentCookieStore";
-    private static final String COOKIE_PREFS = "My_Cookies_Prefs";
+    private static final String COOKIE_PREFS = "ZZZ_Cookies_Prefs";
 
     private final Map<String, Map<String, Cookie>> cookies;
     private final SharedPreferences cookiePrefs;
@@ -149,15 +149,28 @@ public class PersistentCookieStore {
         if (cookie == null)
             return null;
         ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ObjectOutputStream outputStream = null;
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(os);
+            outputStream = new ObjectOutputStream(os);
             outputStream.writeObject(cookie);
+            return byteArrayToHexString(os.toByteArray());
         } catch (IOException e) {
             LogUtil.e(LOG_TAG, "IOException in encodeCookie", e);
             return null;
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        return byteArrayToHexString(os.toByteArray());
     }
 
     /**
@@ -170,16 +183,29 @@ public class PersistentCookieStore {
         byte[] bytes = hexStringToByteArray(cookieString);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         Cookie cookie = null;
+        ObjectInputStream objectInputStream = null;
         try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            objectInputStream = new ObjectInputStream(byteArrayInputStream);
             cookie = ((SerializableOkHttpCookies) objectInputStream.readObject()).getCookies();
-        } catch (IOException e) {
-            LogUtil.e(LOG_TAG, "IOException in decodeCookie", e);
-        } catch (ClassNotFoundException e) {
-            LogUtil.e(LOG_TAG, "ClassNotFoundException in decodeCookie", e);
+            return cookie;
+        } catch (Exception e) {
+            LogUtil.e(LOG_TAG, "Exception in decodeCookie", e);
+            return null;
+        } finally {
+            if (objectInputStream != null) {
+                try {
+                    objectInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                byteArrayInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        return cookie;
     }
 
     /**

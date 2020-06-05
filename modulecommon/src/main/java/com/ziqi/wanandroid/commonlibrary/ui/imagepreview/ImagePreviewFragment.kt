@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.animation.AlphaInAnimation
 import com.ziqi.wanandroid.commonlibrary.R
 import com.ziqi.wanandroid.commonlibrary.databinding.FragmentImagePreviewBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 
 class ImagePreviewFragment :
     BaseFragment<ImagePreviewViewModel, ImagePreviewParams, FragmentImagePreviewBinding>() {
@@ -47,7 +47,7 @@ class ImagePreviewFragment :
             null
         ) {
             override fun convert(helper: BaseViewHolder, item: String) {
-                ImageLoad.loadUrl(
+                ImageLoadUtils.loadUrl(
                     this@ImagePreviewFragment,
                     item,
                     helper.getView(R.id.iv)

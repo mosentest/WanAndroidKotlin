@@ -50,10 +50,10 @@ android {
         }
         debug {
             //buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            shrinkResources false
-            zipAlignEnabled false
+            shrinkResources true
+            zipAlignEnabled true
             pseudoLocalesEnabled false
             debuggable true//是否支持断点调试
             jniDebuggable true //是否可以调试NDK代码

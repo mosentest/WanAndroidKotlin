@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.animation.AlphaInAnimation
@@ -18,7 +17,7 @@ import com.ziqi.wanandroid.R
 import com.ziqi.wanandroid.commonlibrary.bean.ListProject
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
 import com.ziqi.wanandroid.commonlibrary.ui.imagepreview.ImagePreviewParams
-import com.ziqi.wanandroid.commonlibrary.util.ImageLoad
+import com.ziqi.wanandroid.commonlibrary.util.imageload.ImageLoadUtils
 import com.ziqi.wanandroid.commonlibrary.util.StartUtil
 import com.ziqi.wanandroid.commonlibrary.view.ImageViewX
 import com.ziqi.wanandroid.commonlibrary.view.LinearLayoutManagerX
@@ -77,18 +76,32 @@ class RecentProjectFragment :
                 override fun convert(holder: BaseViewHolder, item: ListProject.DatasBean) {
                     holder.setText(
                         R.id.author,
-                        StringUtil.emptyTip(item.author, item.shareUser ?: "暂无")
+                        StringUtil.emptyTip(
+                            item.author,
+                            item.shareUser ?: getString(R.string.common_no_info)
+                        )
                     )
                     holder.setText(
                         R.id.desc,
-                        StringUtil.emptyTip(Html.fromHtml(item.desc).toString(), "暂无介绍")
+                        StringUtil.emptyTip(
+                            Html.fromHtml(item.desc).toString(),
+                            getString(R.string.common_no_introduction)
+                        )
                     )
                     holder.setText(R.id.title, Html.fromHtml(item.title))
-                    holder.setText(R.id.niceDate, """时间：${item.niceDate?.trim()}""")
+                    holder.setText(
+                        R.id.niceDate,
+                        String.format(
+                            getString(
+                                R.string.common_with_time_tip,
+                                item.niceDate?.trim()
+                            )
+                        )
+                    )
                     holder.setText(
                         R.id.chapterName, """${item.chapterName}/${item.superChapterName}"""
                     )
-                    ImageLoad.loadUrl(
+                    ImageLoadUtils.loadUrl(
                         this@RecentProjectFragment,
                         item.envelopePic,
                         holder.getView(R.id.envelopePic),
@@ -102,31 +115,10 @@ class RecentProjectFragment :
                             StartUtil.startWebFragment(it, this@RecentProjectFragment, -1, webInfo)
                         }
                     }
-                    holder.getView<ImageViewX>(R.id.envelopePic).setOnClickListener {
-                        activity?.let {
-                            val params =
-                                ImagePreviewParams()
-                            params.imgUrl = arrayListOf(item.envelopePic)
-                            StartUtil.startImagePreviewFragment(
-                                it,
-                                this@RecentProjectFragment,
-                                -1,
-                                params
-                            )
-                        }
-                    }
-                    holder.getView<ImageView>(R.id.ivCollect).isSelected = "true" == item.collect
-                    holder.getView<LinearLayout>(R.id.llCollect).setOnClickListener {
-                        toLogin(object : LoginListener {
-                            override fun onSuccess() {
 
-                            }
+                    holder.getView<ImageView>(R.id.ivCollect).isSelected = ("true" == item.collect)
 
-                            override fun onCancel() {
-                            }
-
-                        }, null)
-                    }
+                    holder.addOnClickListener(R.id.llCollect, R.id.content)
                 }
             }
 
@@ -139,6 +131,36 @@ class RecentProjectFragment :
         )
         mAdapter?.setOnItemClickListener { _, _, _ ->
 
+        }
+
+        mAdapter?.setOnItemChildClickListener { adapter, view, position ->
+            val cData = mAdapter?.data?.get(position)
+            when (view.id) {
+                R.id.llCollect -> {
+                    toLogin(object : LoginListener {
+                        override fun onSuccess() {
+                            if (cData?.collect == "true") {
+                                mViewModel?.lgUncollectOriginId(cData.id?.toInt(), position)
+                            } else {
+                                mViewModel?.lgCollect(cData?.id?.toInt(), position)
+                            }
+                        }
+
+                        override fun onCancel() {
+                        }
+
+                    }, null)
+                }
+                R.id.content -> {
+                    activity?.let {
+                        val webInfo = WebInfo()
+                        webInfo.url = cData?.link
+                        StartUtil.startWebFragment(it, this, -1, webInfo)
+                    }
+                }
+                else -> {
+                }
+            }
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
@@ -173,7 +195,11 @@ class RecentProjectFragment :
             it?.apply {
                 datas?.apply {
                     if (curPage <= 1) {
-                        mAdapter?.setNewData(this)
+                        if (isEmpty()) {
+                            mZStatusView?.showEmptyView()
+                        } else {
+                            mAdapter?.setNewData(this)
+                        }
                     } else {
                         mAdapter?.addData(this)
                     }

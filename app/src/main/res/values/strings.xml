@@ -1,5 +1,21 @@
 <resources>
-    <string name="app_name">WanAndroidKotlin</string>
+    <string name="app_name">玩安卓Kotlin</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
+    <string name="app_new_blog">最新博客</string>
+    <string name="app_new_projcet">最新项目</string>
+    <string name="app_home">首页</string>
+    <string name="app_systematics">体系</string>
+    <string name="app_project">项目</string>
+    <string name="app_me">我的</string>
+    <string name="app_need_to_login">需要重新登陆</string>
+    <string name="app_systematics_class">体系分类</string>
+    <string name="app_search">搜索</string>
+    <string name="app_user_article">广场</string>
+    <string name="app_q_a">问答</string>
+    <string name="app_login_invalid">登录失效</string>
+    <string name="app_test_thread_dialog">串行线程dialog处理</string>
+    <string name="app_test_thread_dialog2">并行线程dialog处理</string>
+    <string name="app_logout">退出</string>
+    <string name="app_share_article">分享列表</string>
 </resources>

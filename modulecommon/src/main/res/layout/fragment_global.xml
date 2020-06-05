@@ -33,7 +33,7 @@
                 android:layout_marginBottom="@dimen/dp_16"
                 android:textSize="@dimen/sp_16"
                 android:visibility="gone"
-                tools:text="温馨提示"
+                tools:text="@string/common_dialog_title"
                 tools:visibility="visible" />
 
             <TextView
@@ -67,7 +67,7 @@
                     android:padding="@dimen/dp_16"
                     android:textSize="@dimen/sp_14"
                     android:visibility="gone"
-                    tools:text="取消"
+                    tools:text="@string/common_text_cancel"
                     tools:visibility="visible" />
 
                 <View
@@ -86,7 +86,7 @@
                     android:padding="@dimen/dp_16"
                     android:textSize="@dimen/sp_14"
                     android:visibility="gone"
-                    tools:text="确定"
+                    tools:text="@string/common_text_ok"
                     tools:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
