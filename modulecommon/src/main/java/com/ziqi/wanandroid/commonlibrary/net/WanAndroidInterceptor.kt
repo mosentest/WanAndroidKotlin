@@ -2,7 +2,7 @@ package com.ziqi.wanandroid.commonlibrary.net
 
 import android.os.SystemClock
 import com.ziqi.baselibrary.http.error.ResponseThrowable
-import com.ziqi.baselibrary.util.GsonUtil
+import com.ziqi.baselibrary.util.gson.GsonUtil
 import com.ziqi.baselibrary.util.LogUtil
 import com.ziqi.baselibrary.util.StringUtil
 import com.ziqi.wanandroid.commonlibrary.bean.WanResponse
@@ -10,7 +10,6 @@ import okhttp3.*
 import okhttp3.internal.http.HttpHeaders
 import okio.Buffer
 import okio.BufferedSource
-import java.io.IOException
 import java.nio.charset.Charset
 
 /**

@@ -1,10 +1,8 @@
 package com.ziqi.wanandroid.commonlibrary.net
 
-import com.ziqi.baselibrary.http.OkHttpUtils
 import com.ziqi.baselibrary.http.retrofit.StringConverterFactory
-import com.ziqi.baselibrary.util.GsonUtil
+import com.ziqi.baselibrary.util.gson.GsonUtil
 import com.ziqi.wanandroid.commonlibrary.BuildConfig
-import com.ziqi.wanandroid.commonlibrary.constant.UrlConstant
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

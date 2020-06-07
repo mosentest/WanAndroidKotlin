@@ -1,7 +1,9 @@
-package com.ziqi.baselibrary.util
+package com.ziqi.baselibrary.util.gson
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.google.gson.*
+import com.google.gson.internal.bind.ObjectTypeAdapter
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 
 /**
@@ -18,5 +20,9 @@ object GsonUtil {
         .setDateFormat("yyyy-MM-dd hh:mm:ss")
         .enableComplexMapKeySerialization()//https://blog.csdn.net/axxbc123/article/details/84625539
         .serializeNulls() //https://blog.csdn.net/u010502101/article/details/80555558
+        .registerTypeAdapter(Int::class.java, IntAdapter())
+        .registerTypeAdapter(Integer::class.java, IntAdapter())
+        .registerTypeAdapter(String::class.java, StringAdapter())
+        .registerTypeAdapter(Double::class.java, DoubleAdapter())
         .create()
 }

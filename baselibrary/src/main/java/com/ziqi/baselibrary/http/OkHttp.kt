@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import com.ziqi.baselibrary.http.error.ResponseThrowable
-import com.ziqi.baselibrary.util.GsonUtil
+import com.ziqi.baselibrary.util.gson.GsonUtil
 import com.ziqi.baselibrary.util.MemoryStatus.availableExternalMemorySize
 import com.ziqi.baselibrary.util.MemoryStatus.availableInternalMemorySize
 import com.ziqi.baselibrary.util.MemoryStatus.externalMemoryAvailable
