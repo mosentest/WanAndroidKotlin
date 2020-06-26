@@ -133,7 +133,7 @@ class RecentProjectFragment :
 
         }
 
-        mAdapter?.setOnItemChildClickListener { adapter, view, position ->
+        mAdapter?.setOnItemChildClickListener { _, view, position ->
             val cData = mAdapter?.data?.get(position)
             when (view.id) {
                 R.id.llCollect -> {
@@ -207,6 +207,14 @@ class RecentProjectFragment :
                 mAdapter?.setEnableLoadMore(pageCount > 1)
                 mData = this
             }
+        })
+        mViewModel?.mLgCollect?.observe(viewLifecycleOwner, Observer {
+            mAdapter?.data?.get(it)?.collect = "true"
+            mAdapter?.notifyItemChanged(it)
+        })
+        mViewModel?.mLgUncollectOriginId?.observe(viewLifecycleOwner, Observer {
+            mAdapter?.data?.get(it)?.collect = "false"
+            mAdapter?.notifyItemChanged(it)
         })
     }
 

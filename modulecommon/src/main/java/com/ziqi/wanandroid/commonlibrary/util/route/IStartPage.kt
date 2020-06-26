@@ -16,6 +16,6 @@ interface IStartPage {
     @StartActivity(value = "com.ziqi.wanandroid.commonlibrary.ui.common.CommonActivity")
     fun toWxArticle()
 
-    @StartFragment(value = "com.ziqi.wanandroid.me.ui.wxarticle.WxArticleFragment")
+    @StartFragment(value = "com.ziqi.wanandroid.me.ui.collect.CollectFragment")
     fun toCollect()
 }

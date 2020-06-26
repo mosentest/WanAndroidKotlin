@@ -117,13 +117,7 @@ class WxArticleListFragment :
                         ImageView.ScaleType.FIT_CENTER
                     )
 
-                    holder.getView<LinearLayout>(R.id.content).setOnClickListener {
-                        activity?.let {
-                            val webInfo = WebInfo()
-                            webInfo.url = item.link
-                            StartUtil.startWebFragment(it, this@WxArticleListFragment, -1, webInfo)
-                        }
-                    }
+
                     holder.getView<ImageViewX>(R.id.envelopePic).setOnClickListener {
                         activity?.let {
                             val params =
@@ -137,18 +131,6 @@ class WxArticleListFragment :
                             )
                         }
                     }
-                    holder.getView<ImageView>(R.id.ivCollect).isSelected = "true" == item.collect
-                    holder.getView<LinearLayout>(R.id.llCollect).setOnClickListener {
-                        toLogin(object : LoginListener {
-                            override fun onSuccess() {
-
-                            }
-
-                            override fun onCancel() {
-                            }
-
-                        }, null)
-                    }
                 }
             }
 
@@ -161,6 +143,35 @@ class WxArticleListFragment :
         )
         mAdapter?.setOnItemClickListener { _, _, _ ->
 
+        }
+        mAdapter?.setOnItemChildClickListener { _, view, position ->
+            val cData = mAdapter?.data?.get(position)
+            when (view.id) {
+                R.id.llCollect -> {
+                    toLogin(object : LoginListener {
+                        override fun onSuccess() {
+                            if (cData?.collect == "true") {
+                                mViewModel?.lgUncollectOriginId(cData.id?.toInt(), position)
+                            } else {
+                                mViewModel?.lgCollect(cData?.id?.toInt(), position)
+                            }
+                        }
+
+                        override fun onCancel() {
+                        }
+
+                    }, null)
+                }
+                R.id.content -> {
+                    activity?.let {
+                        val webInfo = WebInfo()
+                        webInfo.url = cData?.link
+                        StartUtil.startWebFragment(it, this, -1, webInfo)
+                    }
+                }
+                else -> {
+                }
+            }
         }
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/8-LoadMore.md
         mAdapter?.setOnLoadMoreListener({
@@ -204,6 +215,14 @@ class WxArticleListFragment :
                 mAdapter?.setEnableLoadMore(pageCount > 1)
                 mCurrentData = this
             }
+        })
+        mViewModel?.mLgCollect?.observe(viewLifecycleOwner, Observer {
+            mAdapter?.data?.get(it)?.collect = "true"
+            mAdapter?.notifyItemChanged(it)
+        })
+        mViewModel?.mLgUncollectOriginId?.observe(viewLifecycleOwner, Observer {
+            mAdapter?.data?.get(it)?.collect = "false"
+            mAdapter?.notifyItemChanged(it)
         })
     }
 

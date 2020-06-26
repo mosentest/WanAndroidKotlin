@@ -10,11 +10,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.ziqi.baselibrary.util.StartActivityCompat
 import com.ziqi.baselibrary.view.status.ZStatusViewBuilder
 import com.ziqi.baselibrary.view.viewpager2.BaseFragmentStateAdapter
-import com.ziqi.wanandroid.me.R
 import com.ziqi.wanandroid.commonlibrary.bean.Tree
-import com.ziqi.wanandroid.me.databinding.FragmentWxArticleBinding
 import com.ziqi.wanandroid.commonlibrary.ui.common.BaseFragment
-import com.ziqi.wanandroid.commonlibrary.util.StartUtil
+import com.ziqi.wanandroid.me.R
+import com.ziqi.wanandroid.me.databinding.FragmentWxArticleBinding
 import com.ziqi.wanandroid.me.ui.wxarticlelist.WxArticleListFragment
 import com.ziqi.wanandroid.me.ui.wxarticlelist.WxArticleListParams
 
