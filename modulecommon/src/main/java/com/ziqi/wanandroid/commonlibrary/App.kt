@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary
 
 import android.app.Application
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.baselibrary.util.io.KVUtils
 
@@ -20,5 +21,6 @@ class App : Application() {
         super.onCreate()
         ContextUtils.context = this
         KVUtils.instance.init(this)
+        DoraemonKit.install(this, getPackageName());
     }
 }
