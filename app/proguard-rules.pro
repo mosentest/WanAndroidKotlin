@@ -255,3 +255,5 @@ public static java.lang.String TABLENAME;
 -keep public class * extends androidx.fragment.app.Fragment {
     public static <methods>;
 }
+
+-keep class com.didichuxing.** { *; }
