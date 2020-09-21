@@ -88,7 +88,8 @@ class WanAndroidInterceptor : Interceptor {
                                 TAG,
                                 "WanAndroidInterceptor>>errorCode:" + obj.errorCode
                             )
-                            throw ResponseThrowable(obj.errorCode + 1, obj.errorMsg)
+                            //这里不抛
+//                            throw ResponseThrowable(obj.errorCode + 1, obj.errorMsg)
                         }
                     }
                     val newResponseBody = ResponseBody.create(contentType(), content)

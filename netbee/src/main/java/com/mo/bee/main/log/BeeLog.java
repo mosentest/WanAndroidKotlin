@@ -1,0 +1,126 @@
+package com.mo.bee.main.log;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.mo.bee.R;
+import com.mo.bee.main.adapter.ContentAdapter;
+import com.mo.bee.main.utils.SystemUtils;
+import com.mo.bee.main.view.ContentView;
+import com.mo.bee.main.view.FloatView;
+import com.mo.bee.xfloatview.permission.FloatWindowPermission;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.logging.HttpLoggingInterceptor;
+
+/**
+ * Copyright (C), 2018-2020
+ * Author: ziqimo
+ * Date: 2020/9/21 3:04 PM
+ * Description:
+ * History:
+ * <author> <time> <version> <desc>
+ * 作者姓名 修改时间 版本号 描述
+ */
+public class BeeLog implements HttpLoggingInterceptor.Logger {
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private FloatView mFloatView;
+
+    private ContentView mContentView;
+
+    private List<String> mContents = new ArrayList<>();
+
+    private ContentAdapter mBaseAdapter = null;
+
+    private ListView beeListView = null;
+
+    private Context context;
+
+    public BeeLog(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void log(String message) {
+        HttpLoggingInterceptor.Logger.DEFAULT.log(message);
+        mContents.add(message);
+        boolean checkPermission = FloatWindowPermission.getInstance().checkPermission(context);
+        if (!checkPermission) {
+            FloatWindowPermission.commonROMPermissionApplyInternal(context);
+            return;
+        }
+        if (mFloatView == null) {
+            //切到主线程
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mFloatView != null) {
+                        return;
+                    }
+                    mFloatView = new FloatView(context);
+                    mFloatView.show();
+                    mFloatView.setOnFloatViewClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mFloatView != null) {
+                                mFloatView.dismiss();
+                            }
+                            if (mContentView != null) {
+                                mContentView.show();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        if (mContentView == null) {
+            //切到主线程
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mContentView != null) {
+                        return;
+                    }
+                    mContentView = new ContentView(context);
+                    mContentView.findViewById(R.id.beeClose).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mFloatView != null) {
+                                mFloatView.show();
+                            }
+                            if (mContentView != null) {
+                                mContentView.dismiss();
+                            }
+                            mBaseAdapter.clear();
+                        }
+                    });
+                    beeListView = mContentView.findViewById(R.id.beeList);
+                    mBaseAdapter = new ContentAdapter(context);
+                    beeListView.setAdapter(mBaseAdapter);
+
+                    beeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            String msg = mBaseAdapter.getDatas().get(position);
+                            SystemUtils.copy(context, msg);
+                            Toast.makeText(context, "复制成功！", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
+                }
+            });
+        }
+        if (mBaseAdapter != null) {
+            mBaseAdapter.setDatas(mContents);
+        }
+    }
+}

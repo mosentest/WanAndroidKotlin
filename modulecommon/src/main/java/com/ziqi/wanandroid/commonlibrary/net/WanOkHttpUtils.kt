@@ -1,13 +1,13 @@
 package com.ziqi.wanandroid.commonlibrary.net
 
 import android.content.Context
+import com.mo.bee.main.log.BeeLog
 import com.ziqi.baselibrary.http.cookie.MyCookieJarImpl
 import com.ziqi.baselibrary.util.ContextUtils
 import com.ziqi.baselibrary.util.SystemTool
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
@@ -57,7 +57,8 @@ class WanOkHttpUtils {
         val httpCacheDirectory = File(context.getCacheDir(), "okhttpCache")
         okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(WanAndroidInterceptor())
-            .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addNetworkInterceptor(HttpLoggingInterceptor(BeeLog(context))
+                .setLevel(HttpLoggingInterceptor.Level.BODY))
             .addNetworkInterceptor(netCacheInterceptor)
             .addInterceptor(offlineCacheInterceptor)
             .readTimeout(30, TimeUnit.SECONDS)

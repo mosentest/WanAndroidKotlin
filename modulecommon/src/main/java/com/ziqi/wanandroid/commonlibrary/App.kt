@@ -21,6 +21,6 @@ class App : Application() {
         super.onCreate()
         ContextUtils.context = this
         KVUtils.instance.init(this)
-        DoraemonKit.install(this, getPackageName());
+//        DoraemonKit.install(this, getPackageName());
     }
 }
