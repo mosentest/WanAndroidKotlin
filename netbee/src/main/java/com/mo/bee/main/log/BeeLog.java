@@ -88,22 +88,26 @@ public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mFloatView != null) {
-                        return;
-                    }
-                    mFloatView = new FloatView(context);
-                    mFloatView.show();
-                    mFloatView.setOnFloatViewClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mFloatView != null) {
-                                mFloatView.dismiss();
-                            }
-                            if (mContentView != null) {
-                                mContentView.show();
-                            }
+                    try {
+                        if (mFloatView != null) {
+                            return;
                         }
-                    });
+                        mFloatView = new FloatView(context);
+                        mFloatView.show();
+                        mFloatView.setOnFloatViewClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (mFloatView != null) {
+                                    mFloatView.dismiss();
+                                }
+                                if (mContentView != null) {
+                                    mContentView.show();
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -112,47 +116,62 @@ public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mContentView != null) {
-                        return;
-                    }
-                    mContentView = new ContentView(context);
-                    mContentView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mFloatView != null) {
-                                mFloatView.show();
-                            }
-                            if (mContentView != null) {
-                                mContentView.dismiss();
-                            }
+                    try {
+                        if (mContentView != null) {
+                            return;
                         }
-                    });
-                    mContentView.findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mContents.clear();
-                            mBaseAdapter.clear();
-                        }
-                    });
-                    beeListView = mContentView.findViewById(R.id.beeList);
-                    mBaseAdapter = new ContentAdapter(context);
-                    beeListView.setAdapter(mBaseAdapter);
+                        mContentView = new ContentView(context);
+                        mContentView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (mFloatView != null) {
+                                    mFloatView.show();
+                                }
+                                if (mContentView != null) {
+                                    mContentView.dismiss();
+                                }
+                            }
+                        });
+                        mContentView.findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    mContents.clear();
+                                    if (mBaseAdapter != null) {
+                                        mBaseAdapter.setDatas(mContents);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        beeListView = mContentView.findViewById(R.id.beeList);
+                        mBaseAdapter = new ContentAdapter(context);
+                        beeListView.setAdapter(mBaseAdapter);
 
-                    beeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                        @Override
-                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                            String msg = mBaseAdapter.getDatas().get(position);
-                            SystemUtils.copy(context, msg);
-                            Toast.makeText(context, "复制成功！", Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                    });
+                        beeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                                String msg = mBaseAdapter.getDatas().get(position);
+                                SystemUtils.copy(context, msg);
+                                Toast.makeText(context, "复制成功！", Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
-        //不断刷新数据到列表里面进去
-        if (mBaseAdapter != null) {
-            mBaseAdapter.setDatas(mContents);
+        try {
+            //不断刷新数据到列表里面进去
+            if (mBaseAdapter != null) {
+                mBaseAdapter.setDatas(mContents);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

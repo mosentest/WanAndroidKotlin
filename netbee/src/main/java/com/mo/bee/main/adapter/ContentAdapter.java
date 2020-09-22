@@ -31,11 +31,6 @@ public class ContentAdapter extends BaseAdapter {
         return mDatas;
     }
 
-    public void clear() {
-        this.mDatas.clear();
-        notifyDataSetChanged();
-    }
-
 
     //返回数据集的长度
     @Override
