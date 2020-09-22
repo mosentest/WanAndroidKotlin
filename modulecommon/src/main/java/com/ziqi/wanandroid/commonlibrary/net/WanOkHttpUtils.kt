@@ -1,6 +1,7 @@
 package com.ziqi.wanandroid.commonlibrary.net
 
 import android.content.Context
+import com.mo.bee.main.interceptor.BeeHttpLoggingInterceptor
 import com.mo.bee.main.log.BeeLog
 import com.ziqi.baselibrary.http.cookie.MyCookieJarImpl
 import com.ziqi.baselibrary.util.ContextUtils
@@ -59,16 +60,16 @@ class WanOkHttpUtils {
         okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(WanAndroidInterceptor())
             .addNetworkInterceptor(
-                HttpLoggingInterceptor(object : BeeLog(context) {
+                BeeHttpLoggingInterceptor(object : BeeLog(context) {
                     override fun printLog(message: String?) {
-                        HttpLoggingInterceptor.Logger.DEFAULT.log(message)
+                        BeeHttpLoggingInterceptor.Logger.DEFAULT.log(message)
                     }
 
-                    override fun convertLog(message: String?): String? {
+                    override fun convertImportLog(message: String?): String? {
                         return message
                     }
                 })
-                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+                    .setLevel(BeeHttpLoggingInterceptor.Level.BODY)
             )
             .addNetworkInterceptor(netCacheInterceptor)
             .addInterceptor(offlineCacheInterceptor)

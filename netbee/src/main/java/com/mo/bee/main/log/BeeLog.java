@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.mo.bee.R;
 import com.mo.bee.main.adapter.ContentAdapter;
+import com.mo.bee.main.interceptor.BeeHttpLoggingInterceptor;
 import com.mo.bee.main.utils.SystemUtils;
 import com.mo.bee.main.view.ContentView;
 import com.mo.bee.main.view.FloatView;
@@ -18,8 +19,6 @@ import com.mo.bee.xfloatview.permission.FloatWindowPermission;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.logging.HttpLoggingInterceptor;
 
 
 /**
@@ -31,7 +30,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
+public abstract class BeeLog implements BeeHttpLoggingInterceptor.Logger {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -55,8 +54,6 @@ public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
 
     public abstract void printLog(String message) throws RuntimeException;
 
-    public abstract String convertLog(String message) throws RuntimeException;
-
     @Override
     public void log(String message) {
         try {
@@ -64,19 +61,10 @@ public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (TextUtils.isEmpty(message)) {
-            message = "---------------返回结果-----------------";
+        try {
             mContents.add(message);
-        } else if (message.startsWith("<-- END")) {
-            mContents.add(message);
-            //追加一条信息
-            mContents.add("--------------count:" + ++count + "------------------");
-        } else {
-            try {
-                mContents.add(convertLog(message));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         boolean checkPermission = FloatWindowPermission.getInstance().checkPermission(context);
         if (!checkPermission) {
@@ -166,10 +154,15 @@ public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
             });
         }
         try {
-            //不断刷新数据到列表里面进去
-            if (mBaseAdapter != null) {
-                mBaseAdapter.setDatas(mContents);
-            }
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    //不断刷新数据到列表里面进去
+                    if (mBaseAdapter != null) {
+                        mBaseAdapter.setDatas(mContents);
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
