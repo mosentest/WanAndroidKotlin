@@ -3,6 +3,7 @@ package com.mo.bee.main.log;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 
+
 /**
  * Copyright (C), 2018-2020
  * Author: ziqimo
@@ -29,7 +31,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-public class BeeLog implements HttpLoggingInterceptor.Logger {
+public abstract class BeeLog implements HttpLoggingInterceptor.Logger {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -45,14 +47,37 @@ public class BeeLog implements HttpLoggingInterceptor.Logger {
 
     private Context context;
 
+    private int count = 0;
+
     public BeeLog(Context context) {
         this.context = context;
     }
 
+    public abstract void printLog(String message) throws RuntimeException;
+
+    public abstract String convertLog(String message) throws RuntimeException;
+
     @Override
     public void log(String message) {
-        HttpLoggingInterceptor.Logger.DEFAULT.log(message);
-        mContents.add(message);
+        try {
+            printLog(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (TextUtils.isEmpty(message)) {
+            message = "---------------返回结果-----------------";
+            mContents.add(message);
+        } else if (message.startsWith("<-- END")) {
+            mContents.add(message);
+            //追加一条信息
+            mContents.add("--------------count:" + ++count + "------------------");
+        } else {
+            try {
+                mContents.add(convertLog(message));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         boolean checkPermission = FloatWindowPermission.getInstance().checkPermission(context);
         if (!checkPermission) {
             FloatWindowPermission.commonROMPermissionApplyInternal(context);
@@ -91,7 +116,7 @@ public class BeeLog implements HttpLoggingInterceptor.Logger {
                         return;
                     }
                     mContentView = new ContentView(context);
-                    mContentView.findViewById(R.id.beeClose).setOnClickListener(new View.OnClickListener() {
+                    mContentView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (mFloatView != null) {
@@ -100,6 +125,12 @@ public class BeeLog implements HttpLoggingInterceptor.Logger {
                             if (mContentView != null) {
                                 mContentView.dismiss();
                             }
+                        }
+                    });
+                    mContentView.findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mContents.clear();
                             mBaseAdapter.clear();
                         }
                     });
@@ -119,6 +150,7 @@ public class BeeLog implements HttpLoggingInterceptor.Logger {
                 }
             });
         }
+        //不断刷新数据到列表里面进去
         if (mBaseAdapter != null) {
             mBaseAdapter.setDatas(mContents);
         }

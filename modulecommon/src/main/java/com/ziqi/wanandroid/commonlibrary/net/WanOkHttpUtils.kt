@@ -38,6 +38,7 @@ class WanOkHttpUtils {
                 .removeHeader("Pragma")
                 .build()
         }
+
         /**
          * 没有网时候的缓存
          */
@@ -57,8 +58,18 @@ class WanOkHttpUtils {
         val httpCacheDirectory = File(context.getCacheDir(), "okhttpCache")
         okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(WanAndroidInterceptor())
-            .addNetworkInterceptor(HttpLoggingInterceptor(BeeLog(context))
-                .setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addNetworkInterceptor(
+                HttpLoggingInterceptor(object : BeeLog(context) {
+                    override fun printLog(message: String?) {
+                        HttpLoggingInterceptor.Logger.DEFAULT.log(message)
+                    }
+
+                    override fun convertLog(message: String?): String? {
+                        return message
+                    }
+                })
+                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
             .addNetworkInterceptor(netCacheInterceptor)
             .addInterceptor(offlineCacheInterceptor)
             .readTimeout(30, TimeUnit.SECONDS)
