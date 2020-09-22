@@ -1,6 +1,7 @@
 package com.mo.bee.main.view;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -44,8 +45,10 @@ public class FloatView extends XFloatView {
     protected void initFloatView() {
         mBeeIcon = findViewById(R.id.bee_icon);
         try {
-            Drawable applicationLogo = getContext().getPackageManager().getApplicationLogo(getContext().getPackageName());
-            mBeeIcon.setImageDrawable(applicationLogo);
+            PackageManager packageManager = getContext().getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getContext().getPackageName(), 0);
+            Drawable drawable = applicationInfo.loadIcon(packageManager);
+            mBeeIcon.setImageDrawable(drawable);
         } catch (Exception e) {
             e.printStackTrace();
         }
