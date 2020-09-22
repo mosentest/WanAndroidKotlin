@@ -61,13 +61,14 @@ class WanOkHttpUtils {
             .addNetworkInterceptor(WanAndroidInterceptor())
             .addNetworkInterceptor(
                 BeeHttpLoggingInterceptor(object : BeeLog(context) {
-                    override fun printLog(message: String?) {
+                    override fun convertImportLog(type: Int, message: String): String {
+                        return message
+                    }
+
+                    override fun printLog(message: String) {
                         BeeHttpLoggingInterceptor.Logger.DEFAULT.log(message)
                     }
 
-                    override fun convertImportLog(message: String?): String? {
-                        return message
-                    }
                 })
                     .setLevel(BeeHttpLoggingInterceptor.Level.BODY)
             )
