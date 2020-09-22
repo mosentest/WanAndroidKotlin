@@ -112,7 +112,10 @@ public final class BeeHttpLoggingInterceptor implements Interceptor {
     public interface Logger {
         void log(String message);
 
-        String convertImportLog(int type, String message);
+        String convertInLog(String message);
+
+        String convertOutLog(String message);
+
 
         /**
          * A {@link Logger} defaults output appropriate for the current platform.
@@ -124,7 +127,12 @@ public final class BeeHttpLoggingInterceptor implements Interceptor {
             }
 
             @Override
-            public String convertImportLog(int type, String message) {
+            public String convertInLog(String message) {
+                return message;
+            }
+
+            @Override
+            public String convertOutLog(String message) {
                 return message;
             }
         };
@@ -185,7 +193,7 @@ public final class BeeHttpLoggingInterceptor implements Interceptor {
         String requestStartMessage = "--> "
                 + request.method()
                 + ' ' + request.url()
-                + (connection != null ? " " + connection.protocol() : "");
+                + (connection != null ? "\n" + connection.protocol() : "");
         if (!logHeaders && hasRequestBody) {
             requestStartMessage += " (" + requestBody.contentLength() + "-byte body)";
         }
@@ -237,7 +245,7 @@ public final class BeeHttpLoggingInterceptor implements Interceptor {
                     if (charset != null) {
                         strLog.append("入参：");
                         strLog.append("\n");
-                        strLog.append(logger.convertImportLog(0, buffer.readString(charset)));
+                        strLog.append(logger.convertInLog(buffer.readString(charset)));
                         strLog.append("\n");
                     }
                     strLog.append("--> END ")
@@ -357,7 +365,7 @@ public final class BeeHttpLoggingInterceptor implements Interceptor {
                         if (charset != null) {
                             strLog.append("出参：");
                             strLog.append("\n");
-                            strLog.append(logger.convertImportLog(1, buffer.clone().readString(charset)));
+                            strLog.append(logger.convertOutLog(buffer.clone().readString(charset)));
                             strLog.append("\n");
                         }
                     }
