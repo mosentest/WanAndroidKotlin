@@ -20,6 +20,10 @@ object GsonUtil {
         .enableComplexMapKeySerialization()
         //https://blog.csdn.net/u010502101/article/details/80555558
         .serializeNulls()
+        //gson会默认将特殊字符转化成unicode编码
+        //https://blog.csdn.net/yang1780409810/article/details/84107477?utm_medium=distribute.pc_relevant.none-task-blog-title-1&spm=1001.2101.3001.4242
+        //=  变成 \u003d
+        .disableHtmlEscaping()
         .registerTypeAdapter(Int::class.java, IntAdapter())
         .registerTypeAdapter(Integer::class.java, IntAdapter())
         .registerTypeAdapter(String::class.java, StringAdapter())
