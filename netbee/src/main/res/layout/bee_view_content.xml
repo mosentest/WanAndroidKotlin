@@ -23,14 +23,29 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="关闭" />
+
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="返回"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <ListView
         android:id="@+id/beeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="3dp"
         android:longClickable="true" />
+
+    <TextView
+        android:id="@+id/tvDataShow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 
 </LinearLayout>

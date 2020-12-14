@@ -4,14 +4,18 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mo.bee.R;
 import com.mo.bee.main.adapter.ContentAdapter;
 import com.mo.bee.main.interceptor.BeeHttpLoggingInterceptor;
+import com.mo.bee.main.utils.DisCUtil;
+import com.mo.bee.main.utils.SPUtil;
 import com.mo.bee.main.utils.SystemUtils;
 import com.mo.bee.main.view.ContentView;
 import com.mo.bee.main.view.FloatView;
@@ -44,6 +48,8 @@ public abstract class BeeLog implements BeeHttpLoggingInterceptor.Logger {
 
     private ListView beeListView = null;
 
+    private TextView tvDataShow = null;
+
     private Context context;
 
     private int count = 0;
@@ -68,6 +74,15 @@ public abstract class BeeLog implements BeeHttpLoggingInterceptor.Logger {
         }
         boolean checkPermission = FloatWindowPermission.getInstance().checkPermission(context);
         if (!checkPermission) {
+
+            //控制每天只弹一次
+            int currentTypeCount = DisCUtil.getCurrentTypeCount(context, 10);
+            if (currentTypeCount >= 1) {
+                return;
+            }
+            DisCUtil.putCurrentTypeCount(context, 10);
+            //控制每天只弹一次
+
             FloatWindowPermission.commonROMPermissionApplyInternal(context);
             return;
         }
@@ -133,7 +148,28 @@ public abstract class BeeLog implements BeeHttpLoggingInterceptor.Logger {
                                 }
                             }
                         });
+                        mContentView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    mContentView.findViewById(R.id.close).setVisibility(View.VISIBLE);
+                                    mContentView.findViewById(R.id.clear).setVisibility(View.VISIBLE);
+                                    mContentView.findViewById(R.id.back).setVisibility(View.GONE);
+
+                                    beeListView.setVisibility(View.VISIBLE);
+                                    tvDataShow.setVisibility(View.GONE);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
                         beeListView = mContentView.findViewById(R.id.beeList);
+                        tvDataShow = mContentView.findViewById(R.id.tvDataShow);
+
+                        tvDataShow.setMovementMethod(ScrollingMovementMethod.getInstance());
+
                         mBaseAdapter = new ContentAdapter(context);
                         beeListView.setAdapter(mBaseAdapter);
 
@@ -141,8 +177,18 @@ public abstract class BeeLog implements BeeHttpLoggingInterceptor.Logger {
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                                 String msg = mBaseAdapter.getDatas().get(position);
+
                                 SystemUtils.copy(context, msg);
-                                Toast.makeText(context, "复制成功！", Toast.LENGTH_SHORT).show();
+
+                                mContentView.findViewById(R.id.close).setVisibility(View.GONE);
+                                mContentView.findViewById(R.id.clear).setVisibility(View.GONE);
+                                mContentView.findViewById(R.id.back).setVisibility(View.VISIBLE);
+
+                                beeListView.setVisibility(View.GONE);
+                                tvDataShow.setVisibility(View.VISIBLE);
+
+                                tvDataShow.setText(msg);
+
                                 return true;
                             }
                         });
