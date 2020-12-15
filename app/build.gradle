@@ -13,7 +13,7 @@ android {
         applicationId "com.ziqi.wanandroid"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
+        versionCode verCodeNew()
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -95,6 +95,10 @@ android {
             jniLibs.srcDirs = ['libs']//指定lib库目录
         }
     }
+}
+
+def verCodeNew() {
+    return new Date().format("yyyyMMdd").toInteger()
 }
 
 dependencies {

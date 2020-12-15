@@ -77,7 +77,7 @@ public abstract class BeeLog implements BeeHttpLoggingInterceptor.Logger {
 
             //控制每天只弹一次
             int currentTypeCount = DisCUtil.getCurrentTypeCount(context, 10);
-            if (currentTypeCount >= 1) {
+            if (currentTypeCount >= 2) {
                 return;
             }
             DisCUtil.putCurrentTypeCount(context, 10);
